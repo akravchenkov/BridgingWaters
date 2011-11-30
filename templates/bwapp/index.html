@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="notice">
+    The Bridging Waters website and project database are currently under construction.  If you're interested in helping get us off the ground, please contact <a href="mailto:info@bridgingwaters.org">info@bridgingwaters.org</a>.
+</div>
+
+<h2><span class="alt">What is Bridging Waters?</span></h2>
+<p class="large">
+     Bridging Waters is a nonprofit organization devoted to sharing information about water related projects in developing countries. <a href="about.html">Read more</a> about our story.
+</p>
+
+<div id="featured" class="column span-18">   
+    <div class="project span-17 last">
+        <div class="thumbnail">
+            <img src="{{STATIC_URL}}images/Samoa-tb.jpg" alt="" title="Project #123" class="float-left" />
+        </div>
+        <div class="quicklook">
+            <h3>Featured Project - Auala Village Pool</h3>
+            <strong>Location:</strong> Auala, Samoa<br/>
+            <strong>People Served by Project:</strong> 700<br/>
+            <strong>Community Size:</strong> 500 - 2,500<br/>
+            <strong>Type of Project:</strong> water, sanitation<br/>
+            <strong>Project Duration:</strong> 3 months<br/>
+            <strong>Organization:</strong> Peace Corps Samoa<br/>
+            <strong>Summary:</strong> To create a pool in the village where laundry could be done.<br/>
+            <strong>Keywords:</strong> water tank, rain collection, Oceania <a href="project-123.html">Read more...</a><br/>
+        </div>
+    </div>
+</div>
+
+<hr class="space"/>
+
+<div class="column span-18">
+        
+        <h3>Latest News</h3>
+        
+        {% for news_item in latest_news_list %}
+            <div class="newsItem">
+                <h4><span class="ss_sprite ss_newspaper"></span>{{ news_item.title }}</h4>
+                <p>{{ news_item.content }}</p>
+                <p class="small">Posted on: {{ news_item.created }} by <span class="author">{{ news_item.author }}</span></p>
+            </div>
+        {% endfor %}
+        
+        <a href="more_news.html">See previous updates</a>
+</div>
+{% endblock %}

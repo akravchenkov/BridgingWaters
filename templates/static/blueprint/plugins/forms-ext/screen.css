@@ -1,0 +1,25 @@
+div.span-1 input.text, div.span-1 input.title { width:  30px; }
+div.span-2 input.text, div.span-2 input.title { width:  50px; }
+div.span-3 input.text, div.span-3 input.title { width:  90px; }
+div.span-4 input.text, div.span-4 input.title { width: 130px; }
+div.span-5 input.text, div.span-5 input.title { width: 170px; }
+div.span-6 input.text, div.span-6 input.title { width: 210px; }
+div.span-7 input.text, div.span-7 input.title { width: 250px; }
+div.span-8 input.text, div.span-8 input.title { width: 290px; }
+
+div.span-1 select { width:  30px; }
+div.span-2 select { width:  50px; }
+div.span-3 select { width:  90px; }
+div.span-4 select { width: 130px; }
+div.span-5 select { width: 170px; }
+
+div.span-1  textarea { width:  30px; height:  25px; }
+div.span-2  textarea { width:  50px; height:  50px; }
+div.span-3  textarea { width:  90px; height:  75px; }
+div.span-4  textarea { width: 130px; height: 100px; }
+div.span-5  textarea { width: 170px; height: 125px; }
+div.span-6  textarea { width: 210px; height: 150px; }
+div.span-7  textarea { width: 250px; height: 175px; }
+div.span-8  textarea { width: 290px; height: 200px; }
+div.span-9  textarea { width: 330px; height: 225px; }
+div.span-10 textarea { width: 370px; height: 250px; }

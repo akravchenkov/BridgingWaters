@@ -1,0 +1,140 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
+
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+    <title>Bridging Waters | {% block page_title %}Bringing together water development projects{% endblock %}</title>
+
+    <link rel="stylesheet" href="{{STATIC_URL}}blueprint/screen.css" type="text/css" media="screen, projection"/>
+    <link rel="stylesheet" href="{{STATIC_URL}}blueprint/print.css" type="text/css" media="print"/>
+    <!--[if lt IE 8]><link rel="stylesheet" href="{{STATIC_URL}}blueprint/ie.css" type="text/css" media="screen, projection"/><![endif]-->
+
+    <!-- Import fancy-type plugin for the sample page. -->
+    <link rel="stylesheet" href="{{STATIC_URL}}blueprint/plugins/fancy-type/screen.css" type="text/css" media="screen, projection"/>
+    <link rel="stylesheet" href="{{STATIC_URL}}blueprint/plugins/forms-ext/screen.css" type="text/css" media="screen, projection"/>
+    <link rel="stylesheet" href="{{STATIC_URL}}blueprint/plugins/buttons/screen.css" type="text/css" media="screen, projection"/>
+    <link rel="stylesheet" href="{{STATIC_URL}}blueprint/plugins/sprites/sprite.css" type="text/css" media="screen, projection"/>
+    
+    <link rel="stylesheet" href="{{STATIC_URL}}blueprint/jquicss/flick/jquery-ui-1.8.7.custom.css" type="text/css" media="screen, projection" />	
+    
+    <link rel="stylesheet" href="{{STATIC_URL}}blueprint/custom.css" type="text/css" media="screen, projection"/>
+    
+    <link rel="shortcut icon" type="image/x-icon" href="{{STATIC_URL}}favicon.ico"/>
+    
+    
+    <script type="text/javascript" src="{{STATIC_URL}}js/jquery-1.4.4.min.js"></script>
+    <script type="text/javascript" src="{{STATIC_URL}}js/jquery-ui-1.8.7.custom.min.js"></script>
+    <script type="text/javascript" src="{{STATIC_URL}}js/site.js"></script>
+
+</head>
+<body>
+    <div><a name="top"></a></div>
+    
+    <div id="header">
+        <div class="span-11">
+            <span class="header-one"><img src="{{STATIC_URL}}images/bw_header_jas.png" alt="BridgingWaters" title="BridgingWaters"/></span>
+        </div>
+
+        <div class="span-13" id="header-links">
+                <a id="login_link" href="login.html">Log In</a> | <a href="register.html">Sign Up</a><br/>
+                <a id="add_proj_link" href="add_project.html">
+                    <img src="{{STATIC_URL}}images/add_button_16.png" alt="+"/>Add Your Project!
+                </a>
+        </div>
+            
+            
+        <div id="login_form" title="Log In">
+            <form>
+                    <label for="username">Username</label>
+                    <input type="text" name="username" id="username" class="text ui-widget-content ui-corner-all" value=""/>
+                    
+                    <label for="password">Password</label>
+                    <input type="password" name="password" id="password" value="" class="text ui-widget-content ui-corner-all" />
+            </form>
+            Forgot your <a id="forgot_username_link" href="#">username</a> or <a id="forgot_pwd_link" href="#">password</a>?<br/>
+            
+            Not registered? <a href="register.html">Sign up!</a>
+        </div>
+    </div><!-- end header -->
+        
+    <div id="nav" class="">
+        <ul class="tab">
+            <li>
+                <a href="index.html" id="first"><span>Home</span></a>
+            </li>
+            
+            <li>
+                <a href="about.html"><span>About</span></a>
+            </li>
+            
+            <li>
+                <a href="project_db.html"><span>Project Database</span></a>
+            </li>
+            
+            <li>
+                <a href="resources.html"><span>Resources</span></a>
+            </li>
+            
+            <li>
+                <a href="discussion.html"><span>Discussion</span></a>
+            </li>
+            
+            <li>
+                <a href="get_involved.html"><span>Get Involved</span></a>
+            </li>	
+        </ul>
+        <div id="form">
+                <input type="text" name="search" id="search" value="Search Projects">
+        </div>
+    </div><!-- end nav -->
+		
+		
+    <div id="shadow">
+        <div class="container">	
+            <div id="page">
+                <div id="main" class="span-19">
+		    {% block content %} CONTENT {% endblock %}
+		</div><!-- end main -->
+                
+                <div id="sidebar" class="column span-5 last">
+                    <div class="boxShadow column span-5">
+                        <div class="boxBorder">
+                            <div class="boxInner">
+                                <p>Bridging Waters brings together water development projects through our online project database and resources.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <hr class="space"/>
+                    <div class="column span-5">
+                        <div class="btn_donate btn"><a href="http://www.razoo.com/story/Bridgingwaters" target="_blank">Donate Now!</a><span></span></div>
+                        <div id="razoo" class"column span-5">
+                            <a href="http://www.razoo.com"><img src="{{STATIC_URL}}images/razoo.png" alt="powered by Razoo" title="Razoo" /></a>
+                        </div>
+                    </div>
+                    <hr class="space"/>
+                    <div id="socialIcons" class="column span-5">   
+                        <!--<img src="images/icons/feed.png" alt="Subscribe" title="Subscribe" />-->
+                        <a href="https://www.facebook.com/group.php?gid=348068027039">
+                            <img src="{{STATIC_URL}}images/icons/facebook.png" alt="Facebook" title="Facebook" />
+                        </a>
+                        <!--<img src="images/icons/twitter.png" alt="Twitter" title="Twitter" />-->
+                    </div>
+                        
+                </div><!-- end sidebar -->
+                                    
+                <hr />
+                <div id="footer">
+                        <p class="small"><a href="contact.html">Contact Us</a></p>
+                        <p class="small">BridgingWaters is a 501(c)(3) nonprofit organization</p>
+                        <p class="small"><strong>&copy; 2011 BridgingWaters</strong></p>
+                        <a href="index.html"><img src="images/vsmall_logo.png" /></a>
+                </div>
+            </div><!-- end #page -->
+        </div><!--end #container -->
+    </div><!--end #shadow-->
+
+</body>
+</html>
+    

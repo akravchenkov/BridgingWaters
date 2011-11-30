@@ -1,0 +1,341 @@
+/* blueprint overrides */
+h4 .ss_sprite
+{
+	padding-bottom:0px;
+	padding-right:2px;
+}
+
+.large {
+	font-size:1.4em;
+	line-height:1.5em;
+	margin-bottom:1.25em;
+}
+
+.clean {
+	background:white;
+	color:black;
+}
+
+.clean p{
+	margin-top:0.5em;
+	
+}
+
+.clean li {
+	list-style:disc;
+}
+
+
+p + p {
+	margin-top:-1.5em;
+	text-indent:0em;
+}
+
+body
+{
+	background:#f1f1f1;
+}
+
+#shadow
+{
+	width:980px;
+	margin:0 auto;
+	background:url('../images/page_bg.png') repeat-y white;
+}
+
+
+.boxShadow {
+	border-bottom: 2px solid #ccc;
+	padding-top:10px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+}
+
+.boxBorder
+{
+	border:1px solid #ccc;
+}
+
+.boxInner
+{
+	border:2px solid #fff;
+	background-color:#E5ECF9;
+	padding:10px;
+}
+
+#socialIcons 
+{
+	margin-left:70px;
+}
+
+#razoo
+{
+    margin-left:37px;
+ }
+
+/*** HEADER ************/
+#header
+{
+	padding-top:20px;
+	padding-bottom:18px;
+	height: 75px;
+	width:960px;
+	margin:0 auto;
+}
+
+#header #headerBtn
+{
+	padding-top:30px;
+}
+
+#addProjectLink
+{
+  display: block;
+  height: 35px;
+  width:180px;
+  background: url('../images/AddYourProjectButton_180.png') no-repeat 0 0;
+}
+
+ #addProjectLink:hover
+{ 
+  background-position: 0 -35px;
+}
+
+#addProjectLink:active
+{ 
+  background-position: 0 -71px;
+}
+
+#addProjectLink span
+{
+	display:none;
+}
+
+#header-links {
+	text-align:right;
+}
+
+#header-links #add_proj_link {
+	font-size:1.2em;
+	color:#000099;	
+}
+
+#header-links a {
+	text-decoration:none;
+	color:#2275BC;
+}
+
+#add_proj_link img {
+	vertical-align:text-bottom;
+	padding-right:2px;
+}
+
+/*******************************************************************/
+
+/**** NAV BAR *************/
+#nav {width:960px; margin:auto; height:30px;}
+#nav ul, li {border:0; margin:0; padding:0; list-style:none;}
+#nav ul {
+	border-bottom:solid 1px #e9f0f5;
+	height:29px;
+	float:left;
+	
+}
+
+#nav li {float:left; margin-right:2px;padding-right:8px;}
+#nav #form {width: 190px; display: inline; float:right;}
+#nav #form input[type="text"] {width:180px;}
+.sub_nav {
+	padding-top:4px;
+	height: 2em;
+}
+
+.sub_nav ul {
+	padding-left:1em;
+}
+
+.sub_nav li {
+	display:inline;
+	list-style-type: none;
+	padding-right: 20px;
+}
+
+.sub_nav a:link, .sub_nav a:visited {
+	color:#1C4E7E;
+	text-decoration:none;
+}
+
+.sub_nav a:hover {
+	text-decoration:underline;
+	color:#8EA657;
+}
+
+.sub_nav li.active {
+	font-weight:bold;
+}
+
+.sub_nav li.active a:hover {
+	text-decoration:none;
+	color:#1C4E7E;
+}
+
+.sub_nav_line {
+	margin-bottom:5px;
+}
+
+.tab {
+	width: 750px;
+}
+
+.tab a:link, .tab a:visited {
+	background:url('../images/tab-round.png') right 60px;
+	color:#f7f7f7;
+	display:block;
+	font-weight:bold;
+	height:30px;
+	line-height:30px;
+	text-decoration:none;
+}
+
+.tab a span {
+	background:url('../images/tab-round.png') left 60px;
+	display:block;
+	height:30px;
+	margin-right:14px;
+	padding-left:14px;
+}
+
+.tab a:hover {
+	background:url('../images/tab-round.png') right 30px;
+	display:block;
+	color:#FFFFCE;
+}
+
+.tab a:hover span {
+	background:url('../images/tab-round.png') left 30px;
+	display:block;
+}
+
+.tab .active a:link, .tab .active a:visited, .tab .active a:visited, .tab .active a:hover {
+	color:#1c4e7e;
+	background:url('../images/tab-round.png') right 0 no-repeat;
+}
+
+.tab .active a span, .tab .active a:hover span {
+	background:url('../images/tab-round.png') left 0 no-repeat;
+}
+
+
+#main {
+	padding-top:.5em;
+}
+
+/******************************************/
+
+/**** RESOURCE TABLES *********************/
+table.resources {
+	border-collapse:collapse;
+}
+
+table.resources th, td{
+
+	border:1px solid black;
+}
+
+/******************************************/
+
+
+/**** PROJECTS *********************/
+.project
+{
+	margin-left:10px;
+	border:2px dashed #9DD7DA;
+	background:#eee
+}
+
+.project .thumbnail
+{
+	float: left; 
+	padding-top: 20px;
+	padding-left: 10px;
+}
+
+.project .quicklook
+{
+	float: right; 
+	width: 480px; 
+	margin-right: 10px; 
+	padding-top: 10px;
+}
+
+
+.newsItem
+{
+	margin-bottom:5px;
+}
+
+.newsItem h4
+{
+	background:url('../images/stripe.gif') repeat-x scroll center bottom transparent;
+	padding-bottom:0.75em;
+	color:#0C2C6F;
+	font-weight:bold;
+}
+
+.newsItem p
+{
+	padding-left:.75em;
+}
+/******************************************/
+
+
+/****** SIDEBAR *********/
+
+
+/****** BUTTONS *********/
+.btn {
+	float: left;
+	clear: both;
+	background: url("../images/btn_left.png") no-repeat;
+	padding: 0 0 0 10px;
+	margin: 5px 0;
+}
+.btn a{
+	float: left;
+	height: 40px;
+	background: url("../images/btn_stretch.png") repeat-x left top;
+	line-height: 40px;
+	padding: 0 10px;
+	color: #fff;
+	font-size: 1.4em;
+	text-decoration: none;
+}
+.btn span {
+	background: url("../images/btn_right.png") no-repeat;
+	float: left;
+	width: 10px;
+	height: 40px;
+}
+
+.btn_submitSearch { background-color:#3191E1; }
+.btn_donate { background-color:#3399ff; margin-left:27px;}
+/*previous btn donate color: B6D475*/
+/*************************************************************/
+
+/********* SEARCH PAGE ***************/
+#advancedSearchDiv
+{
+	border:1px solid gray;
+	margin:-1px;
+	padding:2px;
+}
+/*******************************************/
+
+
+/**** FOOTER ******************/
+#footer
+{
+	text-align:center;
+}
+/**************************************/

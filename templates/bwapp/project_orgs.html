@@ -1,0 +1,49 @@
+	<?php include('inc/head.inc.php'); ?>
+	
+	<?php include('inc/header.inc.php'); ?>
+			
+	<?php include('inc/nav.inc.php'); ?>	
+		<div id="ajaxContent">
+		<div id="main" class="span-18 last">
+			<h2>Project Organizations</h2>
+		
+			<?php
+				$f = fopen("resources/project_orgs.csv", "r");
+				
+				echo "<table class='resources'>\n\n";
+				$isFirst = true;
+				while (($line = fgetcsv($f)) !== false) {
+						
+						if ($isFirst) {
+							echo "<thead><tr>";
+							foreach ($line as $cell) {
+									echo "<th>" . htmlspecialchars($cell) . "</th>";
+							}
+							echo "</tr></thead><tbody>";
+							$isFirst = false;
+						}
+						else {
+							echo "<tr>";
+							foreach ($line as $cell) {
+								
+								if (stristr($cell, "http") || stristr($cell,"www")) {
+									echo "<td><a href='".$cell."'>".$cell."</a></td>";
+								}
+								else {
+									echo "<td>" . htmlspecialchars($cell) . "</td>";
+								}
+							}
+							echo "<tr>\n";
+						}
+				}
+				fclose($f);
+				echo "</tbody>\n</table>";
+			?>
+			
+		</div>
+		</div>
+	</div>
+
+	<?php include('inc/sidebar.inc.php'); ?>
+	
+	<?php include('inc/footer.inc.php'); ?>		

@@ -236,3 +236,46 @@
   fields:
     value: Education
 #----------------------------------------
+
+# CodeProfession
+- model: bwapp.CodeProfession
+  pk: 1
+  fields:
+    value: Mason
+- model: bwapp.CodeProfession
+  pk: 2
+  fields:
+    value: Carpenter
+- model: bwapp.CodeProfession
+  pk: 3
+  fields:
+    value: Mechanic
+- model: bwapp.CodeProfession
+  pk: 4
+  fields:
+    value: Plumber
+- model: bwapp.CodeProfession
+  pk: 5
+  fields:
+    value: Pipefitter
+- model: bwapp.CodeProfession
+  pk: 6
+  fields:
+    value: Lumberjack
+- model: bwapp.CodeProfession
+  pk: 7
+  fields:
+    value: Health Care Provider
+- model: bwapp.CodeProfession
+  pk: 8
+  fields:
+    value: Electrician
+- model: bwapp.CodeProfession
+  pk: 9
+  fields:
+    value: Blacksmith
+- model: bwapp.CodeProfession
+  pk: 10
+  fields:
+    value: Other
+#----------------------------------------

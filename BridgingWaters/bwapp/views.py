@@ -1,5 +1,5 @@
-from django.shortcuts import render
-from bwapp.models import NewsUpdate, FeaturedProject
+from django.shortcuts import render, get_object_or_404, get_list_or_404
+from bwapp.models import NewsUpdate, FeaturedProject, Project
 from random import choice
 
 def index(request):
@@ -10,3 +10,8 @@ def index(request):
         'latest_news_list':latest_news_list,
         'rand_feat_proj':rand_feat_proj
         })
+    
+def project_detail(request, project_id):
+    p = get_object_or_404(Project, pk=project_id)
+    return render(request, 'bwapp/project_detail.html',
+                  {'project':p})

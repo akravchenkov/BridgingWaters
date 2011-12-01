@@ -1,3 +1,5 @@
+
+# NewsUpdate
 - model: bwapp.newsupdate
   pk: 1
   fields:
@@ -24,7 +26,9 @@
     author: Virginia
     created: 2011-05-08 14:20:00
     modified: 2011-05-08 14:20:00
+#----------------------------------------
 
+# Location
 - model: bwapp.Location
   pk: 1
   fields:
@@ -33,6 +37,8 @@
     latitude: 9.361
     longitude: -82.603
     region: 3
+    topography: 3
+    elevation: 2
 
 - model: bwapp.Location
   pk: 2
@@ -42,7 +48,11 @@
     latitude: -10.069
     longitude: -77.125
     region: 2
-    
+    topography: 4
+    elevation: 5
+#----------------------------------------
+
+# Project
 - model: bwapp.Project
   pk: 1
   fields:
@@ -68,7 +78,16 @@
     created: 2011-12-01 11:49:00
     modified: 2011-12-01 11:49:00
     location: 2
-    
+#----------------------------------------
+
+# FeaturedProject
+- model: bwapp.FeaturedProject
+  pk: 1
+  fields:
+    project: 1
+    created: 2011-12-01 11:37:00
+#----------------------------------------
+# CodeRegion
 - model: bwapp.CodeRegion
   pk: 1
   fields:
@@ -113,9 +132,59 @@
   pk: 11
   fields:
     value: Australia
-    
-- model: bwapp.FeaturedProject
+#----------------------------------------
+
+# CodeTopography
+- model: bwapp.CodeTopography
   pk: 1
   fields:
-    project: 1
-    created: 2011-12-01 11:37:00
+    value: Coastal
+- model: bwapp.CodeTopography
+  pk: 2
+  fields:
+    value: Flatland
+- model: bwapp.CodeTopography
+  pk: 3
+  fields:
+    value: Rolling Hills
+- model: bwapp.CodeTopography
+  pk: 4
+  fields:
+    value: Mountains
+#----------------------------------------
+
+# CodeElevation
+- model: bwapp.CodeElevation
+  pk: 1
+  fields:
+    value: 0-500m (0'-1500')
+- model: bwapp.CodeElevation
+  pk: 2
+  fields:
+    value: 500-1000m (1500'-3250')
+- model: bwapp.CodeElevation
+  pk: 3
+  fields:
+    value: 1000-1500m (3250'-5000')
+- model: bwapp.CodeElevation
+  pk: 4
+  fields:
+    value: 1500-2000m (5000'-6500')
+- model: bwapp.CodeElevation
+  pk: 5
+  fields:
+    value: 2000-2500m (6500'-8200')
+- model: bwapp.CodeElevation
+  pk: 6
+  fields:
+    value: 2500-3000m (8200'-9800')
+- model: bwapp.CodeElevation
+  pk: 7
+  fields:
+    value: 3000-3500m (9800'-11500')
+- model: bwapp.CodeElevation
+  pk: 8
+  fields:
+    value: 3500-4000m (11500'-13100')
+#----------------------------------------
+

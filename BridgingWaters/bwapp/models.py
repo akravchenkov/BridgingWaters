@@ -20,14 +20,28 @@ class CodeRegion(models.Model):
     def __unicode__(self):
         return self.value
 
+class CodeElevation(models.Model):
+    code = models.IntegerField(primary_key=True)
+    value = models.CharField(max_length=20)
+    
+    def __unicode__(self):
+        return self.value
+
+class CodeTopography(models.Model):
+    code = models.IntegerField(primary_key=True)
+    value = models.CharField(max_length=20)
+    
+    def __unicode__(self):
+        return self.value
+
 class Location(models.Model):
     country = models.CharField(max_length=30)
     name = models.CharField(max_length=60)
     latitude = models.FloatField()
     longitude = models.FloatField()
     region = models.ForeignKey(CodeRegion)
-    #elevation
-    #topography
+    elevation = models.ForeignKey(CodeElevation)
+    topography = models.ForeignKey(CodeTopography)
     
     def __unicode__(self):
         return "%s (%s)" % (self.name, self.country)

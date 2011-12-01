@@ -139,12 +139,12 @@ class Project(models.Model):
     proj_types = models.ManyToManyField(CodeProjType,
                             verbose_name="Project Type", null=True, blank=True)
     organizations = models.ManyToManyField(Organization)
-    #material_res
-    #infra_res
-    #natural_res
-    #retail_res
-    #transpo_res
-    #funding_sources
+    #TODO: material_res
+    #TODO: infra_res
+    #TODO: natural_res
+    #TODO: retail_res
+    #TODO: transpo_res
+    #TODO: funding_sources
     
     def __unicode__(self):
         return self.title
@@ -194,6 +194,10 @@ class CommunityInfo(models.Model):
                                                self.num_ppl_served.value,
                                                self.community_size)
 
+    class Meta:
+        verbose_name = "Community Information"
+        verbose_name_plural = "Community Information"
+
 class Climate(models.Model):
     climate_zone = models.ForeignKey(CodeClimateZone)
     precipitation = models.ForeignKey(CodePrecipLevel)
@@ -220,6 +224,10 @@ class HumanResContact(ContactInfo):
     
     def __unicode__(self):
         return "%s %s - %s" % (self.given_name, self.surname, self.type.value)
+        
+    class Meta:
+        verbose_name = "Human Resources Contact"
+        verbose_name_plural = "Human Resources Contacts"
     
 class ProjectContact(ContactInfo): 
     given_name = models.CharField(max_length=30)

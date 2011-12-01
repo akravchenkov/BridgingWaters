@@ -50,6 +50,55 @@
     region: 2
     topography: 4
     elevation: 5
+
+#----------------------------------------
+
+# Climate
+- model: bwapp.Climate
+  pk: 1
+  fields:
+    climate_zone: 2
+    precipitation: 5
+    has_rainy_season: True
+    rainy_months: 5,6,7,8,9,10
+
+- model: bwapp.Climate
+  pk: 2
+  fields:
+    climate_zone: 2
+    precipitation: 4
+    has_rainy_season: True
+    rainy_months: 10,11,12,1,2,3,4
+
+#----------------------------------------
+
+# CommunityInfo
+- model: bwapp.CommunityInfo
+  pk: 1
+  fields:
+    urban_rural: 1
+    description: Community description 1
+    num_ppl_served: 2
+    community_size: 400
+    water_mgmt_level: 1
+
+- model: bwapp.CommunityInfo
+  pk: 2
+  fields:
+    urban_rural: 1
+    description: Community description 2
+    num_ppl_served: 3
+    community_size: 1400
+    water_mgmt_level: 1
+
+#----------------------------------------
+
+# Organization
+- model: bwapp.Organization
+  pk: 1
+  fields:
+    name: EWB-AUS
+    
 #----------------------------------------
 
 # Project
@@ -64,8 +113,11 @@
     proj_mgmt: Project management field
     created: 2011-12-01 11:36:00
     modified: 2011-12-01 11:36:00
-    location: 1
     proj_types: [3, 11]
+    organizations: [1]
+    location: 1
+    climate: 1
+    comm_info: 1
     
 - model: bwapp.Project
   pk: 2
@@ -78,8 +130,12 @@
     proj_mgmt: Project mgmt dfiohdgudihg dugihdguidfh g
     created: 2011-12-01 11:49:00
     modified: 2011-12-01 11:49:00
-    location: 2
     proj_types: [6, 7, 5, 11]
+    organizations: [1]
+    location: 2
+    climate: 2
+    comm_info: 2
+
 #----------------------------------------
 
 # FeaturedProject
@@ -279,3 +335,128 @@
   fields:
     value: Other
 #----------------------------------------
+
+# CodeClimateZone
+- model: bwapp.CodeClimateZone
+  pk: 1
+  fields:
+    value: Equatorial
+- model: bwapp.CodeClimateZone
+  pk: 2
+  fields:
+    value: Tropical
+- model: bwapp.CodeClimateZone
+  pk: 3
+  fields:
+    value: Subtropical
+- model: bwapp.CodeClimateZone
+  pk: 4
+  fields:
+    value: Mediterranean
+- model: bwapp.CodeClimateZone
+  pk: 5
+  fields:
+    value: Warm Temperate
+- model: bwapp.CodeClimateZone
+  pk: 6
+  fields:
+    value: Nemoral
+- model: bwapp.CodeClimateZone
+  pk: 7
+  fields:
+    value: Continental
+- model: bwapp.CodeClimateZone
+  pk: 8
+  fields:
+    value: Boreal
+- model: bwapp.CodeClimateZone
+  pk: 9
+  fields:
+    value: Polar
+#----------------------------------------
+
+# CodePrecipLevel
+- model: bwapp.CodePrecipLevel
+  pk: 1
+  fields:
+    value: Very Low
+- model: bwapp.CodePrecipLevel
+  pk: 2
+  fields:
+    value: Low
+- model: bwapp.CodePrecipLevel
+  pk: 3
+  fields:
+    value: Moderate
+- model: bwapp.CodePrecipLevel
+  pk: 4
+  fields:
+    value: High
+- model: bwapp.CodePrecipLevel
+  pk: 5
+  fields:
+    value: Very High
+#------------------------------------------
+
+# CodeUrbanRural
+- model: bwapp.CodeUrbanRural
+  pk: 1
+  fields:
+    value: Rural
+- model: bwapp.CodeUrbanRural
+  pk: 2
+  fields:
+    value: Urban
+- model: bwapp.CodeUrbanRural
+  pk: 3
+  fields:
+    value: Semi-urban
+#------------------------------------------
+
+# CodePplServed
+#'<100', '100-500', '500-1000', '1000-5000', '5000+'
+- model: bwapp.CodePplServed
+  pk: 1
+  fields:
+    value: <100
+- model: bwapp.CodePplServed
+  pk: 2
+  fields:
+    value: 100-500
+- model: bwapp.CodePplServed
+  pk: 3
+  fields:
+    value: 500-1000
+- model: bwapp.CodePplServed
+  pk: 4
+  fields:
+    value: 1000-5000
+- model: bwapp.CodePplServed
+  pk: 5
+  fields:
+    value: 5000+
+#------------------------------------------
+
+# CodeWaterMgmtLevel
+#'N/A', 'Local', 'Regional', 'National', 'Tribal'
+- model: bwapp.CodeWaterMgmtLevel
+  pk: 1
+  fields:
+    value: N/A
+- model: bwapp.CodeWaterMgmtLevel
+  pk: 2
+  fields:
+    value: Local
+- model: bwapp.CodeWaterMgmtLevel
+  pk: 3
+  fields:
+    value: Regional
+- model: bwapp.CodeWaterMgmtLevel
+  pk: 4
+  fields:
+    value: National
+- model: bwapp.CodeWaterMgmtLevel
+  pk: 5
+  fields:
+    value: Tribal
+#------------------------------------------

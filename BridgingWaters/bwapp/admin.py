@@ -19,7 +19,7 @@ class OrganizationAdmin(admin.ModelAdmin):
         (None, {'fields': ['notes']})
     ]
 
-class OrganizationInline(admin.StackedInline):
+class OrganizationInline(admin.StackedInline): #TODO: Unused currently, remove?
     model = bwapp.models.Organization
     fieldsets = [
         (None, {'fields': ['name', 'website']}),
@@ -28,7 +28,6 @@ class OrganizationInline(admin.StackedInline):
         (None, {'fields': ['notes']})
     ]
     extra = 0
-    
     
 class ProjectContactInline(admin.StackedInline):
     model = bwapp.models.ProjectContact
@@ -52,8 +51,15 @@ class HumanResContactInline(admin.StackedInline):
     ]
     extra = 0
 
+class ClimateInline(admin.StackedInline):
+    model = bwapp.models.Climate
+
+class LocationInline(admin.StackedInline):
+    model = bwapp.models.Location
+
 class ProjectAdmin(DefaultAdmin):
-    inlines = [ProjectContactInline, HumanResContactInline]
+    inlines = [ProjectContactInline,
+               HumanResContactInline]
 
 admin.site.register(bwapp.models.NewsUpdate, DefaultAdmin)
 admin.site.register(bwapp.models.Project, ProjectAdmin)
@@ -63,6 +69,15 @@ admin.site.register(bwapp.models.CodeRegion)
 admin.site.register(bwapp.models.CodeElevation)
 admin.site.register(bwapp.models.CodeTopography)
 admin.site.register(bwapp.models.CodeProjType)
+admin.site.register(bwapp.models.CodeProfession)
+admin.site.register(bwapp.models.CodePrecipLevel)
+admin.site.register(bwapp.models.CodeClimateZone)
+admin.site.register(bwapp.models.CodeUrbanRural)
+admin.site.register(bwapp.models.CodeWaterMgmtLevel)
+admin.site.register(bwapp.models.CodePplServed)
+admin.site.register(bwapp.models.Keywords)
+admin.site.register(bwapp.models.Climate)
+admin.site.register(bwapp.models.CommunityInfo)
 admin.site.register(bwapp.models.Organization, OrganizationAdmin)
 
 

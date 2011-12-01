@@ -47,24 +47,48 @@ class CodeProfession(models.Model):
     
     def __unicode__(self):
         return self.value
+    
+class CodeClimateZone(models.Model):
+    code = models.IntegerField(primary_key=True)
+    value = models.CharField(max_length=30)
+    description = models.CharField(max_length=256, null=True, blank=True) #TODO: Add desc to initial_data 
+    
+    def __unicode__(self):
+        return self.value
+    
+class CodePrecipLevel(models.Model):
+    code = models.IntegerField(primary_key=True)
+    value = models.CharField(max_length=30)
+    
+    def __unicode__(self):
+        return self.value
+
+class CodeUrbanRural(models.Model):
+    code = models.IntegerField(primary_key=True)
+    value = models.CharField(max_length=30)
+    
+    def __unicode__(self):
+        return self.value
+    
+class CodePplServed(models.Model):
+    code = models.IntegerField(primary_key=True)
+    value = models.CharField(max_length=30)
+    
+    def __unicode__(self):
+        return self.value
+
+class CodeWaterMgmtLevel(models.Model):
+    code = models.IntegerField(primary_key=True)
+    value = models.CharField(max_length=30)
+    
+    def __unicode__(self):
+        return self.value
 
 class Keywords(models.Model):
     value = models.CharField(max_length=30)
     
     def __unicode__(self):
         return self.value
-    
-class Location(models.Model):
-    country = models.CharField(max_length=30)
-    name = models.CharField(max_length=60)
-    latitude = models.FloatField()
-    longitude = models.FloatField()
-    region = models.ForeignKey(CodeRegion)
-    elevation = models.ForeignKey(CodeElevation)
-    topography = models.ForeignKey(CodeTopography)
-    
-    def __unicode__(self):
-        return "%s (%s)" % (self.name, self.country)
 
 class ContactInfo(models.Model):
     phone = models.CharField(max_length=20, null=True, blank=True)
@@ -92,8 +116,46 @@ class Organization(ContactInfo):
     notes = models.TextField(null=True, blank=True)
 
     def __unicode__(self):
-        return self.org_name
+        return self.name
+
+class Location(models.Model):
+    country = models.CharField(max_length=30)
+    name = models.CharField(max_length=60)
+    latitude = models.FloatField()
+    longitude = models.FloatField()
+    region = models.ForeignKey(CodeRegion)
+    elevation = models.ForeignKey(CodeElevation)
+    topography = models.ForeignKey(CodeTopography)
     
+    def __unicode__(self):
+        return "%s - %s (%s)" % (self.id, self.name, self.country)
+     
+class Climate(models.Model):
+    climate_zone = models.ForeignKey(CodeClimateZone)
+    precipitation = models.ForeignKey(CodePrecipLevel)
+    has_rainy_season = models.BooleanField()
+    rainy_months = models.CommaSeparatedIntegerField(max_length=12,
+                                                     null=True, blank=True)
+    
+    def __unicode__(self):
+        return "%s - %s | %s Precipitation" % (self.id,
+                                               self.climate_zone.value,
+                                               self.precipitation.value)
+
+class CommunityInfo(models.Model):
+    urban_rural = models.ForeignKey(CodeUrbanRural, verbose_name="Urban/Rural")
+    description = models.TextField()
+    num_ppl_served = models.ForeignKey(CodePplServed,
+                                       verbose_name="Number of People Served")
+    community_size = models.PositiveIntegerField()
+    water_mgmt_level = models.ForeignKey('CodeWaterMgmtLevel',
+                                         verbose_name="Water Management Level")
+    
+    def __unicode__(self):
+        return "%s - Served: %s | Size: %s" % (self.id,
+                                               self.num_ppl_served.value,
+                                               self.community_size)
+
 class Project(models.Model):
     title = models.CharField(max_length=256)
     description = models.TextField()
@@ -107,10 +169,11 @@ class Project(models.Model):
     #owner = User
     proj_types = models.ManyToManyField(CodeProjType,
                             verbose_name="Project Type", null=True, blank=True)
-    location = models.ForeignKey(Location)
-    organization = models.ManyToManyField(Organization)
-    #climate
-    #comm_info
+    organizations = models.ManyToManyField(Organization)
+    location = models.OneToOneField(Location, unique=True)
+    climate = models.OneToOneField(Climate, unique=True)
+    comm_info = models.OneToOneField(CommunityInfo, unique=True,
+                                     verbose_name="Community Information")
     #geo_cond
     #material_res
     #infra_res
@@ -121,7 +184,8 @@ class Project(models.Model):
     
     def __unicode__(self):
         return self.title
-   
+
+  
 class HumanResContact(ContactInfo):
     given_name = models.CharField(max_length=30)
     middle_name = models.CharField(max_length=30, null=True, blank=True)

@@ -34,6 +34,13 @@ class CodeTopography(models.Model):
     def __unicode__(self):
         return self.value
 
+class CodeProjType(models.Model):
+    code = models.IntegerField(primary_key=True)
+    value = models.CharField(max_length=40)
+    
+    def __unicode__(self):
+        return self.value
+    
 class Location(models.Model):
     country = models.CharField(max_length=30)
     name = models.CharField(max_length=60)
@@ -57,7 +64,7 @@ class Project(models.Model):
     modified = models.DateTimeField(auto_now=True)
     #keywords
     #owner = User
-    #proj_types
+    proj_types = models.ManyToManyField(CodeProjType, null=True)
     #organizations
     #proj_contacts
     #hum_res_contacts

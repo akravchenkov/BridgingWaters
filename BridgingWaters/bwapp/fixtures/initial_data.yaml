@@ -65,6 +65,7 @@
     created: 2011-12-01 11:36:00
     modified: 2011-12-01 11:36:00
     location: 1
+    proj_types: [3, 11]
     
 - model: bwapp.Project
   pk: 2
@@ -78,6 +79,7 @@
     created: 2011-12-01 11:49:00
     modified: 2011-12-01 11:49:00
     location: 2
+    proj_types: [6, 7, 5, 11]
 #----------------------------------------
 
 # FeaturedProject
@@ -188,3 +190,49 @@
     value: 3500-4000m (11500'-13100')
 #----------------------------------------
 
+# CodeProjType
+- model: bwapp.CodeProjType
+  pk: 1
+  fields:
+    value: Well
+- model: bwapp.CodeProjType
+  pk: 2
+  fields:
+    value: Collection
+- model: bwapp.CodeProjType
+  pk: 3
+  fields:
+    value: Source Protection (Spring Box)
+- model: bwapp.CodeProjType
+  pk: 4
+  fields:
+    value: Piping
+- model: bwapp.CodeProjType
+  pk: 5
+  fields:
+    value: Irrigation
+- model: bwapp.CodeProjType
+  pk: 6
+  fields:
+    value: Water Treatment (chemical)
+- model: bwapp.CodeProjType
+  pk: 7
+  fields:
+    value: Water Treatment (physical)
+- model: bwapp.CodeProjType
+  pk: 8
+  fields:
+    value: Sanitation
+- model: bwapp.CodeProjType
+  pk: 9
+  fields:
+    value: River/Estuary/Shore Restoration
+- model: bwapp.CodeProjType
+  pk: 10
+  fields:
+    value: Dam Impoundment
+- model: bwapp.CodeProjType
+  pk: 11
+  fields:
+    value: Education
+#----------------------------------------

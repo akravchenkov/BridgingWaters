@@ -16,15 +16,16 @@
             <img src="{{STATIC_URL}}images/Samoa-tb.jpg" alt="" title="Project #123" class="float-left" />
         </div>
         <div class="quicklook">
-            <h3>Featured Project - Auala Village Pool</h3>
-            <strong>Location:</strong> Auala, Samoa<br/>
-            <strong>People Served by Project:</strong> 700<br/>
-            <strong>Community Size:</strong> 500 - 2,500<br/>
-            <strong>Type of Project:</strong> water, sanitation<br/>
-            <strong>Project Duration:</strong> 3 months<br/>
-            <strong>Organization:</strong> Peace Corps Samoa<br/>
-            <strong>Summary:</strong> To create a pool in the village where laundry could be done.<br/>
-            <strong>Keywords:</strong> water tank, rain collection, Oceania <a href="project-123.html">Read more...</a><br/>
+            <h3>Featured Project - {{rand_feat_proj.project.title}}</h3>
+            <strong>Location:</strong> {{rand_feat_proj.project.location.name}} ({{rand_feat_proj.project.location.country}})<br/>
+            <strong>Region:</strong> {{rand_feat_proj.project.location.region.value}}<br/>
+            <strong>People Served by Project:</strong> rand_feat_proj.project.comm_info.num_ppl_served<br/>
+            <strong>Community Size:</strong> rand_feat_proj.project.comm_info.comm_size<br/>
+            <strong>Type of Project:</strong> rand_feat_proj.proj_type (list)<br/>
+            <strong>Project Duration:</strong> {{rand_feat_proj.start_date}} - {{rand_feat_proj.end_date}}<br/>
+            <strong>Organizations:</strong> rand_feat_proj.organizations (list)<br/>
+            <strong>Summary:</strong> {{rand_feat_proj.project.description}}<br/>
+            <strong>Keywords:</strong> rand_feat_proj.project.keywords (list) <a href="project/{{rand_feat_proj.project.id}}/">Read more...</a><br/>
         </div>
     </div>
 </div>
@@ -38,7 +39,7 @@
         {% for news_item in latest_news_list %}
             <div class="newsItem">
                 <h4><span class="ss_sprite ss_newspaper"></span>{{ news_item.title }}</h4>
-                <p>{{ news_item.content }}</p>
+                <p>{% autoescape off %}{{ news_item.content }}{% endautoescape %}</p>
                 <p class="small">Posted on: {{ news_item.created }} by <span class="author">{{ news_item.author }}</span></p>
             </div>
         {% endfor %}

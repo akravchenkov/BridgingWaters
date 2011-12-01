@@ -1,0 +1,121 @@
+- model: bwapp.newsupdate
+  pk: 1
+  fields:
+    title: New Donation Process
+    content: Good news this week -- we've successfully registered with Razoo, the online fundraising site. <a href="http://www.razoo.com/story/Bridgingwaters">Donate now</a> so we can hire a web application developer to finish building our database!
+    author: Brent
+    created: 2011-09-15 06:30:00
+    modified: 2011-09-15 06:30:00
+    
+- model: bwapp.newsupdate
+  pk: 2
+  fields:
+    title: Searching for Funding
+    content: Just to update - we're continuing to search for funding for the development of our project database. The board has prepared several proposals and is looking for funding organizations with goals that align well with BW's.
+    author: James
+    created: 2011-07-30 10:30:00
+    modified: 2011-08-01 11:30:00
+    
+- model: bwapp.newsupdate
+  pk: 3
+  fields:
+    title: Fundraising Success!
+    content: Thanks to everyone who came out for our Pub Pedal Fundraiser! We had a great time, raised some much needed money, and got to spread the word about Bridging Waters.<br/>We still have shirts for sale if you didn't get a chance to pick one up. Contact us to get one!
+    author: Virginia
+    created: 2011-05-08 14:20:00
+    modified: 2011-05-08 14:20:00
+
+- model: bwapp.Location
+  pk: 1
+  fields:
+    country: Panama
+    name: Sieykin
+    latitude: 9.361
+    longitude: -82.603
+    region: 3
+
+- model: bwapp.Location
+  pk: 2
+  fields:
+    country: Peru
+    name: Comunidad Campesina de Huasta
+    latitude: -10.069
+    longitude: -77.125
+    region: 2
+    
+- model: bwapp.Project
+  pk: 1
+  fields:
+    title: 1 TEST PROJECT 1
+    description: This is a test project for the bw app
+    start_date: 2009-01-01
+    end_date: 2009-06-01
+    goal: To allow James to test the bw app
+    proj_mgmt: Project management field
+    created: 2011-12-01 11:36:00
+    modified: 2011-12-01 11:36:00
+    location: 1
+    
+- model: bwapp.Project
+  pk: 2
+  fields:
+    title: 2 TEST PROJECT 2
+    description: This is the second test project for the bw app
+    start_date: 2010-02-14
+    end_date: 2010-06-20
+    goal: To allow James to test the bw app with 2 projects
+    proj_mgmt: Project mgmt dfiohdgudihg dugihdguidfh g
+    created: 2011-12-01 11:49:00
+    modified: 2011-12-01 11:49:00
+    location: 2
+    
+- model: bwapp.CodeRegion
+  pk: 1
+  fields:
+    value: North America
+- model: bwapp.CodeRegion
+  pk: 2
+  fields:
+    value: South America
+- model: bwapp.CodeRegion
+  pk: 3
+  fields:
+    value: Central America
+- model: bwapp.CodeRegion
+  pk: 4
+  fields:
+    value: Caribbean
+- model: bwapp.CodeRegion
+  pk: 5
+  fields:
+    value: North Africa and Middle East
+- model: bwapp.CodeRegion
+  pk: 6
+  fields:
+    value: Africa
+- model: bwapp.CodeRegion
+  pk: 7
+  fields:
+    value: Western Europe
+- model: bwapp.CodeRegion
+  pk: 8
+  fields:
+    value: Eastern Europe and Central Asia
+- model: bwapp.CodeRegion
+  pk: 9
+  fields:
+    value: Asia
+- model: bwapp.CodeRegion
+  pk: 10
+  fields:
+    value: Pacific Islands
+- model: bwapp.CodeRegion
+  pk: 11
+  fields:
+    value: Australia
+    
+- model: bwapp.FeaturedProject
+  pk: 1
+  fields:
+    project: 1
+    created: 2011-12-01 11:37:00

@@ -39,6 +39,7 @@
     region: 3
     topography: 3
     elevation: 2
+    project: 1
 
 - model: bwapp.Location
   pk: 2
@@ -50,6 +51,7 @@
     region: 2
     topography: 4
     elevation: 5
+    project: 2
 
 #----------------------------------------
 
@@ -61,6 +63,7 @@
     precipitation: 5
     has_rainy_season: True
     rainy_months: 5,6,7,8,9,10
+    project: 1
 
 - model: bwapp.Climate
   pk: 2
@@ -69,7 +72,30 @@
     precipitation: 4
     has_rainy_season: True
     rainy_months: 10,11,12,1,2,3,4
+    project: 2
 
+#----------------------------------------
+
+# GeoConditions
+- model: bwapp.GeoConditions
+  pk: 1
+  fields:
+    soil_type: 5
+    description: Geo Conditions 1 description
+    hit_bedrock: False
+    hit_water_table: True
+    geo_impact: Impact of geo conditions 1
+    project: 1
+
+- model: bwapp.GeoConditions
+  pk: 2
+  fields:
+    soil_type: 7
+    description: Geo Conditions 2 description
+    hit_bedrock: True
+    hit_water_table: False
+    geo_impact: Impact of geo conditions 2
+    project: 2
 #----------------------------------------
 
 # CommunityInfo
@@ -81,6 +107,7 @@
     num_ppl_served: 2
     community_size: 400
     water_mgmt_level: 1
+    project: 1
 
 - model: bwapp.CommunityInfo
   pk: 2
@@ -90,6 +117,7 @@
     num_ppl_served: 3
     community_size: 1400
     water_mgmt_level: 1
+    project: 2
 
 #----------------------------------------
 
@@ -115,9 +143,6 @@
     modified: 2011-12-01 11:36:00
     proj_types: [3, 11]
     organizations: [1]
-    location: 1
-    climate: 1
-    comm_info: 1
     
 - model: bwapp.Project
   pk: 2
@@ -132,9 +157,6 @@
     modified: 2011-12-01 11:49:00
     proj_types: [6, 7, 5, 11]
     organizations: [1]
-    location: 2
-    climate: 2
-    comm_info: 2
 
 #----------------------------------------
 
@@ -414,7 +436,6 @@
 #------------------------------------------
 
 # CodePplServed
-#'<100', '100-500', '500-1000', '1000-5000', '5000+'
 - model: bwapp.CodePplServed
   pk: 1
   fields:
@@ -438,7 +459,6 @@
 #------------------------------------------
 
 # CodeWaterMgmtLevel
-#'N/A', 'Local', 'Regional', 'National', 'Tribal'
 - model: bwapp.CodeWaterMgmtLevel
   pk: 1
   fields:
@@ -460,3 +480,49 @@
   fields:
     value: Tribal
 #------------------------------------------
+
+# CodeSoilType
+- model: bwapp.CodeSoilType
+  pk: 1
+  fields:
+    value: Sand
+- model: bwapp.CodeSoilType
+  pk: 2
+  fields:
+    value: Loam
+- model: bwapp.CodeSoilType
+  pk: 3
+  fields:
+    value: Clay
+- model: bwapp.CodeSoilType
+  pk: 4
+  fields:
+    value: Sandy Clay
+- model: bwapp.CodeSoilType
+  pk: 5
+  fields:
+    value: Loamy Sand
+- model: bwapp.CodeSoilType
+  pk: 6
+  fields:
+    value: Loamy Clay
+- model: bwapp.CodeSoilType
+  pk: 7
+  fields:
+    value: Bedrock
+    
+#------------------------------------------
+
+
+#------------------------------------------
+
+
+#------------------------------------------
+
+
+#------------------------------------------
+
+
+#------------------------------------------
+    
+    

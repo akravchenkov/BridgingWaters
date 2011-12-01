@@ -53,12 +53,23 @@ class HumanResContactInline(admin.StackedInline):
 
 class ClimateInline(admin.StackedInline):
     model = bwapp.models.Climate
+    can_delete = False
+
+class CommunityInfoInline(admin.StackedInline):
+    model = bwapp.models.CommunityInfo
+    can_delete = False
 
 class LocationInline(admin.StackedInline):
     model = bwapp.models.Location
+    can_delete = False
+
+class GeoConditionsInline(admin.StackedInline):
+    model = bwapp.models.GeoConditions
+    can_delete = False
 
 class ProjectAdmin(DefaultAdmin):
-    inlines = [ProjectContactInline,
+    inlines = [LocationInline, ClimateInline, CommunityInfoInline,
+               ProjectContactInline, GeoConditionsInline,
                HumanResContactInline]
 
 admin.site.register(bwapp.models.NewsUpdate, DefaultAdmin)
@@ -75,9 +86,11 @@ admin.site.register(bwapp.models.CodeClimateZone)
 admin.site.register(bwapp.models.CodeUrbanRural)
 admin.site.register(bwapp.models.CodeWaterMgmtLevel)
 admin.site.register(bwapp.models.CodePplServed)
+admin.site.register(bwapp.models.CodeSoilType)
 admin.site.register(bwapp.models.Keywords)
 admin.site.register(bwapp.models.Climate)
 admin.site.register(bwapp.models.CommunityInfo)
+admin.site.register(bwapp.models.GeoConditions)
 admin.site.register(bwapp.models.Organization, OrganizationAdmin)
 
 

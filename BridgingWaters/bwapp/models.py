@@ -156,7 +156,7 @@ class GeoConditions(models.Model):
     hit_water_table = models.BooleanField()
     geo_impact = models.TextField(
         verbose_name="Impact of Geological Conditions", null=True, blank=True)
-    project = models.OneToOneField(Project, unique=True)
+    project = models.ForeignKey(Project, unique=True)
     
     def __unicode__(self):
         return "%s - %s" % (self.id, self.soil_type)
@@ -174,7 +174,8 @@ class Location(models.Model):
     region = models.ForeignKey(CodeRegion)
     elevation = models.ForeignKey(CodeElevation)
     topography = models.ForeignKey(CodeTopography)
-    project = models.OneToOneField(Project, unique=True)
+    description = models.TextField(null=True, blank=True)
+    project = models.ForeignKey(Project, unique=True)
     
     def __unicode__(self):
         return "%s - %s (%s)" % (self.id, self.name, self.country)
@@ -187,7 +188,7 @@ class CommunityInfo(models.Model):
     community_size = models.PositiveIntegerField()
     water_mgmt_level = models.ForeignKey('CodeWaterMgmtLevel',
                                          verbose_name="Water Management Level")
-    project = models.OneToOneField(Project, unique=True)
+    project = models.ForeignKey(Project, unique=True)
     
     def __unicode__(self):
         return "%s - Served: %s | Size: %s" % (self.id,
@@ -204,7 +205,7 @@ class Climate(models.Model):
     has_rainy_season = models.BooleanField()
     rainy_months = models.CommaSeparatedIntegerField(max_length=12,
                                                      null=True, blank=True)
-    project = models.OneToOneField(Project, unique=True)
+    project = models.ForeignKey(Project, unique=True)
     
     def __unicode__(self):
         return "%s - %s | %s Precipitation" % (self.id,

@@ -39,6 +39,7 @@
     region: 3
     topography: 3
     elevation: 2
+    description: Location 1 Description
     project: 1
 
 - model: bwapp.Location
@@ -51,6 +52,7 @@
     region: 2
     topography: 4
     elevation: 5
+    description: Location 2 Description
     project: 2
 
 #----------------------------------------

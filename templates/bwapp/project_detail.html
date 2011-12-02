@@ -1,22 +1,28 @@
 {% extends "base.html" %}
 
 {% block page_title %}
-Project #{{project.id}} - {{project.title}}
+Project #{{p.id}} - {{p.title}}
 {% endblock %}
 
 {% block content %}
 <div class="column span-9">
-    <h2 class="alt">Project #{{project.id}} - {{project.title}}</h2>
+    <h2 class="alt">Project #{{p.id}} - {{p.title}}</h2>
     <p>
-	<strong>Location:</strong> {{project.location.name}}, {{project.location.country}}<br/>
-	<strong>Region:</strong> {{project.location.region.value}}<br/>
-	<strong>People Served by Project:</strong> 700<br/>
-	<strong>Community Size:</strong> 500 - 2,500<br/>
-	<strong>Type of Project:</strong> water, sanitation<br/>
-	<strong>Project Duration:</strong> {{project.start_date}} - {{project.end_date}}<br/>
-	<strong>Organizations:</strong> Peace Corps Samoa<br/>
-	<strong>Summary:</strong> {{project.description}}<br/>
-	<strong>Keywords:</strong> water tank, rain collection, Oceania<br/>
+        <strong>Location:</strong> {{loc.name}}, {{loc.country}}<br/>
+        <strong>Region:</strong> {{loc.region.value}}<br/>
+        <strong>People Served by Project:</strong> {{comm_info.num_ppl_served.value}}<br/>
+        <strong>Community Size:</strong> {{comm_info.community_size}}<br/>
+        <strong>Type of Project:</strong> {{p.proj_types.all|join:", "}}<br/>
+        <strong>Project Duration:</strong> {{p.start_date}} - {{p.end_date}}<br/>
+        <strong>Organizations:</strong> {{p.organizations.all|join:", "}}<br/>
+        <strong>Summary:</strong> {{p.description}}<br/>
+        <strong>Keywords:</strong>
+	    {% if p.keywords.all %}
+		{{p.keywords.all|join:", "}}
+	    {% else %}
+	        (none listed)
+	    {% endif %}
+	    <br/>
     </p>
 </div>
 <div class="span-9 last">
@@ -24,9 +30,11 @@ Project #{{project.id}} - {{project.title}}
 </div>
 <div class="column span-18 last">
     <h3>Project Description</h3>
-    <p>{{project.description}}</p>
-    <h3>Community and Location Description</h3>
-    <p>Auala is a Samoan village located on the northwest side of the island of Savai'i. The tanks we located next to homes. (Each home supporting between 10-20 people.  Tanks were also built in the neighboring village of Vaisala.</p>
+    <p>{{p.description}}</p>
+    <h3>Community Description</h3>
+    <p>{{comm_info.description}}</p>
+    <h3>Location Description</h3>
+    <p>{{loc.description}}</p>
 </div>
 
 <div class="column span-9">
@@ -36,8 +44,8 @@ Project #{{project.id}} - {{project.title}}
     <strong>Annual Precipitation:</strong> 3m<br/>
     <strong>Seasonal Rainfall Distribution:</strong> 2 seasons, one intensely more wet than the other (monsoon)<br/>
     <strong>Average Temperature:</strong> 89 degrees F<br/>
-    <strong>Elevation:</strong> {{project.location.elevation.value}}<br/>
-    <strong>Topography:</strong> {{project.location.topography.value}}<br/>
+    <strong>Elevation:</strong> {{loc.elevation.value}}<br/>
+    <strong>Topography:</strong> {{loc.topography.value}}<br/>
     <strong>Geology:</strong> lava covered with shallow sand<br/>
     <strong>Soil Type:</strong> Sand<br/>
     <strong>Depth of Topsoil:</strong> <2m<br/>
@@ -70,7 +78,7 @@ Project #{{project.id}} - {{project.title}}
     <strong>Responsibilities:</strong> The Women's Committee<br/>
     <strong>Funding:</strong> None was needed.<br/>
     <strong>When did the community take ownership:</strong> The village felt ownership through constructing the facility.<br/>
-</div>	
+</div>        
 <hr/>
 <div class="column span-18 last">
     <h3>Lessons Learned</h3>

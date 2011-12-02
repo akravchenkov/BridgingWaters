@@ -16,16 +16,22 @@
             <img src="{{STATIC_URL}}images/Samoa-tb.jpg" alt="" title="Project #123" class="float-left" />
         </div>
         <div class="quicklook">
-            <h3>Featured Project - {{rand_feat_proj.project.title}}</h3>
-            <strong>Location:</strong> {{rand_feat_proj.project.location.name}}, {{rand_feat_proj.project.location.country}}<br/>
-            <strong>Region:</strong> {{rand_feat_proj.project.location.region.value}}<br/>
-            <strong>People Served by Project:</strong> rand_feat_proj.project.comm_info.num_ppl_served<br/>
-            <strong>Community Size:</strong> rand_feat_proj.project.comm_info.comm_size<br/>
-            <strong>Type of Project:</strong> rand_feat_proj.proj_type (list)<br/>
-            <strong>Project Duration:</strong> {{rand_feat_proj.start_date}} - {{rand_feat_proj.end_date}}<br/>
-            <strong>Organizations:</strong> rand_feat_proj.organizations (list)<br/>
-            <strong>Summary:</strong> {{rand_feat_proj.project.description}}<br/>
-            <strong>Keywords:</strong> rand_feat_proj.project.keywords (list) <a href="project/{{rand_feat_proj.project.id}}/">Read more...</a><br/>
+            <h3>Featured Project - <a href="/bw/project/{{feat_proj.project.id}}">{{feat_proj.project.title}}</a></h3>
+            <strong>Location:</strong> {{loc.name}}, {{loc.country}}<br/>
+            <strong>Goal:</strong> {{feat_proj.project.goal}}<br/>
+            <strong>Type of Project:</strong> {{feat_proj.project.proj_types.all|join:", "}}<br/>
+            <strong>Project Duration:</strong> {{feat_proj.project.start_date}} - {{feat_proj.project.end_date}}<br/>
+            <strong>Organizations:</strong> {{feat_proj.project.organizations.all|join:", "}}<br/>
+            <strong>Summary:</strong> {{feat_proj.project.description}}<br/>
+            <strong>Keywords:</strong>
+            <strong>Keywords:</strong>
+                {% if feat_proj.project.keywords.all %}
+                    {{feat_proj.project.keywords.all|join:", "}}
+                {% else %}
+                    (none listed)
+                {% endif %}
+            <br/>
+            <a href="/bw/project/{{feat_proj.project.id}}/">Read more...</a><br/>
         </div>
     </div>
 </div>

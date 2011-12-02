@@ -23,6 +23,9 @@ class ProjectForm1(forms.Form):
                                 help_text='Describe how your project was managed.')
     country = forms.ChoiceField(widget=forms.Select,
         choices=countries.COUNTRIES)
+    #organizations
+    #try using formset
+    #https://docs.djangoproject.com/en/1.3/topics/forms/formsets/
     
 class ProjectForm2(forms.Form):
     #location

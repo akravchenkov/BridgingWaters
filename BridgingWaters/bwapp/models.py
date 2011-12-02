@@ -139,6 +139,7 @@ class Project(models.Model):
     proj_types = models.ManyToManyField(CodeProjType,
                             verbose_name="Project Type", null=True, blank=True)
     organizations = models.ManyToManyField(Organization)
+    reviewed = models.BooleanField()
     #TODO: material_res
     #TODO: infra_res
     #TODO: natural_res

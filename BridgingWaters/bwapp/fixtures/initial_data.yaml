@@ -145,6 +145,7 @@
     modified: 2011-12-01 11:36:00
     proj_types: [3, 11]
     organizations: [1]
+    reviewed: True
     
 - model: bwapp.Project
   pk: 2
@@ -159,6 +160,7 @@
     modified: 2011-12-01 11:49:00
     proj_types: [6, 7, 5, 11]
     organizations: [1]
+    reviewed: True
 
 #----------------------------------------
 

@@ -1,4 +1,5 @@
 from django.db import models
+from django_countries import CountryField
 
 class NewsUpdate(models.Model):
     title = models.CharField(max_length=200)
@@ -12,7 +13,23 @@ class NewsUpdate(models.Model):
     
 #--------------------------------------
 
- 
+class CodeResource(models.Model):
+    code = models.IntegerField(primary_key=True)
+    value = models.CharField(max_length=20)
+    
+    def __unicode__(self):
+        return self.value
+    
+class Resource(models.Model):
+    name = models.CharField(max_length=30)
+    website = models.URLField()
+    type = models.ForeignKey(CodeResource)
+    
+    def __unicode__(self):
+        return self.name
+
+#--------------------------------------
+
 class CodeRegion(models.Model):
     code = models.IntegerField(primary_key=True)
     value = models.CharField(max_length=20)
@@ -96,6 +113,10 @@ class Keywords(models.Model):
     
     def __unicode__(self):
         return self.value
+    
+    class Meta:
+        verbose_name="Keywords"
+        verbose_name_plural="Keywords"
 
 class ContactInfo(models.Model):
     phone = models.CharField(max_length=20, null=True, blank=True)
@@ -111,8 +132,8 @@ class ContactInfo(models.Model):
                                       null=True, blank=True)
     add_code = models.CharField(max_length=20, verbose_name="Postal Code",
                                 null=True, blank=True)
-    add_country = models.CharField(max_length=40, verbose_name="Country",
-                                   null=True, blank=True)
+    add_country = CountryField(verbose_name="Country",
+                               null=True, blank=True)
     website = models.CharField(max_length=256, null=True, blank=True)
     
     class Meta:
@@ -168,7 +189,7 @@ class GeoConditions(models.Model):
         
 
 class Location(models.Model):
-    country = models.CharField(max_length=30)
+    country = CountryField()
     name = models.CharField(max_length=60)
     latitude = models.FloatField()
     longitude = models.FloatField()
@@ -179,7 +200,7 @@ class Location(models.Model):
     project = models.ForeignKey(Project, unique=True)
     
     def __unicode__(self):
-        return "%s - %s (%s)" % (self.id, self.name, self.country)
+        return "%s - %s (%s)" % (self.id, self.name, self.country.name)
 
 class CommunityInfo(models.Model):
     urban_rural = models.ForeignKey(CodeUrbanRural, verbose_name="Urban/Rural")

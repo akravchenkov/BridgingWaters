@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block page_title %}Add Project - Step {{step}}{% endblock %}
+
+{% block content %}
+<h2>Add Your Project - Step {{ step }} of {{ step_count }}</h2>
+<form action="." method="post">
+    {% csrf_token %}
+    
+    {{ form.as_p }}
+    
+    <input type="hidden" name="{{ step_field }}" value="{{ step0 }}" />
+    {{ previous_fields|safe }}
+    <input type="submit">
+</form>
+{% endblock %}

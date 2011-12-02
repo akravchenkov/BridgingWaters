@@ -32,7 +32,7 @@
 - model: bwapp.Location
   pk: 1
   fields:
-    country: Panama
+    country: PA
     name: Sieykin
     latitude: 9.361
     longitude: -82.603
@@ -45,7 +45,7 @@
 - model: bwapp.Location
   pk: 2
   fields:
-    country: Peru
+    country: PE
     name: Comunidad Campesina de Huasta
     latitude: -10.069
     longitude: -77.125

@@ -1,9 +1,9 @@
 from django.conf.urls.defaults import patterns, include, url
-
-# Uncomment the next two lines to enable the admin:
+from bwapp.forms import ProjectForm1, ProjectForm2, ProjectWizard
 
 
 urlpatterns = patterns('bwapp.views',
     url(r'^$', 'index', name='index'),
     url(r'^project/(?P<project_id>\d+)/$', 'project_detail'),
+    url(r'^project/add/$', ProjectWizard([ProjectForm1, ProjectForm2])),
 )

@@ -68,7 +68,7 @@ class ProjectForm3(forms.Form):
 class ProjectWizard(FormWizard):
     def done(self, request, form_list):
         save_project(form_list)
-        return HttpResponseRedirect('/bw/project/submitted/')
+        return HttpResponseRedirect('/bw/projects/submitted/')
         
 def save_project(form_list):
     pass

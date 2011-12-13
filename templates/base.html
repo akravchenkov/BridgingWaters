@@ -26,7 +26,9 @@
     
     <script type="text/javascript" src="{{STATIC_URL}}js/jquery-1.4.4.min.js"></script>
     <script type="text/javascript" src="{{STATIC_URL}}js/jquery-ui-1.8.7.custom.min.js"></script>
-    <script type="text/javascript" src="{{STATIC_URL}}js/site.js"></script>
+    {% block more_scripts %} {% endblock %}
+	
+	<script type="text/javascript" src="{{STATIC_URL}}js/site.js"></script>
 
 </head>
 <body>
@@ -34,7 +36,7 @@
     
     <div id="header">
         <div class="span-11">
-            <span class="header-one"><img src="{{STATIC_URL}}images/bw_header_jas.png" alt="BridgingWaters" title="BridgingWaters"/></span>
+            <span class="header-one"><a href="/bw/"><img src="{{STATIC_URL}}images/bw_header_jas.png" alt="BridgingWaters" title="BridgingWaters"/></a></span>
         </div>
 
         <div class="span-13" id="header-links">
@@ -129,7 +131,7 @@
                         <p class="small"><a href="contact.html">Contact Us</a></p>
                         <p class="small">BridgingWaters is a 501(c)(3) nonprofit organization</p>
                         <p class="small"><strong>&copy; 2011 BridgingWaters</strong></p>
-                        <a href="index.html"><img src="images/vsmall_logo.png" /></a>
+                        <a href="index.html"><img src="{{STATIC_URL}}images/vsmall_logo.png" /></a>
                 </div>
             </div><!-- end #page -->
         </div><!--end #container -->

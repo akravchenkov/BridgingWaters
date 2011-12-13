@@ -16,7 +16,7 @@
             <img src="{{STATIC_URL}}images/Samoa-tb.jpg" alt="" title="Project #123" class="float-left" />
         </div>
         <div class="quicklook">
-            <h3>Featured Project - <a href="/bw/project/{{feat_proj.project.id}}">{{feat_proj.project.title}}</a></h3>
+            <h3>Featured Project - <a href="/bw/projects/{{feat_proj.project.id}}">{{feat_proj.project.title}}</a></h3>
             <strong>Location:</strong> {{loc.name}}, {{loc.country}}<br/>
             <strong>Goal:</strong> {{feat_proj.project.goal}}<br/>
             <strong>Type of Project:</strong> {{feat_proj.project.proj_types.all|join:", "}}<br/>
@@ -31,7 +31,7 @@
                     (none listed)
                 {% endif %}
             <br/>
-            <a href="/bw/project/{{feat_proj.project.id}}/">Read more...</a><br/>
+            <a href="/bw/projects/{{feat_proj.project.id}}/">Read more...</a><br/>
         </div>
     </div>
 </div>

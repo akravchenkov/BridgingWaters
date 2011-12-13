@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block page_title %}Add Project - Step {{step}}{% endblock %}
+
+{% block more_scripts %}
+    <script type="text/javascript" src="{{STATIC_URL}}js/jquery.formset.min.js"></script>
+
+    <script type="text/javascript">
+        $(function() {
+            $('.form-container').formset();
+        })
+    </script>
+{% endblock %}
+
+{% block content %}
+<h2>Add Your Project - {{ step_title }} - Step {{ step }} of {{ step_count }}</h2>
+
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+<form id="proj_org_form" action="/projects/add/step/1/" method="post">
+    {% csrf_token %}
+   
+    {% for form in formset.forms %}
+        <table class="form-container">
+        {{ form.as_table }}
+        </table>
+    {% endfor %}
+    
+    <button type="reset">Reset</button> <button type="submit">Save</button> <button type="submit">Save and Continue</button>
+</form>
+{% endblock %}

@@ -5,14 +5,22 @@
 {% block content %}
 <h2>Add Your Project - {{ step_title }} - Step {{ step }} of {{ step_count }}</h2>
 
-{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+{% if form.errors %}<p class="error">Please correct the errors below.</p>{% endif %}
 
 <form action="/bw/projects/add/step/1/" method="post">
     {% csrf_token %}
-    <table>
-        {{ form.as_table }}
-    </table>
+    
+    {% for field in form %}
+        <div class="form-field">
+            {%if field.errors %}
+                <div class="error">{{field.errors}}</div>
+            {% endif %}
+            
+            {{field.label_tag}}: {{field}}
+        </div>
+    {% endfor %}
     
     <button type="reset">Reset</button> <button type="submit">Save</button> <button type="submit">Save and Continue</button>
 </form>
+
 {% endblock %}

@@ -18,7 +18,7 @@ ELEVATIONS = [(obj.code, obj.value) for obj in m.CodeElevation.objects.all()]
 REGIONS = [(obj.code, obj.value) for obj in m.CodeRegion.objects.all()]
 TOPOGRAPHIES = [(obj.code, obj.value) for obj in m.CodeTopography.objects.all()]
 CLIM_ZONES = [(obj.code, obj.value) for obj in m.CodeClimateZone.objects.all()]
-PRECIPS = [(obj.code, obj.value) for obj in m.CodePrecipLevel.objects.all()]
+PRECIP_LEVELS = [(obj.code, obj.value) for obj in m.CodePrecipLevel.objects.all()]
 RESOURCES = [(obj.code, obj.value) for obj in m.CodeResource.objects.all()]
 PROFESSIONS = [(obj.code, obj.value) for obj in m.CodeProjType.objects.all()]
 URB_RURAL = [(obj.code, obj.value) for obj in m.CodeUrbanRural.objects.all()]
@@ -26,8 +26,8 @@ PPL_SERVED = [(obj.code, obj.value) for obj in m.CodePplServed.objects.all()]
 WATER_MGMT_LEVELS = [(obj.code, obj.value) for obj in
     m.CodeWaterMgmtLevel.objects.all()]
 SOIL_TYPES = [(obj.code, obj.value) for obj in m.CodeSoilType.objects.all()]
-EXISTING_KEYWORDS = [(obj.id, obj.value) for obj in m.Keywords.objects.all()]
 
+EXISTING_KEYWORDS = [(obj.id, obj.value) for obj in m.Keywords.objects.all()]
 
 MONTHS = ((1,'January'),(2,'February'),(3,'March'),(4,'April'),(5,'May'),
     (6,'June'),(7,'July'),(8,'August'),(9,'September'),(10,'October'),
@@ -67,7 +67,8 @@ class ProjectLocationForm(forms.Form):
 class ProjectClimateForm(forms.Form):
     #climate
     climate_zone = forms.ChoiceField(widget=forms.Select, choices=CLIM_ZONES)
-    precipitation = forms.ChoiceField(widget=forms.Select, choices=PRECIPS)
+    precipitation = forms.ChoiceField(widget=forms.Select,
+                                      choices=PRECIP_LEVELS)
     has_rainy_season = forms.ChoiceField(widget=forms.Select,
                             choices=(('False','No'),('True','Yes')))
     rainy_months = forms.MultipleChoiceField(

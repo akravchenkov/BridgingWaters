@@ -7,7 +7,7 @@
 
 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
-<form action="/projects/add/step/1/" method="post">
+<form action="/bw/projects/add/step/1/" method="post">
     {% csrf_token %}
     <table>
         {{ form.as_table }}

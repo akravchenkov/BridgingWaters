@@ -36,53 +36,77 @@ def project_add_begin(request):
     
 def project_add_step1(request):
     if request.method == "POST":
-        pass #TODO: Process, save in session, and redirect to next
+        #Process, save in session, and redirect to next
+        form = f.ProjectGeneralForm(request.POST)
+        
+        if form.is_valid():
+            request.session['general_form'] = form
+            return redirect(project_add_step2)
     else:
         form = f.ProjectGeneralForm()
-        return render(request, 'forms/project_add_basic.html', {
-            'step_title':'Basic Information',
-            'step':1,
-            'step_count':5,
-            'form':form
-            })
+        
+    return render(request, 'forms/project_add_basic.html', {
+        'step_title':'Basic Information',
+        'step':1,
+        'step_count':5,
+        'form':form
+        })
 
 def project_add_step2(request):
     if request.method == "POST":
-        pass #TODO: Process, save in session, and redirect to next
+        #Process, save in session, and redirect to next
+        form = f.ProjectLocationForm(request.POST)
+        
+        if form.is_valid():
+            request.session['location_form'] = form
+            return redirect(project_add_step3)
     else:
         form = f.ProjectLocationForm()
-        return render(request, 'forms/project_add_basic.html', {
-            'step_title':'Project Location',
-            'step':2,
-            'step_count':5,
-            'form':form
-            })
+        
+    return render(request, 'forms/project_add_basic.html', {
+        'step_title':'Project Location',
+        'step':2,
+        'step_count':5,
+        'form':form
+        })
 
 def project_add_step3(request):
     if request.method == "POST":
-        pass #TODO: Process, save in session, and redirect to next
+        #Process, save in session, and redirect to next
+        form = f.ProjectClimateForm(request.POST)
+        
+        if form.is_valid():
+            request.session['climate_form'] = form
+            return redirect(project_add_step4)
     else:
-        form = f.ProjectClimateForm
-        return render(request, 'forms/project_add_basic.html', {
-            'step_title':'Climate',
-            'step':3,
-            'step_count':5,
-            'form':form
-            })
+        form = f.ProjectClimateForm()
+        
+    return render(request, 'forms/project_add_basic.html', {
+        'step_title':'Climate',
+        'step':3,
+        'step_count':5,
+        'form':form
+        })
 
 def project_add_step4(request):
+    
+    ProjectOrgFormSet = formset_factory(f.ProjectOrgForm, max_num=5)
+    
     if request.method == "POST":
-        pass #TODO: Process, save in session, and redirect to next
+        #Process, save in session, and redirect to next
+        formset = ProjectOrgFormSet(request.POST)
+        if formset.is_valid():
+            request.session['org_formset'] = formset
+            return redirect(project_add_step5)
     else:
-        ProjectOrigFormSet = formset_factory(f.ProjectOrgForm)
+        formset = ProjectOrgFormSet()
 
-        #TODO: Formset, javascript to create additional forms
-        return render(request, 'forms/project_add_orgs.html', {
-            'step_title':'Involved Organizations',
-            'step':4,
-            'step_count':5,
-            'formset':ProjectOrigFormSet
-            })
+    return render(request, 'forms/project_add_orgs.html', {
+        'step_title':'Involved Organizations',
+        'step':4,
+        'step_count':5,
+        'formset':formset
+        })
 
 def project_add_step5(request):
     pass

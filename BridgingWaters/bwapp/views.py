@@ -112,6 +112,5 @@ def project_add_step5(request):
     pass
 
 def project_submitted(request):
-    #TODO: get recently submitted project information
-    
+    #TODO: get recently submitted project information to display on the page
     return render(request, 'bwapp/project_submitted.html')

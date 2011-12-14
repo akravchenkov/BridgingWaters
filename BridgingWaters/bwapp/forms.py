@@ -6,19 +6,29 @@ from django import forms
 from django.forms.extras.widgets import SelectDateWidget
 from django.http import HttpResponseRedirect
 from django.contrib.formtools.wizard import FormWizard
-from bwapp.models import (CodeProjType, CodeElevation, CodeRegion,
-                          CodeTopography, CodeClimateZone, CodePrecipLevel)
 from django_countries import countries
+
+import bwapp.models as m
 
 now = datetime.datetime.now()
 YEARS = [str(i) for i in range(1980,now.year+1)]
 
-PROJ_TYPES = [(cpt.code, cpt.value) for cpt in CodeProjType.objects.all()]
-ELEVATIONS = [(e.code, e.value) for e in CodeElevation.objects.all()]
-REGIONS = [(r.code, r.value) for r in CodeRegion.objects.all()]
-TOPOGRAPHIES = [(t.code, t.value) for t in CodeTopography.objects.all()]
-CLIM_ZONES = [(cz.code, cz.value) for cz in CodeClimateZone.objects.all()]
-PRECIPS = [(p.code, p.value) for p in CodePrecipLevel.objects.all()]
+PROJ_TYPES = [(obj.code, obj.value) for obj in m.CodeProjType.objects.all()]
+ELEVATIONS = [(obj.code, obj.value) for obj in m.CodeElevation.objects.all()]
+REGIONS = [(obj.code, obj.value) for obj in m.CodeRegion.objects.all()]
+TOPOGRAPHIES = [(obj.code, obj.value) for obj in m.CodeTopography.objects.all()]
+CLIM_ZONES = [(obj.code, obj.value) for obj in m.CodeClimateZone.objects.all()]
+PRECIPS = [(obj.code, obj.value) for obj in m.CodePrecipLevel.objects.all()]
+RESOURCES = [(obj.code, obj.value) for obj in m.CodeResource.objects.all()]
+PROFESSIONS = [(obj.code, obj.value) for obj in m.CodeProjType.objects.all()]
+URB_RURAL = [(obj.code, obj.value) for obj in m.CodeUrbanRural.objects.all()]
+PPL_SERVED = [(obj.code, obj.value) for obj in m.CodePplServed.objects.all()]
+WATER_MGMT_LEVELS = [(obj.code, obj.value) for obj in
+    m.CodeWaterMgmtLevel.objects.all()]
+SOIL_TYPES = [(obj.code, obj.value) for obj in m.CodeSoilType.objects.all()]
+EXISTING_KEYWORDS = [(obj.id, obj.value) for obj in m.Keywords.objects.all()]
+
+
 MONTHS = ((1,'January'),(2,'February'),(3,'March'),(4,'April'),(5,'May'),
     (6,'June'),(7,'July'),(8,'August'),(9,'September'),(10,'October'),
     (11,'November'),(12,'December'),)

@@ -1,7 +1,6 @@
 import bwapp.models
 from django.contrib import admin
 
-
 class DefaultAdmin(admin.ModelAdmin):
     list_display = ('title', 'created', 'modified')
     date_hierarchy = 'created'
@@ -19,7 +18,7 @@ class OrganizationAdmin(admin.ModelAdmin):
         (None, {'fields': ['notes']})
     ]
 
-class OrganizationInline(admin.StackedInline): #TODO: Unused currently, remove?
+class OrganizationInline(admin.StackedInline):
     model = bwapp.models.Organization
     fieldsets = [
         (None, {'fields': ['name', 'website']}),
@@ -70,7 +69,7 @@ class GeoConditionsInline(admin.StackedInline):
 class ProjectAdmin(DefaultAdmin):
     inlines = [LocationInline, ClimateInline, CommunityInfoInline,
                ProjectContactInline, GeoConditionsInline,
-               HumanResContactInline]
+               HumanResContactInline, OrganizationInline]
 
 admin.site.register(bwapp.models.NewsUpdate, DefaultAdmin)
 admin.site.register(bwapp.models.Project, ProjectAdmin)

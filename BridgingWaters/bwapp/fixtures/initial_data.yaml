@@ -123,14 +123,6 @@
 
 #----------------------------------------
 
-# Organization
-- model: bwapp.Organization
-  pk: 1
-  fields:
-    name: EWB-AUS
-    
-#----------------------------------------
-
 # Project
 - model: bwapp.Project
   pk: 1
@@ -144,7 +136,6 @@
     created: 2011-12-01 11:36:00
     modified: 2011-12-01 11:36:00
     proj_types: [3, 11]
-    organizations: [1]
     reviewed: True
     
 - model: bwapp.Project
@@ -159,9 +150,40 @@
     created: 2011-12-01 11:49:00
     modified: 2011-12-01 11:49:00
     proj_types: [6, 7, 5, 11]
-    organizations: [1]
     reviewed: True
 
+#----------------------------------------
+
+# Organization
+- model: bwapp.Organization
+  pk: 1
+  fields:
+    name: EWB-AUS
+    project: 1
+    
+- model: bwapp.Organization
+  pk: 2
+  fields:
+    name: EWB-AUS
+    project: 2
+    
+#----------------------------------------
+
+# ProjectContact
+- model: bwapp.ProjectContact
+  pk: 1
+  fields:
+    given_name: Corrie
+    surname: Thompson
+    project: 1
+    
+- model: bwapp.ProjectContact
+  pk: 2
+  fields:
+    given_name: Elliott
+    surname: Gall
+    project: 2
+    
 #----------------------------------------
 
 # FeaturedProject

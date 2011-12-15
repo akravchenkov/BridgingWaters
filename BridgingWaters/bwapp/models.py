@@ -138,13 +138,6 @@ class ContactInfo(models.Model):
     
     class Meta:
         abstract = True
-
-class Organization(ContactInfo):
-    name = models.CharField(max_length=40)
-    notes = models.TextField(null=True, blank=True)
-
-    def __unicode__(self):
-        return self.name
      
 class Project(models.Model):
     title = models.CharField(max_length=256)
@@ -156,10 +149,10 @@ class Project(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
     keywords = models.ManyToManyField(Keywords, null=True, blank=True)
-    #owner = User
+    #TODO: owner = User
     proj_types = models.ManyToManyField(CodeProjType,
                             verbose_name="Project Type", null=True, blank=True)
-    organizations = models.ManyToManyField(Organization)
+    
     reviewed = models.BooleanField()
     #TODO: material_res
     #TODO: infra_res
@@ -171,6 +164,14 @@ class Project(models.Model):
     def __unicode__(self):
         return self.title
 
+class Organization(ContactInfo):
+    name = models.CharField(max_length=40)
+    notes = models.TextField(null=True, blank=True)
+    project = models.ForeignKey(Project)
+    
+    def __unicode__(self):
+        return self.name        
+        
 class GeoConditions(models.Model):
     soil_type = models.ForeignKey(CodeSoilType)
     description = models.TextField(null=True, blank=True)

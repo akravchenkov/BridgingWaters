@@ -133,6 +133,12 @@ body
 
 /*******************************************************************/
 
+textarea {
+    height: 100px;
+    padding: 5px;
+    width: 450px;
+}
+
 /**** NAV BAR *************/
 #nav {width:960px; margin:auto; height:30px;}
 #nav ul, li {border:0; margin:0; padding:0; list-style:none;}

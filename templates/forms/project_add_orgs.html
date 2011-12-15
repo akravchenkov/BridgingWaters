@@ -3,29 +3,46 @@
 {% block page_title %}Add Project - Step {{step}}{% endblock %}
 
 {% block more_scripts %}
-    <script type="text/javascript" src="{{STATIC_URL}}js/jquery.formset.min.js"></script>
+    <script type="text/javascript" src="{{STATIC_URL}}js/jquery.formset.js"></script>
 
     <script type="text/javascript">
         $(function() {
-            $('.form-container').formset();
+            $('.form-container').formset(options={
+                    addText:"Add Another Involved Organization", 
+                    deleteText:"Remove"
+                });
         })
     </script>
 {% endblock %}
 
 {% block content %}
-<h2>Add Your Project - {{ step_title }} - Step {{ step }} of {{ step_count }}</h2>
+<h3>Add Your Project - {{ step_title }} - <span class="alt">Step {{ step }} of {{ step_count }}</span></h3>
+<p>
+    Please tell us about your project. Be as complete and as specific as you can so that your project experiences can best help others.<br/>
+    <span class="quiet">Fields marked with a star * are required.</span>
+</p>
 
-{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+{% if form.errors %}<p class="error">Please correct the errors below.</p>{% endif %}
 
 <form id="proj_org_form" action="/projects/add/step/1/" method="post">
     {% csrf_token %}
    
     {% for form in formset.forms %}
-        <table class="form-container">
-        {{ form.as_table }}
-        </table>
+        <fieldset class="form-container">
+            <legend>Involved Organization Information</legend>
+            {% for field in form %}
+                <p class="form-field">
+                    {%if field.errors %}
+                        <div class="error">{{field.errors}}</div><br/>
+                    {% endif %}
+                    
+                    {{field.label_tag}} {% if field.field.required %}*{% endif %}<br/>
+                    {{field}}
+                </p>
+            {% endfor %}
+        </fieldset><br/>
     {% endfor %}
-    
+    {{ formset.management_form }}
     <button type="reset">Reset</button> <button type="submit">Save</button> <button type="submit">Save and Continue</button>
 </form>
 {% endblock %}

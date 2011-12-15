@@ -35,7 +35,8 @@ MONTHS = ((1,'January'),(2,'February'),(3,'March'),(4,'April'),(5,'May'),
 
 class ProjectGeneralForm(forms.Form):
     #general
-    title = forms.CharField(max_length=256)
+    title = forms.CharField(max_length=256, 
+        widget=forms.TextInput(attrs={'class':'title'}))
     description = forms.CharField(widget=forms.Textarea)
     start_date = forms.DateField(widget=SelectDateWidget(years=YEARS))
     end_date = forms.DateField(widget=SelectDateWidget(years=YEARS))
@@ -78,7 +79,8 @@ class ProjectOrgForm(forms.Form):
     #organizations -- need to be able to add multiple
     #-- try using formset?
     #-- https://docs.djangoproject.com/en/1.3/topics/forms/formsets/
-    name = forms.CharField(max_length=40, label='Involved Organization Name')
+    name = forms.CharField(max_length=40, label='Organization Name', 
+        widget=forms.TextInput(attrs={'class':'title'}))
     phone = forms.CharField(max_length=20)
     email = forms.EmailField()
     add_street1 = forms.CharField(max_length=80, label="Street Address")

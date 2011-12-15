@@ -3,7 +3,11 @@
 {% block page_title %}Add Project - Step {{step}}{% endblock %}
 
 {% block content %}
-<h2>Add Your Project - {{ step_title }} - Step {{ step }} of {{ step_count }}</h2>
+<h3>Add Your Project - {{ step_title }} - <span class="alt">Step {{ step }} of {{ step_count }}</span></h3>
+<p>
+    Please tell us about your project. Be as complete and as specific as you can so that your project experiences can best help others.<br/>
+    <span class="quiet">Fields marked with a star * are required.</span>
+</p>
 
 {% if form.errors %}<p class="error">Please correct the errors below.</p>{% endif %}
 
@@ -11,16 +15,17 @@
     {% csrf_token %}
     
     {% for field in form %}
-        <div class="form-field">
+        <p class="form-field">
             {%if field.errors %}
-                <div class="error">{{field.errors}}</div>
+                <div class="error">{{field.errors}}</div><br/>
             {% endif %}
             
-            {{field.label_tag}}: {{field}}
-        </div>
+            {{field.label_tag}} {% if field.field.required %}*{% endif %}<br/>
+            {{field}}
+        </p>
     {% endfor %}
-    
-    <button type="reset">Reset</button> <button type="submit">Save</button> <button type="submit">Save and Continue</button>
+
+    <button type="reset">Reset</button> <button type="submit">Save</button> <button type="submit">Save and Continue</button> 
 </form>
 
 {% endblock %}

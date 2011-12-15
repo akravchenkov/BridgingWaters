@@ -1,4 +1,4 @@
 *.log
 *.pot
 *.py[co]
-local_settings.py
+local_config.py

@@ -8,7 +8,7 @@
     <script type="text/javascript">
         $(function() {
             $('.form-container').formset(options={
-                    addText:"Add Another Involved Organization", 
+                    addText:"Add Another", 
                     deleteText:"Remove"
                 });
         })
@@ -24,19 +24,22 @@
 
 {% if form.errors %}<p class="error">Please correct the errors below.</p>{% endif %}
 
-<form id="proj_org_form" action="/projects/add/step/1/" method="post">
+<form action="/bw/projects/add/step/{{step}}/" method="post">
     {% csrf_token %}
    
     {% for form in formset.forms %}
         <fieldset class="form-container">
-            <legend>Involved Organization Information</legend>
+            <legend>{{legend}}</legend>
             {% for field in form %}
                 <p class="form-field">
+                    
+                    {{field.label_tag}} {% if field.field.required %}*{% endif %}<br/>
+                    {% if field.field.help_text %}
+                        <span class="quiet">{{field.field.help_text}}</span><br/>
+                    {% endif %}
                     {%if field.errors %}
                         <div class="error">{{field.errors}}</div><br/>
                     {% endif %}
-                    
-                    {{field.label_tag}} {% if field.field.required %}*{% endif %}<br/>
                     {{field}}
                 </p>
             {% endfor %}

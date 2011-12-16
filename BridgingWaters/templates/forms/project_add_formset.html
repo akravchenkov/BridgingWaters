@@ -31,17 +31,9 @@
         <fieldset class="form-container">
             <legend>{{legend}}</legend>
             {% for field in form %}
-                <p class="form-field">
-                    
-                    {{field.label_tag}} {% if field.field.required %}*{% endif %}<br/>
-                    {% if field.field.help_text %}
-                        <span class="quiet">{{field.field.help_text}}</span><br/>
-                    {% endif %}
-                    {%if field.errors %}
-                        <div class="error">{{field.errors}}</div><br/>
-                    {% endif %}
-                    {{field}}
-                </p>
+            
+                {% include "form_field_snippet.html" %}
+                
             {% endfor %}
         </fieldset><br/>
     {% endfor %}

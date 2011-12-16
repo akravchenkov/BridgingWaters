@@ -15,20 +15,7 @@
     {% csrf_token %}
     
     {% for field in form %}
-        <p class="form-field">
-            
-            {{field.label_tag}} {% if field.field.required %}*{% endif %}<br/>
-            {% if field.field.help_text %}
-                <span class="quiet">{{field.field.help_text}}</span><br/>
-            {% endif %}
-            {% if field.errors %}
-                {% for err in field.errors %}
-                    <span class="field-error">{{err}}</span><br/>
-                {% endfor %}  
-            {% endif %}
-            {{field}}
-            
-        </p>
+        {% include "form_field_snippet.html" %}
     {% endfor %}
 
     <button type="reset">Reset</button> <button type="submit">Save</button> <button type="submit">Save and Continue</button> 

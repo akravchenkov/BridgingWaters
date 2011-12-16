@@ -133,6 +133,14 @@ body
 
 /*******************************************************************/
 
+label {
+    font-weight: normal;
+}
+
+label.required {
+    font-weight: bold;
+}
+
 textarea {
     height: 100px;
     padding: 5px;

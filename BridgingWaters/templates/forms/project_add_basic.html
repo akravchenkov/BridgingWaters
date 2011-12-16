@@ -6,7 +6,7 @@
 <h3>Add Your Project - {{ step_title }} - <span class="alt">Step {{ step }} of {{ step_count }}</span></h3>
 <p>
     Please tell us about your project. Be as complete and as specific as you can so that your project experiences can best help others.<br/>
-    <span class="quiet">Fields marked with a star * are required.</span>
+    <span class="quiet">Fields labeled in <strong>bold</strong> are required.</span>
 </p>
 
 {% if form.errors %}<p class="error">Please correct the errors below.</p>{% endif %}
@@ -15,7 +15,7 @@
     {% csrf_token %}
     
     {% for field in form %}
-        {% include "form_field_snippet.html" %}
+        {% include "forms/form_field_snippet.html" %}
     {% endfor %}
 
     <button type="reset">Reset</button> <button type="submit">Save</button> <button type="submit">Save and Continue</button> 

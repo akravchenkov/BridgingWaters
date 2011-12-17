@@ -7,13 +7,14 @@ from django.forms.extras.widgets import SelectDateWidget
 from django.http import HttpResponseRedirect
 from django.contrib.formtools.wizard import FormWizard
 from django_countries import countries
+from django.core.exceptions import ValidationError
 
 import bwapp.models as m
 
 now = datetime.datetime.now()
 YEARS = [str(i) for i in range(1980,now.year+1)]
 
-EMPTY_CHOICE = (False,'----')
+EMPTY_CHOICE = (None,'- - - -')
 
 PROJ_TYPES = [(obj.code, obj.value) for obj in m.CodeProjType.objects.all()]
 
@@ -38,6 +39,10 @@ MONTHS = ((1,'January'),(2,'February'),(3,'March'),(4,'April'),(5,'May'),
     (6,'June'),(7,'July'),(8,'August'),(9,'September'),(10,'October'),
     (11,'November'),(12,'December'),)
 
+def validate_select(value): #TODO: Is this the best way to do selects with a blank default option?
+    if value=="None":
+        raise ValidationError(u'An option must be selected.')
+    
 class ProjectGeneralForm(forms.Form):
     #general
     title = forms.CharField(max_length=256, 
@@ -62,7 +67,7 @@ class ProjectGeneralForm(forms.Form):
         end_date = self.cleaned_data['end_date']
         start_date = self.cleaned_data['start_date']
         if end_date < start_date:
-            raise forms.ValidationError("End date must be before start date.")
+            raise forms.ValidationError(u"End date must be before start date.")
         return end_date
     
 class ProjectLocationForm(forms.Form):
@@ -70,21 +75,26 @@ class ProjectLocationForm(forms.Form):
     country = forms.ChoiceField(widget=forms.Select,
         choices=countries.COUNTRIES)
     name = forms.CharField(max_length=60, label='Location Name')
-    region = forms.ChoiceField(widget=forms.Select, choices=REGIONS)
-    latitude = forms.FloatField()
+    region = forms.ChoiceField(widget=forms.Select, choices=REGIONS, 
+        validators=[validate_select])
+    latitude = forms.FloatField() #TODO: Some kind of google map interface to find location?
     longitude = forms.FloatField()
-    #TODO: ?have region automatically populate in the db, based on country?
-    elevation = forms.ChoiceField(widget=forms.Select, choices=ELEVATIONS)
-    topography = forms.ChoiceField(widget=forms.Select, choices=TOPOGRAPHIES)
+    #TODO: have region automatically populate in the db, based on country?
+    elevation = forms.ChoiceField(widget=forms.Select, choices=ELEVATIONS,
+        validators=[validate_select])
+    topography = forms.ChoiceField(widget=forms.Select, choices=TOPOGRAPHIES,
+        validators=[validate_select])
     description = forms.CharField(widget=forms.Textarea, required=False,
                                   help_text='Describe the location.')
     
 
 class ProjectClimateForm(forms.Form):
     #climate
-    climate_zone = forms.ChoiceField(widget=forms.Select, choices=CLIM_ZONES)
+    climate_zone = forms.ChoiceField(widget=forms.Select, choices=CLIM_ZONES,
+                                     validators=[validate_select])
     precipitation = forms.ChoiceField(widget=forms.Select,
-                                      choices=PRECIP_LEVELS)
+                                      choices=PRECIP_LEVELS,
+                                      validators=[validate_select])
     has_rainy_season = forms.ChoiceField(widget=forms.Select, choices=YES_NO)
     rainy_months = forms.MultipleChoiceField(
         widget=forms.CheckboxSelectMultiple, choices=MONTHS, required=False)
@@ -107,14 +117,17 @@ class ProjectOrgForm(forms.Form):
 
 class ProjectCommunityForm(forms.Form):
     urban_rural = forms.ChoiceField(widget=forms.Select, choices=URB_RURAL,
-        label="Urban/Rural")
+        label="Urban/Rural",
+        validators=[validate_select])
     description = forms.CharField(widget=forms.Textarea)
     num_ppl_served = forms.ChoiceField(widget=forms.Select, choices=PPL_SERVED,
-        label="Number of People Served")
+        label="Number of People Served",
+        validators=[validate_select])
     community_size = forms.IntegerField(label="Community Size")
     water_mgmt_level = forms.ChoiceField(widget=forms.Select, choices=WATER_MGMT_LEVELS,
         label="Water Management Level",
-        help_text="Level of government at which water is managed.")
+        help_text="Level of government at which water is managed.",
+        validators=[validate_select])
 
 class ProjectContactsForm(forms.Form):
     given_name = forms.CharField(max_length=30, label="Given Name")
@@ -135,7 +148,8 @@ class ProjectContactsForm(forms.Form):
 class ProjectGeoCondsForm(forms.Form):
     soil_type = forms.ChoiceField(widget=forms.Select, choices=SOIL_TYPES,
         label="Primary Soil Type",
-        help_text="Select the soil type most prevalent in your project area.")
+        help_text="Select the soil type most prevalent in your project area.",
+        validators=[validate_select])
     description = forms.CharField(widget=forms.Textarea, required=False,
         help_text="Describe the geological and soil conditions of your project area.")
     hit_bedrock = forms.ChoiceField(widget=forms.Select, choices=YES_NO,
@@ -153,7 +167,8 @@ class ProjectHumanResForm(forms.Form):
     middle_name = forms.CharField(max_length=30, required=False, 
         label="Middle Name/Initial")
     surname = forms.CharField(max_length=30)
-    profession = forms.ChoiceField(widget=forms.Select, choices=PROFESSIONS)
+    profession = forms.ChoiceField(widget=forms.Select, choices=PROFESSIONS,
+        validators=[validate_select])
     
     #TODO: Hide the label and help_text also
     profession_other = forms.CharField(max_length=30, required=False, 

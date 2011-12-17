@@ -102,7 +102,8 @@ def project_add_step4(request):
         #Process, save in session, and redirect to next
         formset = ProjectOrgFormSet(request.POST)
         if formset.is_valid():
-            request.session['org_formset'] = formset
+            org_form_list=[form for form in formset]
+            request.session['org_form_list'] = org_form_list
             return redirect(project_add_step5)
     else:
         formset = ProjectOrgFormSet()
@@ -161,7 +162,8 @@ def project_add_step7(request):
         #Process, save in session, and redirect to next
         formset = ProjectContactFormSet(request.POST)
         if formset.is_valid():
-            request.session['contacts_formset'] = formset
+            contact_form_list=[form for form in formset]
+            request.session['contact_form_list'] = contact_form_list
             return redirect(project_add_step8)
     else:
         formset = ProjectContactFormSet()
@@ -182,7 +184,8 @@ def project_add_step8(request):
         #Process, save in session, and redirect to next
         formset = ProjectHumResFormSet(request.POST)
         if formset.is_valid():
-            request.session['humres_formset'] = formset
+            humres_form_list = [form for form in formset]
+            request.session['humres_form_list'] = humres_form_list
             return redirect(project_add_process_all)
     else:
         formset = ProjectHumResFormSet()
@@ -196,14 +199,16 @@ def project_add_step8(request):
         })
 
 def project_add_process_all(request):
+    #TODO: Should actually save all this stuff in the DB once each form is submitted
+    # but use the Reviewed field to make sure that uncomplete stuff is not used
     general_form = request.session['general_form']
     #location_form = request.session['location_form']
     #climate_form = request.session['climate_form']
     #community_form = request.session['community_form']
-    #org_formset = request.session['org_formset']
+    #org_form_list = request.session['org_form_list']
     #geo_conds_form = request.session['geo_form']
-    #contacts_formset = request.session['contacts_formset']
-    #human_res_formset = request.session['humres_formset']
+    #contact_form_list = request.session['contact_form_list']
+    #humres_form_list = request.session['humres_form_list']
     
     project = bwapp.models.Project()
     project.title = general_form.cleaned_data['title']

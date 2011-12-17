@@ -1,4 +1,5 @@
 *.log
 *.pot
 *.py[co]
+*.pnproj
 local_config.py

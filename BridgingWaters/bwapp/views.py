@@ -1,9 +1,11 @@
 import bwapp.models
-import bwapp.forms as f
+import bwapp.forms
 
 from django.shortcuts import (render, get_object_or_404,
                               get_list_or_404, redirect)
 from django.forms.formsets import formset_factory
+from django.contrib import messages
+
 from random import choice
 
 STEP_COUNT = 8
@@ -43,13 +45,40 @@ def project_add_begin(request):
 def project_add_step1(request):
     if request.method == "POST":
         #Process, save in session, and redirect to next
-        form = f.ProjectGeneralForm(request.POST)
+        form = bwapp.forms.ProjectGeneralForm(request.POST)
         
         if form.is_valid():
-            request.session['general_form'] = form
-            return redirect(project_add_step2)
+            
+            #TODO: Best way to do this?
+            if 'project' in request.session:
+                project = request.session['project']
+            else:
+                project = bwapp.models.Project()
+            
+            project.reviewd = False
+            project.title = form.cleaned_data['title']
+            project.description = form.cleaned_data['description']
+            project.start_date = form.cleaned_data['start_date']
+            project.end_date = form.cleaned_data['end_date']
+            project.goal = form.cleaned_data['goal']
+            project.proj_mgmt = form.cleaned_data['proj_mgmt']
+            
+            project.save() #Need to save before able to save ManyToMany field
+            
+            project.proj_types = form.cleaned_data['proj_type']
+            #TODO: project.keywords
+            project.save()
+    
+            request.session['project'] = project #Save the new project into session
+            
+            if "save_and_cont" in request.POST:
+                return redirect(project_add_step2)
+            else:
+                messages.info(request, 'Project details saved.')
+            #TODO: Reset button
+            
     else:
-        form = f.ProjectGeneralForm()
+        form = bwapp.forms.ProjectGeneralForm()
         
     return render(request, 'forms/project_add_basic.html', {
         'step_title':'Basic Information',
@@ -61,13 +90,44 @@ def project_add_step1(request):
 def project_add_step2(request):
     if request.method == "POST":
         #Process, save in session, and redirect to next
-        form = f.ProjectLocationForm(request.POST)
+        form = bwapp.forms.ProjectLocationForm(request.POST)
         
         if form.is_valid():
-            request.session['location_form'] = form
-            return redirect(project_add_step3)
+            project = request.session['project']
+        
+            try: #TODO: best way to do this?
+                loc = bwapp.models.Location.objects.get(project=project.pk)
+            except: 
+                loc = bwapp.models.Location()
+            
+            loc.project = project
+        
+            loc.country = form.cleaned_data['country']
+            loc.name = form.cleaned_data['name']
+            
+            code_region = bwapp.models.CodeRegion.objects.get(pk=form.cleaned_data['region'])
+            loc.region = code_region
+            
+            loc.latitude = form.cleaned_data['latitude']
+            loc.longitude = form.cleaned_data['longitude']
+            
+            code_elev = bwapp.models.CodeElevation.objects.get(pk=form.cleaned_data['elevation'])
+            loc.elevation = code_elev
+            
+            code_topo = bwapp.models.CodeTopography.objects.get(pk=form.cleaned_data['topography'])
+            loc.topography = code_topo
+            
+            loc.description = form.cleaned_data['description']
+            
+            loc.save()
+            
+            if "save_and_cont" in request.POST:
+                return redirect(project_add_step3)
+            else:
+                messages.info(request, 'Location details saved.')
+            #TODO: Reset button
     else:
-        form = f.ProjectLocationForm()
+        form = bwapp.forms.ProjectLocationForm()
         
     return render(request, 'forms/project_add_basic.html', {
         'step_title':'Project Location',
@@ -79,13 +139,13 @@ def project_add_step2(request):
 def project_add_step3(request):
     if request.method == "POST":
         #Process, save in session, and redirect to next
-        form = f.ProjectClimateForm(request.POST)
+        form = bwapp.forms.ProjectClimateForm(request.POST)
         
         if form.is_valid():
             request.session['climate_form'] = form
             return redirect(project_add_step4)
     else:
-        form = f.ProjectClimateForm()
+        form = bwapp.forms.ProjectClimateForm()
         
     return render(request, 'forms/project_add_basic.html', {
         'step_title':'Climate',
@@ -96,7 +156,7 @@ def project_add_step3(request):
 
 def project_add_step4(request):
     #organizations
-    ProjectOrgFormSet = formset_factory(f.ProjectOrgForm, max_num=5)
+    ProjectOrgFormSet = formset_factory(bwapp.forms.ProjectOrgForm, max_num=5)
     
     if request.method == "POST":
         #Process, save in session, and redirect to next
@@ -120,13 +180,13 @@ def project_add_step5(request):
     #community
     if request.method == "POST":
         #Process, save in session, and redirect to next
-        form = f.ProjectCommunityForm(request.POST)
+        form = bwapp.forms.ProjectCommunityForm(request.POST)
         
         if form.is_valid():
             request.session['community_form'] = form
             return redirect(project_add_step6)
     else:
-        form = f.ProjectCommunityForm()
+        form = bwapp.forms.ProjectCommunityForm()
         
     return render(request, 'forms/project_add_basic.html', {
         'step_title':'Community Information',
@@ -139,13 +199,13 @@ def project_add_step6(request):
     #geological conditions
     if request.method == "POST":
         #Process, save in session, and redirect to next
-        form = f.ProjectGeoCondsForm(request.POST)
+        form = bwapp.forms.ProjectGeoCondsForm(request.POST)
         
         if form.is_valid():
             request.session['geo_form'] = form
             return redirect(project_add_step7)
     else:
-        form = f.ProjectGeoCondsForm()
+        form = bwapp.forms.ProjectGeoCondsForm()
         
     return render(request, 'forms/project_add_basic.html', {
         'step_title':'Geological Conditions',
@@ -156,7 +216,7 @@ def project_add_step6(request):
 
 def project_add_step7(request):
     #contacts
-    ProjectContactFormSet = formset_factory(f.ProjectContactsForm, max_num=5)
+    ProjectContactFormSet = formset_factory(bwapp.forms.ProjectContactsForm, max_num=5)
     
     if request.method == "POST":
         #Process, save in session, and redirect to next
@@ -178,7 +238,7 @@ def project_add_step7(request):
 
 def project_add_step8(request):
     #human resource contacts
-    ProjectHumResFormSet = formset_factory(f.ProjectHumanResForm, max_num=5)
+    ProjectHumResFormSet = formset_factory(bwapp.forms.ProjectHumanResForm, max_num=5)
     
     if request.method == "POST":
         #Process, save in session, and redirect to next

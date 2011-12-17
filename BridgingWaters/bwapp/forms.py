@@ -43,17 +43,27 @@ class ProjectGeneralForm(forms.Form):
     title = forms.CharField(max_length=256, 
         widget=forms.TextInput(attrs={'class':'title'}))
     description = forms.CharField(widget=forms.Textarea)
-    start_date = forms.DateField(widget=SelectDateWidget(years=YEARS))
-    end_date = forms.DateField(widget=SelectDateWidget(years=YEARS))
-    goal = forms.CharField(max_length=768, label='Project Goal')
+    start_date = forms.DateField(widget=SelectDateWidget(years=YEARS),
+        label="Start Date")
+    end_date = forms.DateField(widget=SelectDateWidget(years=YEARS),
+        label="End Date")
+    goal = forms.CharField(max_length=768, label='Project Goal',
+        widget=forms.TextInput(attrs={'size':'70'}))
     proj_mgmt = forms.CharField(widget=forms.Textarea,
                                 label='Project Management Description',
                                 help_text='Describe how your project was managed.')
     proj_type = forms.MultipleChoiceField (
         widget=forms.CheckboxSelectMultiple,
         label='Project Type',
-        help_text='Select all that apply.',
+        help_text='Select all that apply. At least one is required.',
         choices=PROJ_TYPES)
+        
+    def clean_end_date(self):
+        end_date = self.cleaned_data['end_date']
+        start_date = self.cleaned_data['start_date']
+        if end_date < start_date:
+            raise forms.ValidationError("End date must be before start date.")
+        return end_date
     
 class ProjectLocationForm(forms.Form):
     #location

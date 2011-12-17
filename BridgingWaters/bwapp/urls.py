@@ -16,4 +16,6 @@ urlpatterns = patterns('bwapp.views',
     url(r'^projects/add/step/6/$', 'project_add_step6'),
     url(r'^projects/add/step/7/$', 'project_add_step7'),
     url(r'^projects/add/step/8/$', 'project_add_step8'),
+    
+    url(r'^projects/add/process/$', 'project_add_process_all'),
 )

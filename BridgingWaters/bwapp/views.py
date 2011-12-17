@@ -10,6 +10,9 @@ STEP_COUNT = 8
 
 #TODO: If use the save button, save current responses to database, redirect to same form
 #TODO: If use the save and continute, save current responses to database, redirect to next form
+#TODO: Somehow make sure that when a form is accessed, the previous steps have been completed already
+#TODO: Require logon before project adding, tie the entry to user
+#TODO: Make an audit table to track stuff
 
 def index(request):
     latest_news_list = \
@@ -180,7 +183,7 @@ def project_add_step8(request):
         formset = ProjectHumResFormSet(request.POST)
         if formset.is_valid():
             request.session['humres_formset'] = formset
-            return redirect(project_add_step8)
+            return redirect(project_add_process_all)
     else:
         formset = ProjectHumResFormSet()
 
@@ -191,7 +194,33 @@ def project_add_step8(request):
         'formset':formset,
         'legend':"Human Resources Contact Information"
         })
+
+def project_add_process_all(request):
+    general_form = request.session['general_form']
+    #location_form = request.session['location_form']
+    #climate_form = request.session['climate_form']
+    #community_form = request.session['community_form']
+    #org_formset = request.session['org_formset']
+    #geo_conds_form = request.session['geo_form']
+    #contacts_formset = request.session['contacts_formset']
+    #human_res_formset = request.session['humres_formset']
     
+    project = bwapp.models.Project()
+    project.title = general_form.cleaned_data['title']
+    project.description = general_form.cleaned_data['description']
+    project.start_date = general_form.cleaned_data['start_date']
+    project.end_date = general_form.cleaned_data['end_date']
+    project.goal = general_form.cleaned_data['goal']
+    project.proj_mgmt = general_form.cleaned_data['proj_mgmt']
+    #TODO: project.keywords
+    project.reviewed = False
+    
+    project.save()
+    
+    project.proj_types = general_form.cleaned_data['proj_type']
+    project.save()
+    
+    return redirect(index) #TODO: Redirect to some project preview page
     
     
 def project_submitted(request):

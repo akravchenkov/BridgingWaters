@@ -1,5 +1,6 @@
 import bwapp.models
 import bwapp.forms
+import bwapp.helpers
 
 from django.shortcuts import (render, get_object_or_404,
                               get_list_or_404, redirect)
@@ -58,21 +59,10 @@ def project_add_general(request, step):
             else:
                 project = bwapp.models.Project()
             
-            project.reviewed = False
-            project.title = form.cleaned_data['title']
-            project.description = form.cleaned_data['description']
-            project.start_date = form.cleaned_data['start_date']
-            project.end_date = form.cleaned_data['end_date']
-            project.goal = form.cleaned_data['goal']
-            project.proj_mgmt = form.cleaned_data['proj_mgmt']
-            
-            project.save() #Need to save before able to save ManyToMany field
-            
-            project.proj_types = form.cleaned_data['proj_type']
-            #TODO: project.keywords
-            project.save()
+            helpers.process_project_add_general(project, form)
     
-            request.session['project'] = project #Save the new project into session
+            #Save the new project into session
+            request.session['project'] = project 
             
             next_step = int(step)+1
             if "save_and_cont" in request.POST:
@@ -104,26 +94,7 @@ def project_add_location(request,step):
             except: 
                 loc = bwapp.models.Location()
             
-            loc.project = project
-        
-            loc.country = form.cleaned_data['country']
-            loc.name = form.cleaned_data['name']
-            
-            code_region = bwapp.models.CodeRegion.objects.get(pk=form.cleaned_data['region'])
-            loc.region = code_region
-            
-            loc.latitude = form.cleaned_data['latitude']
-            loc.longitude = form.cleaned_data['longitude']
-            
-            code_elev = bwapp.models.CodeElevation.objects.get(pk=form.cleaned_data['elevation'])
-            loc.elevation = code_elev
-            
-            code_topo = bwapp.models.CodeTopography.objects.get(pk=form.cleaned_data['topography'])
-            loc.topography = code_topo
-            
-            loc.description = form.cleaned_data['description']
-            
-            loc.save()
+            helpers.process_project_add_location(project, loc, form)
             
             next_step = int(step)+1
             if "save_and_cont" in request.POST:

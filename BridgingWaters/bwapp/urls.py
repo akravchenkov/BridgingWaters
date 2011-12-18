@@ -3,10 +3,10 @@ from django.conf.urls.defaults import patterns, include, url
 import bwapp.forms as f
 
 urlpatterns = patterns('bwapp.views',
-    url(r'^$', 'index', name='index'),
-    url(r'^projects/(?P<project_id>\d+)/$', 'project_detail'),
+    url(r'^$', 'index', name='bw_index'),
+    url(r'^projects/(?P<project_id>\d+)/$', 'project_detail', name="project_detail"),
     
-    url(r'^projects/add/$', 'project_add_begin'),
+    url(r'^projects/add/$', 'project_add_begin', name="project_add_begin"),
     url(r'^projects/add/step/(?P<step>1)/$', 'project_add_general', name="add_project_1"),
     url(r'^projects/add/step/(?P<step>2)/$', 'project_add_location', name="add_project_2"),
     url(r'^projects/add/step/(?P<step>3)/$', 'project_add_climate', name="add_project_3"),

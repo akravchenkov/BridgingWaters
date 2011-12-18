@@ -37,12 +37,12 @@
     
     <div id="header">
         <div class="span-11">
-            <span class="header-one"><a href="/bw/"><img src="{{STATIC_URL}}images/bw_header_jas.png" alt="BridgingWaters" title="BridgingWaters"/></a></span>
+            <span class="header-one"><a href="{% url bw_index %}"><img src="{{STATIC_URL}}images/bw_header_jas.png" alt="BridgingWaters" title="BridgingWaters"/></a></span>
         </div>
 
         <div class="span-13" id="header-links">
                 <a id="login_link" href="login.html">Log In</a> | <a href="register.html">Sign Up</a><br/>
-                <a id="add_proj_link" href="/bw/projects/add/">
+                <a id="add_proj_link" href="{% url project_add_begin %}">
                     <img src="{{STATIC_URL}}images/add_button_16.png" alt="+"/>Add Your Project!
                 </a>
         </div>
@@ -65,7 +65,7 @@
     <div id="nav" class=""> {# TODO: style the currently selected page #}
         <ul class="tab">
             <li>
-                <a href="/bw/" class="first"><span>Home</span></a>
+                <a href="{% url bw_index %}" class="first"><span>Home</span></a>
             </li>
             
             <li>
@@ -130,7 +130,7 @@
                 <hr />
                 <div id="footer">
                         <p class="small"><a href="contact.html">Contact Us</a></p>
-                        <p class="small">BridgingWaters is a 501(c)(3) nonprofit organization</p>
+                        <p class="small"><a href="{% url bw_index %}">BridgingWaters</a> is a 501(c)(3) nonprofit organization</p>
                         <p class="small"><strong>&copy; 2011 BridgingWaters</strong></p>
                         <a href="index.html"><img src="{{STATIC_URL}}images/vsmall_logo.png" /></a>
                 </div>

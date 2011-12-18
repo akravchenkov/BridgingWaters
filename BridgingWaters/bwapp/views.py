@@ -58,7 +58,7 @@ def project_add_general(request, step):
             else:
                 project = bwapp.models.Project()
             
-            project.reviewd = False
+            project.reviewed = False
             project.title = form.cleaned_data['title']
             project.description = form.cleaned_data['description']
             project.start_date = form.cleaned_data['start_date']

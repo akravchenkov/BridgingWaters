@@ -15,6 +15,9 @@ STEP_COUNT = 8
 #TODO: Somehow make sure that when a form is accessed, the previous steps have been completed already
 #TODO: Require logon before project adding, tie the entry to user
 #TODO: Make an audit table to track stuff
+#TODO: Project_add_files and pictures
+#TODO: Move business logic into helper file or something
+#TODO: Un-hardcore urls in templates. use {% url view_name some_arg1 %}
 
 def index(request):
     latest_news_list = \
@@ -40,9 +43,9 @@ def project_detail(request, project_id):
 
 def project_add_begin(request):
     #TODO: check session, logged in, etc.
-    return redirect(project_add_step1)
+    return redirect(project_add_general, step=1)
     
-def project_add_step1(request):
+def project_add_general(request, step):
     if request.method == "POST":
         #Process, save in session, and redirect to next
         form = bwapp.forms.ProjectGeneralForm(request.POST)
@@ -71,8 +74,9 @@ def project_add_step1(request):
     
             request.session['project'] = project #Save the new project into session
             
+            next_step = int(step)+1
             if "save_and_cont" in request.POST:
-                return redirect(project_add_step2)
+                return redirect("add_project_%s" % (next_step), step=next_step)
             else:
                 messages.info(request, 'Project details saved.')
             #TODO: Reset button
@@ -82,12 +86,12 @@ def project_add_step1(request):
         
     return render(request, 'forms/project_add_basic.html', {
         'step_title':'Basic Information',
-        'step':1,
+        'step':step,
         'step_count':STEP_COUNT,
         'form':form
         })
 
-def project_add_step2(request):
+def project_add_location(request,step):
     if request.method == "POST":
         #Process, save in session, and redirect to next
         form = bwapp.forms.ProjectLocationForm(request.POST)
@@ -121,8 +125,9 @@ def project_add_step2(request):
             
             loc.save()
             
+            next_step = int(step)+1
             if "save_and_cont" in request.POST:
-                return redirect(project_add_step3)
+                return redirect("add_project_%s" % (next_step), step=next_step)
             else:
                 messages.info(request, 'Location details saved.')
             #TODO: Reset button
@@ -131,30 +136,30 @@ def project_add_step2(request):
         
     return render(request, 'forms/project_add_basic.html', {
         'step_title':'Project Location',
-        'step':2,
+        'step':step,
         'step_count':STEP_COUNT,
         'form':form
         })
 
-def project_add_step3(request):
+def project_add_climate(request, step):
     if request.method == "POST":
         #Process, save in session, and redirect to next
         form = bwapp.forms.ProjectClimateForm(request.POST)
         
         if form.is_valid():
             request.session['climate_form'] = form
-            return redirect(project_add_step4)
+            return redirect(project_add_orgs)
     else:
         form = bwapp.forms.ProjectClimateForm()
         
     return render(request, 'forms/project_add_basic.html', {
         'step_title':'Climate',
-        'step':3,
+        'step':step,
         'step_count':STEP_COUNT,
         'form':form
         })
 
-def project_add_step4(request):
+def project_add_orgs(request, step):
     #organizations
     ProjectOrgFormSet = formset_factory(bwapp.forms.ProjectOrgForm, max_num=5)
     
@@ -164,19 +169,19 @@ def project_add_step4(request):
         if formset.is_valid():
             org_form_list=[form for form in formset]
             request.session['org_form_list'] = org_form_list
-            return redirect(project_add_step5)
+            return redirect(project_add_community)
     else:
         formset = ProjectOrgFormSet()
 
     return render(request, 'forms/project_add_formset.html', {
         'step_title':'Involved Organizations',
-        'step':4,
+        'step':step,
         'step_count':STEP_COUNT,
         'formset':formset,
         'legend':"Involved Organization Information"
         })
 
-def project_add_step5(request):
+def project_add_community(request, step):
     #community
     if request.method == "POST":
         #Process, save in session, and redirect to next
@@ -184,18 +189,18 @@ def project_add_step5(request):
         
         if form.is_valid():
             request.session['community_form'] = form
-            return redirect(project_add_step6)
+            return redirect(project_add_geoconds)
     else:
         form = bwapp.forms.ProjectCommunityForm()
         
     return render(request, 'forms/project_add_basic.html', {
         'step_title':'Community Information',
-        'step':5,
+        'step':step,
         'step_count':STEP_COUNT,
         'form':form
         })
     
-def project_add_step6(request):
+def project_add_geoconds(request, step):
     #geological conditions
     if request.method == "POST":
         #Process, save in session, and redirect to next
@@ -203,40 +208,18 @@ def project_add_step6(request):
         
         if form.is_valid():
             request.session['geo_form'] = form
-            return redirect(project_add_step7)
+            return redirect(project_add_contacts)
     else:
         form = bwapp.forms.ProjectGeoCondsForm()
         
     return render(request, 'forms/project_add_basic.html', {
         'step_title':'Geological Conditions',
-        'step':6,
+        'step':step,
         'step_count':STEP_COUNT,
         'form':form
         })
-
-def project_add_step7(request):
-    #contacts
-    ProjectContactFormSet = formset_factory(bwapp.forms.ProjectContactsForm, max_num=5)
     
-    if request.method == "POST":
-        #Process, save in session, and redirect to next
-        formset = ProjectContactFormSet(request.POST)
-        if formset.is_valid():
-            contact_form_list=[form for form in formset]
-            request.session['contact_form_list'] = contact_form_list
-            return redirect(project_add_step8)
-    else:
-        formset = ProjectContactFormSet()
-
-    return render(request, 'forms/project_add_formset.html', {
-        'step_title':'Project Contacts',
-        'step':7,
-        'step_count':STEP_COUNT,
-        'formset':formset,
-        'legend':"Contact Information"
-        })
-
-def project_add_step8(request):
+def project_add_humres(request, step):
     #human resource contacts
     ProjectHumResFormSet = formset_factory(bwapp.forms.ProjectHumanResForm, max_num=5)
     
@@ -246,48 +229,41 @@ def project_add_step8(request):
         if formset.is_valid():
             humres_form_list = [form for form in formset]
             request.session['humres_form_list'] = humres_form_list
-            return redirect(project_add_process_all)
+            return redirect(project_add_contacts)
     else:
         formset = ProjectHumResFormSet()
 
     return render(request, 'forms/project_add_formset.html', {
         'step_title':'Human Resources',
-        'step':8,
+        'step':step,
         'step_count':STEP_COUNT,
         'formset':formset,
         'legend':"Human Resources Contact Information"
         })
+    
+def project_add_contacts(request, step):
+    #contacts
+    ProjectContactFormSet = formset_factory(bwapp.forms.ProjectContactsForm, max_num=5)
+    
+    if request.method == "POST":
+        #Process, save in session, and redirect to next
+        formset = ProjectContactFormSet(request.POST)
+        if formset.is_valid():
+            contact_form_list=[form for form in formset]
+            request.session['contact_form_list'] = contact_form_list
+            return redirect(project_add_process_all)
+    else:
+        formset = ProjectContactFormSet()
 
-def project_add_process_all(request):
-    #TODO: Should actually save all this stuff in the DB once each form is submitted
-    # but use the Reviewed field to make sure that uncomplete stuff is not used
-    general_form = request.session['general_form']
-    #location_form = request.session['location_form']
-    #climate_form = request.session['climate_form']
-    #community_form = request.session['community_form']
-    #org_form_list = request.session['org_form_list']
-    #geo_conds_form = request.session['geo_form']
-    #contact_form_list = request.session['contact_form_list']
-    #humres_form_list = request.session['humres_form_list']
-    
-    project = bwapp.models.Project()
-    project.title = general_form.cleaned_data['title']
-    project.description = general_form.cleaned_data['description']
-    project.start_date = general_form.cleaned_data['start_date']
-    project.end_date = general_form.cleaned_data['end_date']
-    project.goal = general_form.cleaned_data['goal']
-    project.proj_mgmt = general_form.cleaned_data['proj_mgmt']
-    #TODO: project.keywords
-    project.reviewed = False
-    
-    project.save()
-    
-    project.proj_types = general_form.cleaned_data['proj_type']
-    project.save()
-    
-    return redirect(index) #TODO: Redirect to some project preview page
-    
-    
-def project_submitted(request):
-    #TODO: get recently submitted project information to display on the page
-    return render(request, 'bwapp/project_submitted.html')
+    return render(request, 'forms/project_add_formset.html', {
+        'step_title':'Project Contacts',
+        'step':step,
+        'step_count':STEP_COUNT,
+        'formset':formset,
+        'legend':"Contact Information"
+        })
+
+def project_add_end(request):
+    #TODO: Redirect to some project preview page and flash a message
+    #return render(request, 'bwapp/project_submitted.html')
+    return redirect(index) 

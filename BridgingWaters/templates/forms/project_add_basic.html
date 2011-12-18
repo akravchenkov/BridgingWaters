@@ -22,7 +22,11 @@
 <form action="/bw/projects/add/step/{{step}}/" method="post">
     {% csrf_token %}
     
-    {% for field in form %}
+    {% for hidden in form.hidden_fields %}
+        {{ hidden }}
+    {% endfor %}
+    
+    {% for field in form.visible_fields %}
         {% include "forms/form_field_snippet.html" %}
     {% endfor %}
 

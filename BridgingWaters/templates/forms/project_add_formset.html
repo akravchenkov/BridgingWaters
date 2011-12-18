@@ -30,14 +30,21 @@
     {% for form in formset.forms %}
         <fieldset class="form-container">
             <legend>{{legend}}</legend>
-            {% for field in form %}
+            
+            {% for hidden in form.hidden_fields %}
+                {{ hidden }}
+            {% endfor %}
+            
+            {% for field in form.visible_fields %}
             
                 {% include "forms/form_field_snippet.html" %}
                 
             {% endfor %}
         </fieldset><br/>
     {% endfor %}
+    
     {{ formset.management_form }}
+    
     <button type="reset">Reset</button> <button type="submit">Save</button> <button type="submit">Save and Continue</button>
 </form>
 {% endblock %}

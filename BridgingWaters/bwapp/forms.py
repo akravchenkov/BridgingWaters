@@ -119,11 +119,14 @@ class ProjectCommunityForm(forms.Form):
     urban_rural = forms.ChoiceField(widget=forms.Select, choices=URB_RURAL,
         label="Urban/Rural",
         validators=[validate_select])
-    description = forms.CharField(widget=forms.Textarea)
+    description = forms.CharField(widget=forms.Textarea,
+        help_text="TODO: Describe the community.")
     num_ppl_served = forms.ChoiceField(widget=forms.Select, choices=PPL_SERVED,
         label="Number of People Served",
+        help_text="Number of people directly served by the project.",
         validators=[validate_select])
-    community_size = forms.IntegerField(label="Community Size")
+    community_size = forms.IntegerField(label="Community Size",
+        help_text="Total population of community.")
     water_mgmt_level = forms.ChoiceField(widget=forms.Select, choices=WATER_MGMT_LEVELS,
         label="Water Management Level",
         help_text="Level of government at which water is managed.",

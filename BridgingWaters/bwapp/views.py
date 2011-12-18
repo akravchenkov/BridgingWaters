@@ -1,6 +1,6 @@
 import bwapp.models
 import bwapp.forms
-import bwapp.helpers
+import bwapp.helpers as helpers
 
 from django.shortcuts import (render, get_object_or_404,
                               get_list_or_404, redirect)
@@ -17,8 +17,7 @@ STEP_COUNT = 8
 #TODO: Require logon before project adding, tie the entry to user
 #TODO: Make an audit table to track stuff
 #TODO: Project_add_files and pictures
-#TODO: Move business logic into helper file or something
-#TODO: Un-hardcore urls in templates. use {% url view_name some_arg1 %}
+#TODO: Way to go back to previous form steps and pull correct data from db
 
 def index(request):
     latest_news_list = \
@@ -81,7 +80,7 @@ def project_add_general(request, step):
         'form':form
         })
 
-def project_add_location(request,step):
+def project_add_location(request, step):
     if request.method == "POST":
         #Process, save in session, and redirect to next
         form = bwapp.forms.ProjectLocationForm(request.POST)
@@ -118,13 +117,26 @@ def project_add_climate(request, step):
         form = bwapp.forms.ProjectClimateForm(request.POST)
         
         if form.is_valid():
-            request.session['climate_form'] = form
-            return redirect(project_add_orgs)
+            project = request.session['project']
+            
+            try:
+                climate = bwapp.models.Climate.objects.get(project=project.pk)
+            except:
+                climate = bwapp.models.Climate()
+            
+            helpers.process_project_add_climate(project, climate, form)
+            
+            next_step = int(step)+1
+            if "save_and_cont" in request.POST:
+                return redirect("add_project_%s" % (next_step), step=next_step)
+            else:
+                messages.info(request, 'Location details saved.')
+            #TODO: Reset button
     else:
         form = bwapp.forms.ProjectClimateForm()
         
     return render(request, 'forms/project_add_basic.html', {
-        'step_title':'Climate',
+        'step_title':'Climate Details',
         'step':step,
         'step_count':STEP_COUNT,
         'form':form
@@ -132,15 +144,47 @@ def project_add_climate(request, step):
 
 def project_add_orgs(request, step):
     #organizations
-    ProjectOrgFormSet = formset_factory(bwapp.forms.ProjectOrgForm, max_num=5)
+    ProjectOrgFormSet = formset_factory(bwapp.forms.ProjectOrgForm, max_num=5,
+                                        can_delete=False)
     
     if request.method == "POST":
         #Process, save in session, and redirect to next
         formset = ProjectOrgFormSet(request.POST)
         if formset.is_valid():
-            org_form_list=[form for form in formset]
-            request.session['org_form_list'] = org_form_list
-            return redirect(project_add_community)
+           
+            
+            
+            #Need to go through each form in the formset
+            # get the list of orgs associated with the project
+            # try to find the current org in the list of orgs
+            # if it is not there, add it
+            # if there is one there that has been removed, remove it.
+            
+            project = request.session['project']
+            
+            org_list = bwapp.models.Organization.objects.filter(
+                project__pk=project.pk)
+            
+            for form in formset:
+                #try:
+                #    org_list 
+                #except:
+                #    org = bwapp.models.Organization()
+                
+                
+                
+                helpers.process_project_add_organization(project, org, form)
+                
+            #for form in formset.deleted_forms:
+                #TODO: if an org was removed, then remove it from db
+            #    pass
+            
+            next_step = int(step)+1
+            if "save_and_cont" in request.POST:
+                return redirect("add_project_%s" % (next_step), step=next_step)
+            else:
+                messages.info(request, 'Location details saved.')
+            #TODO: Reset button
     else:
         formset = ProjectOrgFormSet()
 
@@ -159,8 +203,21 @@ def project_add_community(request, step):
         form = bwapp.forms.ProjectCommunityForm(request.POST)
         
         if form.is_valid():
-            request.session['community_form'] = form
-            return redirect(project_add_geoconds)
+            project = request.session['project']
+            
+            try:
+                comm = bwapp.models.CommunityInfo.objects.get(project=project.pk)
+            except:
+                comm = bwapp.models.CommunityInfo()
+            
+            helpers.process_project_add_community(project, comm, form)
+            
+            next_step = int(step)+1
+            if "save_and_cont" in request.POST:
+                return redirect("add_project_%s" % (next_step), step=next_step)
+            else:
+                messages.info(request, 'Location details saved.')
+            #TODO: Reset button
     else:
         form = bwapp.forms.ProjectCommunityForm()
         
@@ -192,7 +249,8 @@ def project_add_geoconds(request, step):
     
 def project_add_humres(request, step):
     #human resource contacts
-    ProjectHumResFormSet = formset_factory(bwapp.forms.ProjectHumanResForm, max_num=5)
+    ProjectHumResFormSet = formset_factory(bwapp.forms.ProjectHumanResForm,
+                                           max_num=5, can_delete=False)
     
     if request.method == "POST":
         #Process, save in session, and redirect to next
@@ -214,7 +272,8 @@ def project_add_humres(request, step):
     
 def project_add_contacts(request, step):
     #contacts
-    ProjectContactFormSet = formset_factory(bwapp.forms.ProjectContactsForm, max_num=5)
+    ProjectContactFormSet = formset_factory(bwapp.forms.ProjectContactsForm,
+                                            max_num=5, can_delete=False)
     
     if request.method == "POST":
         #Process, save in session, and redirect to next

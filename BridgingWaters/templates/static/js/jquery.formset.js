@@ -85,6 +85,15 @@
                 // Django adds a checkbox to each form in the formset.
                 // Replace the default checkbox with a hidden field:
                 del.before('<input type="hidden" name="' + del.attr('name') +'" id="' + del.attr('id') +'" />');
+                
+                //Also remove its label if it exists
+                //del_label = row.find('label[for $= "-DELETE"]');
+                //if (del_label.length) {
+                //    del_label.remove();
+                //}
+                
+                //del.parent().hide();
+                
                 del.remove();
             }
             if (hasChildElements(row)) {

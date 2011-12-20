@@ -134,7 +134,7 @@ class ContactInfo(models.Model):
                                 null=True, blank=True)
     add_country = CountryField(verbose_name="Country",
                                null=True, blank=True)
-    website = models.CharField(max_length=256, null=True, blank=True)
+    website = models.URLField(null=True, blank=True)
     
     class Meta:
         abstract = True

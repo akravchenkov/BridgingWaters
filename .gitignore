@@ -2,4 +2,7 @@
 *.pot
 *.py[co]
 *.pnproj
+*.pnps
+*.pnproj
+*.ppg
 local_config.py

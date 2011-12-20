@@ -103,8 +103,9 @@ class ProjectOrgForm(forms.Form):
     #organizations
     name = forms.CharField(max_length=40, label='Organization Name', 
         widget=forms.TextInput(attrs={'class':'title'}))
-    phone = forms.CharField(max_length=20)
-    email = forms.EmailField()
+    phone = forms.CharField(max_length=20, required=False)
+    email = forms.EmailField(required=False)
+    website = forms.URLField(required=False)
     add_street1 = forms.CharField(max_length=80, label="Street Address")
     add_street2 = forms.CharField(max_length=80, label="Street Address 2",
                                   required=False)
@@ -112,9 +113,12 @@ class ProjectOrgForm(forms.Form):
     add_state_prov = forms.CharField(max_length=30, label="State/Province")
     add_code = forms.CharField(max_length=20, label="Postal Code")
     add_country = forms.ChoiceField(widget=forms.Select, label="Country",
-                                    choices=countries.COUNTRIES)
+                                    choices=countries.COUNTRIES,
+                                    initial="US")
     notes = forms.CharField(widget=forms.Textarea, required=False)
-
+    
+    #TODO: Validation that at least one contact method is required.
+    
 class ProjectCommunityForm(forms.Form):
     urban_rural = forms.ChoiceField(widget=forms.Select, choices=URB_RURAL,
         label="Urban/Rural",

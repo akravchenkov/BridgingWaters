@@ -152,8 +152,6 @@ def project_add_orgs(request, step):
         formset = ProjectOrgFormSet(request.POST)
         if formset.is_valid():
            
-            
-            
             #Need to go through each form in the formset
             # get the list of orgs associated with the project
             # try to find the current org in the list of orgs
@@ -169,7 +167,7 @@ def project_add_orgs(request, step):
                 #try:
                 #    org_list 
                 #except:
-                #    org = bwapp.models.Organization()
+                org = bwapp.models.Organization()
                 
                 
                 

@@ -47,18 +47,14 @@ def project_add_begin(request):
     
 def project_add_general(request, step):
     if request.method == "POST":
-        #Process, save in session, and redirect to next
-        form = bwapp.forms.ProjectGeneralForm(request.POST)
+
+        if 'project' in request.session:
+            project = request.session['project']
+        
+        form = bwapp.forms.ProjectForm(request.POST, instance=project)
         
         if form.is_valid():
-            
-            #TODO: Best way to do this?
-            if 'project' in request.session:
-                project = request.session['project']
-            else:
-                project = bwapp.models.Project()
-            
-            helpers.process_project_add_general(project, form)
+            project = form.save()
     
             #Save the new project into session
             request.session['project'] = project 
@@ -71,7 +67,7 @@ def project_add_general(request, step):
             #TODO: Reset button
             
     else:
-        form = bwapp.forms.ProjectGeneralForm()
+        form = bwapp.forms.ProjectForm()
         
     return render(request, 'forms/project_add_basic.html', {
         'step_title':'Basic Information',
@@ -82,18 +78,17 @@ def project_add_general(request, step):
 
 def project_add_location(request, step):
     if request.method == "POST":
-        #Process, save in session, and redirect to next
-        form = bwapp.forms.ProjectLocationForm(request.POST)
+        project = request.session['project']
+        
+        try: #TODO: best way to do this?
+            loc = bwapp.models.Location.objects.get(project=project.pk)
+        except: 
+            loc = bwapp.models.Location(project=project) #need to instantiate the new location with the project
+        
+        form = bwapp.forms.LocationForm(request.POST, instance=loc)
         
         if form.is_valid():
-            project = request.session['project']
-        
-            try: #TODO: best way to do this?
-                loc = bwapp.models.Location.objects.get(project=project.pk)
-            except: 
-                loc = bwapp.models.Location()
-            
-            helpers.process_project_add_location(project, loc, form)
+            form.save()
             
             next_step = int(step)+1
             if "save_and_cont" in request.POST:
@@ -102,7 +97,7 @@ def project_add_location(request, step):
                 messages.info(request, 'Location details saved.')
             #TODO: Reset button
     else:
-        form = bwapp.forms.ProjectLocationForm()
+        form = bwapp.forms.LocationForm()
         
     return render(request, 'forms/project_add_basic.html', {
         'step_title':'Project Location',

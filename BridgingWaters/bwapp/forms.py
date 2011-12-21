@@ -9,92 +9,85 @@ from django.contrib.formtools.wizard import FormWizard
 from django_countries import countries
 from django.core.exceptions import ValidationError
 
-import bwapp.models as m
+import bwapp.models as models
 
 now = datetime.datetime.now()
 YEARS = [str(i) for i in range(1980,now.year+1)]
+YEARS.reverse()
 
-EMPTY_CHOICE = (None,'- - - -')
+EMPTY_CHOICE = (None,'- - - -') #REMOVE
+EMPTY_LABEL = "- - - -"
 
-PROJ_TYPES = [(obj.code, obj.value) for obj in m.CodeProjType.objects.all()]
-
-ELEVATIONS = [EMPTY_CHOICE] + [(obj.code, obj.value) for obj in m.CodeElevation.objects.all()]
-REGIONS = [EMPTY_CHOICE] + [(obj.code, obj.value) for obj in m.CodeRegion.objects.all()]
-TOPOGRAPHIES = [EMPTY_CHOICE] + [(obj.code, obj.value) for obj in m.CodeTopography.objects.all()]
-CLIM_ZONES = [EMPTY_CHOICE] + [(obj.code, obj.value) for obj in m.CodeClimateZone.objects.all()]
-PRECIP_LEVELS = [EMPTY_CHOICE] + [(obj.code, obj.value) for obj in m.CodePrecipLevel.objects.all()]
-RESOURCES = [EMPTY_CHOICE] + [(obj.code, obj.value) for obj in m.CodeResource.objects.all()]
-PROFESSIONS = [EMPTY_CHOICE] + [(obj.code, obj.value) for obj in m.CodeProjType.objects.all()] + [(99,'Other')]
-URB_RURAL = [EMPTY_CHOICE] + [(obj.code, obj.value) for obj in m.CodeUrbanRural.objects.all()]
-PPL_SERVED = [EMPTY_CHOICE] + [(obj.code, obj.value) for obj in m.CodePplServed.objects.all()]
-WATER_MGMT_LEVELS = [EMPTY_CHOICE] + [(obj.code, obj.value) for obj in
-    m.CodeWaterMgmtLevel.objects.all()]
-SOIL_TYPES = [EMPTY_CHOICE] + [(obj.code, obj.value) for obj in m.CodeSoilType.objects.all()]
+PROJ_TYPES = [(obj.code, obj.value) for obj in models.CodeProjType.objects.all()]
 
 YES_NO = [('False','No'),('True','Yes')]
 
-EXISTING_KEYWORDS = [(obj.id, obj.value) for obj in m.Keywords.objects.all()]
+EXISTING_KEYWORDS = [(obj.id, obj.value) for obj in models.Keywords.objects.all()]
 
 MONTHS = ((1,'January'),(2,'February'),(3,'March'),(4,'April'),(5,'May'),
     (6,'June'),(7,'July'),(8,'August'),(9,'September'),(10,'October'),
     (11,'November'),(12,'December'),)
-
-def validate_select(value): #TODO: Is this the best way to do selects with a blank default option?
-    if value=="None":
-        raise ValidationError(u'An option must be selected.')
     
-class ProjectGeneralForm(forms.Form):
-    #general
-    title = forms.CharField(max_length=256, 
-        widget=forms.TextInput(attrs={'class':'title'}))
-    description = forms.CharField(widget=forms.Textarea)
+class ProjectForm(forms.ModelForm):
+
     start_date = forms.DateField(widget=SelectDateWidget(years=YEARS),
         label="Start Date")
     end_date = forms.DateField(widget=SelectDateWidget(years=YEARS),
         label="End Date")
-    goal = forms.CharField(max_length=768, label='Project Goal',
+    goal = forms.CharField(max_length=768, label='Project Goal', 
         widget=forms.TextInput(attrs={'size':'70'}))
     proj_mgmt = forms.CharField(widget=forms.Textarea,
                                 label='Project Management Description',
                                 help_text='Describe how your project was managed.')
-    proj_type = forms.MultipleChoiceField (
+    proj_types = forms.MultipleChoiceField (
         widget=forms.CheckboxSelectMultiple,
         label='Project Type',
         help_text='Select all that apply. At least one is required.',
         choices=PROJ_TYPES)
-        
+    
     def clean_end_date(self):
         end_date = self.cleaned_data['end_date']
         start_date = self.cleaned_data['start_date']
         if end_date < start_date:
-            raise forms.ValidationError(u"End date must be before start date.")
+            raise forms.ValidationError(u"End date must be after start date.")
         return end_date
     
-class ProjectLocationForm(forms.Form):
-    #location
+    class Meta:
+        model = models.Project
+        exclude = ('reviewed', 'keywords',) #TODO: Add keywords
+        widgets = {
+            'title' : forms.TextInput(attrs={'class':'title'}),
+            'goal' : forms.TextInput(attrs={'size':'70'}),
+        }
+    
+class LocationForm(forms.ModelForm):
+    
+    name = forms.CharField(max_length=60, label='Location Name', 
+        widget=forms.TextInput(attrs={'class':'title'}))
     country = forms.ChoiceField(widget=forms.Select,
-        choices=countries.COUNTRIES)
-    name = forms.CharField(max_length=60, label='Location Name')
-    region = forms.ChoiceField(widget=forms.Select, choices=REGIONS, 
-        validators=[validate_select])
+        choices=countries.COUNTRIES) #TODO: Maybe restrict to countries in the selected region
+    region = forms.ModelChoiceField(queryset=models.CodeRegion.objects.all(), 
+        empty_label=EMPTY_LABEL)
     latitude = forms.FloatField() #TODO: Some kind of google map interface to find location?
     longitude = forms.FloatField()
     #TODO: have region automatically populate in the db, based on country?
-    elevation = forms.ChoiceField(widget=forms.Select, choices=ELEVATIONS,
-        validators=[validate_select])
-    topography = forms.ChoiceField(widget=forms.Select, choices=TOPOGRAPHIES,
-        validators=[validate_select])
+    elevation = forms.ModelChoiceField(queryset=models.CodeElevation.objects.all(), 
+        empty_label=EMPTY_LABEL)
+    topography = forms.ModelChoiceField(queryset=models.CodeTopography.objects.all(), 
+        empty_label=EMPTY_LABEL)
     description = forms.CharField(widget=forms.Textarea, required=False,
                                   help_text='Describe the location.')
     
+    class Meta:
+        model = models.Location
+        exclude = ('project',) 
 
 class ProjectClimateForm(forms.Form):
     #climate
-    climate_zone = forms.ChoiceField(widget=forms.Select, choices=CLIM_ZONES,
-                                     validators=[validate_select])
-    precipitation = forms.ChoiceField(widget=forms.Select,
-                                      choices=PRECIP_LEVELS,
-                                      validators=[validate_select])
+    climate_zone = forms.ModelChoiceField(queryset=models.CodeClimateZone.objects.all(), 
+        empty_label=EMPTY_LABEL)
+    precipitation = forms.ModelChoiceField(queryset=models.CodePrecipLevel.objects.all(), 
+        empty_label=EMPTY_LABEL)
     has_rainy_season = forms.ChoiceField(widget=forms.Select, choices=YES_NO)
     rainy_months = forms.MultipleChoiceField(
         widget=forms.CheckboxSelectMultiple, choices=MONTHS, required=False)
@@ -120,21 +113,24 @@ class ProjectOrgForm(forms.Form):
     #TODO: Validation that at least one contact method is required.
     
 class ProjectCommunityForm(forms.Form):
-    urban_rural = forms.ChoiceField(widget=forms.Select, choices=URB_RURAL,
-        label="Urban/Rural",
-        validators=[validate_select])
+    urban_rural = forms.ModelChoiceField(
+        queryset=models.CodeUrbanRural.objects.all(), 
+        empty_label=EMPTY_LABEL,
+        label="Urban/Rural")
     description = forms.CharField(widget=forms.Textarea,
         help_text="TODO: Describe the community.")
-    num_ppl_served = forms.ChoiceField(widget=forms.Select, choices=PPL_SERVED,
+    num_ppl_served = forms.ModelChoiceField(
+        queryset=models.CodePplServed.objects.all(), 
+        empty_label=EMPTY_LABEL,
         label="Number of People Served",
-        help_text="Number of people directly served by the project.",
-        validators=[validate_select])
+        help_text="Number of people directly served by the project.")
     community_size = forms.IntegerField(label="Community Size",
         help_text="Total population of community.")
-    water_mgmt_level = forms.ChoiceField(widget=forms.Select, choices=WATER_MGMT_LEVELS,
+    water_mgmt_level = forms.ModelChoiceField(
+        queryset=models.CodeWaterMgmtLevel.objects.all(), 
+        empty_label=EMPTY_LABEL,
         label="Water Management Level",
-        help_text="Level of government at which water is managed.",
-        validators=[validate_select])
+        help_text="Level of government at which water is managed.")
 
 class ProjectContactsForm(forms.Form):
     given_name = forms.CharField(max_length=30, label="Given Name")
@@ -153,10 +149,11 @@ class ProjectContactsForm(forms.Form):
                                     choices=countries.COUNTRIES)
     
 class ProjectGeoCondsForm(forms.Form):
-    soil_type = forms.ChoiceField(widget=forms.Select, choices=SOIL_TYPES,
+    soil_type = forms.ModelChoiceField(
+        queryset=models.CodeSoilType.objects.all(), 
+        empty_label=EMPTY_LABEL,
         label="Primary Soil Type",
-        help_text="Select the soil type most prevalent in your project area.",
-        validators=[validate_select])
+        help_text="Select the soil type most prevalent in your project area.")
     description = forms.CharField(widget=forms.Textarea, required=False,
         help_text="Describe the geological and soil conditions of your project area.")
     hit_bedrock = forms.ChoiceField(widget=forms.Select, choices=YES_NO,
@@ -174,8 +171,9 @@ class ProjectHumanResForm(forms.Form):
     middle_name = forms.CharField(max_length=30, required=False, 
         label="Middle Name/Initial")
     surname = forms.CharField(max_length=30)
-    profession = forms.ChoiceField(widget=forms.Select, choices=PROFESSIONS,
-        validators=[validate_select])
+    profession = forms.ModelChoiceField(
+        queryset=models.CodeProfession.objects.all(), 
+        empty_label=EMPTY_LABEL)
     
     #TODO: Hide the label and help_text also
     profession_other = forms.CharField(max_length=30, required=False, 

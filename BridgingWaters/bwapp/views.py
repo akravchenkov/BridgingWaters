@@ -4,7 +4,7 @@ import bwapp.helpers as helpers
 
 from django.shortcuts import (render, get_object_or_404,
                               get_list_or_404, redirect)
-from django.forms.formsets import formset_factory
+from django.forms.models import modelformset_factory
 from django.contrib import messages
 
 from random import choice
@@ -79,7 +79,10 @@ def project_add_general(request, step):
 
 def project_add_location(request, step):
     project = request.session['project'] #TODO: redirect to beginning of add process, display error message
-    loc, created = bwapp.models.Location.objects.get_or_create(project=project.pk)
+    try:
+        loc = bwapp.models.Location.objects.get(project=project)
+    except:
+        loc = bwapp.models.Location(project=project)
     
     if request.method == "POST":
         form = bwapp.forms.LocationForm(request.POST, instance=loc)
@@ -105,7 +108,10 @@ def project_add_location(request, step):
 
 def project_add_climate(request, step):
     project = request.session['project'] #TODO: redirect to beginning of add process, display error message
-    climate, created = bwapp.models.Climate.objects.get_or_create(project=project.pk)
+    try:
+        climate = bwapp.models.Climate.objects.get(project=project)
+    except:
+        climate = bwapp.models.Climate(project=project)
     
     if request.method == "POST": 
         form = bwapp.forms.ClimateForm(request.POST, instance=climate)
@@ -131,7 +137,10 @@ def project_add_climate(request, step):
 
 def project_add_community(request, step):
     project = request.session['project'] #TODO: redirect to beginning of add process, display error message
-    comm, created = bwapp.models.CommunityInfo.objects.get_or_create(project=project.pk)
+    try:
+        comm = bwapp.models.CommunityInfo.objects.get(project=project)
+    except:
+        comm = bwapp.models.CommunityInfo(project=project)
     
     if request.method == "POST": 
         form = bwapp.forms.CommunityInfoForm(request.POST, instance=comm)
@@ -157,7 +166,11 @@ def project_add_community(request, step):
     
 def project_add_geoconds(request, step):
     project = request.session['project'] #TODO: redirect to beginning of add process, display error message
-    geoconds, created = bwapp.models.GeoConditions.objects.get_or_create(project=project.pk)
+    
+    try:
+        geoconds = bwapp.models.GeoConditions.objects.get(project=project)
+    except:
+        geoconds = bwapp.models.GeoConditions(project=project)
     
     if request.method == "POST": 
         form = bwapp.forms.GeoConditionsForm(request.POST, instance=geoconds)
@@ -182,36 +195,21 @@ def project_add_geoconds(request, step):
         })
         
 def project_add_orgs(request, step):
-    #organizations
-    ProjectOrgFormSet = formset_factory(bwapp.forms.ProjectOrgForm, max_num=5,
-                                        can_delete=False)
+    OrganizationFormSet = modelformset_factory(
+        bwapp.models.Organization,
+        form=bwapp.forms.OrganizationForm, 
+        max_num=5,
+        can_delete=False)
+    
+    project = request.session['project'] #TODO: redirect to beginning of add process, display error message
     
     if request.method == "POST":
-        #Process, save in session, and redirect to next
-        formset = ProjectOrgFormSet(request.POST)
+        formset = OrganizationFormSet(request.POST, 
+            queryset=bwapp.models.Organization.objects.filter(project__pk=project.pk))
+        
         if formset.is_valid():
-           
-            #Need to go through each form in the formset
-            # get the list of orgs associated with the project
-            # try to find the current org in the list of orgs
-            # if it is not there, add it
-            # if there is one there that has been removed, remove it.
-            
-            project = request.session['project']
-            
-            org_list = bwapp.models.Organization.objects.filter(
-                project__pk=project.pk)
-            
-            for form in formset:
-                #try:
-                #    org_list 
-                #except:
-                org = bwapp.models.Organization()
-                
-                
-                
-                helpers.process_project_add_organization(project, org, form)
-                
+            organizations = formset.save()
+
             #for form in formset.deleted_forms:
                 #TODO: if an org was removed, then remove it from db
             #    pass
@@ -223,7 +221,8 @@ def project_add_orgs(request, step):
                 messages.info(request, 'Organization details saved.')
             #TODO: Reset button
     else:
-        formset = ProjectOrgFormSet()
+        formset = OrganizationFormSet(
+            queryset=bwapp.models.Organization.objects.filter(project__pk=project.pk))
 
     return render(request, 'forms/project_add_formset.html', {
         'step_title':'Involved Organizations',

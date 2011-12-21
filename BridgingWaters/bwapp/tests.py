@@ -4,7 +4,9 @@ when you run "manage.py test".
 
 Replace this with more appropriate tests for your application.
 """
+import bwapp.models
 
+from django.utils import unittest
 from django.test import TestCase
 
 

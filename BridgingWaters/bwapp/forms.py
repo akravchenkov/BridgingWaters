@@ -145,7 +145,7 @@ class GeoConditionsForm(forms.ModelForm):
     hit_water_table = forms.ChoiceField(widget=forms.Select, choices=YES_NO,
         label="Hit Water Table?",
         help_text="Did you encounter the water table while implementing your project?")
-    impact = forms.CharField(widget=forms.Textarea, required=False,
+    geo_impact = forms.CharField(widget=forms.Textarea, required=False,
         label="Impact of Geological Conditions",
         help_text="Describe how the geological and soil conditions impacted your project.")
     
@@ -153,8 +153,7 @@ class GeoConditionsForm(forms.ModelForm):
         model = models.GeoConditions
         exclude = ('project',)
         
-class ProjectOrgForm(forms.Form):
-    #organizations
+class OrganizationForm(forms.ModelForm):
     name = forms.CharField(max_length=40, label='Organization Name', 
         widget=forms.TextInput(attrs={'class':'title'}))
     phone = forms.CharField(max_length=20, required=False)
@@ -172,6 +171,13 @@ class ProjectOrgForm(forms.Form):
     notes = forms.CharField(widget=forms.Textarea, required=False)
     
     #TODO: Validation that at least one contact method is required.
+    
+    class Meta:
+        model = models.Organization
+        fields = ('name', 'phone', 'email', 'website', 'add_street1',
+                    'add_street2', 'add_city', 'add_state_prov', 'add_code',
+                    'add_country', 'notes')
+        exclude = ('project',)
 
 class ProjectContactsForm(forms.Form):
     given_name = forms.CharField(max_length=30, label="Given Name")

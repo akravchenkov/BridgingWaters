@@ -82,8 +82,7 @@ class LocationForm(forms.ModelForm):
         model = models.Location
         exclude = ('project',) 
 
-class ProjectClimateForm(forms.Form):
-    #climate
+class ClimateForm(forms.ModelForm):
     climate_zone = forms.ModelChoiceField(queryset=models.CodeClimateZone.objects.all(), 
         empty_label=EMPTY_LABEL)
     precipitation = forms.ModelChoiceField(queryset=models.CodePrecipLevel.objects.all(), 
@@ -91,7 +90,69 @@ class ProjectClimateForm(forms.Form):
     has_rainy_season = forms.ChoiceField(widget=forms.Select, choices=YES_NO)
     rainy_months = forms.MultipleChoiceField(
         widget=forms.CheckboxSelectMultiple, choices=MONTHS, required=False)
+        
+    def clean_rainy_months(self):
+        if not self.cleaned_data['has_rainy_months']:
+            return [] #return empty list if No was selected 
+        
+        rm = set(self.cleaned_data['rainy_months']) #convert to set to remove duplicates
+        rm = list(rm) #back to list
+        for val in rm:
+            if val<1 or val>12:
+                raise forms.ValidationError(u"Invalid month input.")
+        return rm
+        
+    class Meta:
+        model = models.Climate
+        exclude = ('project',)
+
+class CommunityInfoForm(forms.ModelForm):
+    num_ppl_served = forms.ModelChoiceField(
+        queryset=models.CodePplServed.objects.all(), 
+        empty_label=EMPTY_LABEL,
+        label="Number of People Served",
+        help_text="Number of people directly served by the project.")
+    community_size = forms.IntegerField(label="Community Size",
+        help_text="Total population of community.")
+    urban_rural = forms.ModelChoiceField(
+        queryset=models.CodeUrbanRural.objects.all(), 
+        empty_label=EMPTY_LABEL,
+        label="Urban/Rural")
+    water_mgmt_level = forms.ModelChoiceField(
+        queryset=models.CodeWaterMgmtLevel.objects.all(), 
+        empty_label=EMPTY_LABEL,
+        label="Water Management Level",
+        help_text="Level of government at which water is managed.")
+    description = forms.CharField(widget=forms.Textarea,
+        help_text="TODO: Describe the community.")
     
+    class Meta:
+        fields = ('num_ppl_served','community_size','urban_rural','water_mgmt_level','description')
+        model = models.CommunityInfo
+        exclude = ('project',)
+        
+class GeoConditionsForm(forms.ModelForm):
+    soil_type = forms.ModelChoiceField(
+        queryset=models.CodeSoilType.objects.all(), 
+        empty_label=EMPTY_LABEL,
+        label="Primary Soil Type",
+        help_text="Select the soil type most prevalent in your project area.")
+    description = forms.CharField(widget=forms.Textarea, required=False,
+        help_text="Describe the geological and soil conditions of your project area.")
+    hit_bedrock = forms.ChoiceField(widget=forms.Select, choices=YES_NO,
+        label="Hit Bedrock?",
+        help_text="Did you encounter bedrock while implementing your project?")
+    hit_water_table = forms.ChoiceField(widget=forms.Select, choices=YES_NO,
+        label="Hit Water Table?",
+        help_text="Did you encounter the water table while implementing your project?")
+    impact = forms.CharField(widget=forms.Textarea, required=False,
+        label="Impact of Geological Conditions",
+        help_text="Describe how the geological and soil conditions impacted your project.")
+    
+    class Meta:
+        model = models.GeoConditions
+        exclude = ('project',)
+        
 class ProjectOrgForm(forms.Form):
     #organizations
     name = forms.CharField(max_length=40, label='Organization Name', 
@@ -111,26 +172,6 @@ class ProjectOrgForm(forms.Form):
     notes = forms.CharField(widget=forms.Textarea, required=False)
     
     #TODO: Validation that at least one contact method is required.
-    
-class ProjectCommunityForm(forms.Form):
-    urban_rural = forms.ModelChoiceField(
-        queryset=models.CodeUrbanRural.objects.all(), 
-        empty_label=EMPTY_LABEL,
-        label="Urban/Rural")
-    description = forms.CharField(widget=forms.Textarea,
-        help_text="TODO: Describe the community.")
-    num_ppl_served = forms.ModelChoiceField(
-        queryset=models.CodePplServed.objects.all(), 
-        empty_label=EMPTY_LABEL,
-        label="Number of People Served",
-        help_text="Number of people directly served by the project.")
-    community_size = forms.IntegerField(label="Community Size",
-        help_text="Total population of community.")
-    water_mgmt_level = forms.ModelChoiceField(
-        queryset=models.CodeWaterMgmtLevel.objects.all(), 
-        empty_label=EMPTY_LABEL,
-        label="Water Management Level",
-        help_text="Level of government at which water is managed.")
 
 class ProjectContactsForm(forms.Form):
     given_name = forms.CharField(max_length=30, label="Given Name")
@@ -147,25 +188,7 @@ class ProjectContactsForm(forms.Form):
     add_code = forms.CharField(max_length=20, label="Postal Code")
     add_country = forms.ChoiceField(widget=forms.Select, label="Country",
                                     choices=countries.COUNTRIES)
-    
-class ProjectGeoCondsForm(forms.Form):
-    soil_type = forms.ModelChoiceField(
-        queryset=models.CodeSoilType.objects.all(), 
-        empty_label=EMPTY_LABEL,
-        label="Primary Soil Type",
-        help_text="Select the soil type most prevalent in your project area.")
-    description = forms.CharField(widget=forms.Textarea, required=False,
-        help_text="Describe the geological and soil conditions of your project area.")
-    hit_bedrock = forms.ChoiceField(widget=forms.Select, choices=YES_NO,
-        label="Hit Bedrock?",
-        help_text="Did you encounter bedrock while implementing your project?")
-    hit_water_table = forms.ChoiceField(widget=forms.Select, choices=YES_NO,
-        label="Hit Water Table?",
-        help_text="Did you encounter the water table while implementing your project?")
-    impact = forms.CharField(widget=forms.Textarea, required=False,
-        label="Impact of Geological Conditions",
-        help_text="Describe how the geological and soil conditions impacted your project.")
-        
+
 class ProjectHumanResForm(forms.Form):
     given_name = forms.CharField(max_length=30, label="Given Name")
     middle_name = forms.CharField(max_length=30, required=False, 
@@ -179,7 +202,7 @@ class ProjectHumanResForm(forms.Form):
     profession_other = forms.CharField(max_length=30, required=False, 
         label="Profession (other)",
         help_text="Please input a profession if you selected 'Other'",
-        widget=forms.TextInput(attrs={'class':''})) #TODO: class hide
+        widget=forms.TextInput(attrs={'class':''})) #TODO: class jsHide
     
     phone = forms.CharField(max_length=20, required=False)
     email = forms.EmailField(required=False)

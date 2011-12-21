@@ -108,27 +108,26 @@ def project_add_location(request, step):
 
 def project_add_climate(request, step):
     if request.method == "POST":
-        #Process, save in session, and redirect to next
-        form = bwapp.forms.ProjectClimateForm(request.POST)
+        project = request.session['project']
+        
+        try: #TODO: best way to do this?
+            climate = bwapp.models.Climate.objects.get(project=project.pk)
+        except: 
+            climate = bwapp.models.Climate(project=project) #need to instantiate the new location with the project
+        
+        form = bwapp.forms.ClimateForm(request.POST, instance=climate)
         
         if form.is_valid():
-            project = request.session['project']
-            
-            try:
-                climate = bwapp.models.Climate.objects.get(project=project.pk)
-            except:
-                climate = bwapp.models.Climate()
-            
-            helpers.process_project_add_climate(project, climate, form)
+            form.save()
             
             next_step = int(step)+1
             if "save_and_cont" in request.POST:
                 return redirect("add_project_%s" % (next_step), step=next_step)
             else:
-                messages.info(request, 'Location details saved.')
+                messages.info(request, 'Climate details saved.')
             #TODO: Reset button
     else:
-        form = bwapp.forms.ProjectClimateForm()
+        form = bwapp.forms.ClimateForm()
         
     return render(request, 'forms/project_add_basic.html', {
         'step_title':'Climate Details',
@@ -176,7 +175,7 @@ def project_add_orgs(request, step):
             if "save_and_cont" in request.POST:
                 return redirect("add_project_%s" % (next_step), step=next_step)
             else:
-                messages.info(request, 'Location details saved.')
+                messages.info(request, 'Organization details saved.')
             #TODO: Reset button
     else:
         formset = ProjectOrgFormSet()
@@ -190,29 +189,27 @@ def project_add_orgs(request, step):
         })
 
 def project_add_community(request, step):
-    #community
     if request.method == "POST":
-        #Process, save in session, and redirect to next
-        form = bwapp.forms.ProjectCommunityForm(request.POST)
+        project = request.session['project']
+        
+        try: #TODO: best way to do this?
+            comm = bwapp.models.CommunityInfo.objects.get(project=project.pk)
+        except: 
+            comm = bwapp.models.CommunityInfo(project=project) #need to instantiate the new location with the project
+        
+        form = bwapp.forms.CommunityInfoForm(request.POST, instance=comm)
         
         if form.is_valid():
-            project = request.session['project']
-            
-            try:
-                comm = bwapp.models.CommunityInfo.objects.get(project=project.pk)
-            except:
-                comm = bwapp.models.CommunityInfo()
-            
-            helpers.process_project_add_community(project, comm, form)
+            form.save()
             
             next_step = int(step)+1
             if "save_and_cont" in request.POST:
                 return redirect("add_project_%s" % (next_step), step=next_step)
             else:
-                messages.info(request, 'Location details saved.')
+                messages.info(request, 'Community details saved.')
             #TODO: Reset button
     else:
-        form = bwapp.forms.ProjectCommunityForm()
+        form = bwapp.forms.CommunityInfoForm()
         
     return render(request, 'forms/project_add_basic.html', {
         'step_title':'Community Information',
@@ -222,16 +219,27 @@ def project_add_community(request, step):
         })
     
 def project_add_geoconds(request, step):
-    #geological conditions
     if request.method == "POST":
-        #Process, save in session, and redirect to next
-        form = bwapp.forms.ProjectGeoCondsForm(request.POST)
+        project = request.session['project']
+        
+        try: #TODO: best way to do this?
+            geoconds = bwapp.models.GeoConditions.objects.get(project=project.pk)
+        except: 
+            geoconds = bwapp.models.GeoConditions(project=project) #need to instantiate the new location with the project
+        
+        form = bwapp.forms.GeoConditionsForm(request.POST, instance=geoconds)
         
         if form.is_valid():
-            request.session['geo_form'] = form
-            return redirect(project_add_contacts)
+            form.save()
+            
+            next_step = int(step)+1
+            if "save_and_cont" in request.POST:
+                return redirect("add_project_%s" % (next_step), step=next_step)
+            else:
+                messages.info(request, 'Geological conditions details saved.')
+            #TODO: Reset button
     else:
-        form = bwapp.forms.ProjectGeoCondsForm()
+        form = bwapp.forms.GeoConditionsForm()
         
     return render(request, 'forms/project_add_basic.html', {
         'step_title':'Geological Conditions',

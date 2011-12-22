@@ -208,7 +208,9 @@ def project_add_orgs(request, step):
             queryset=bwapp.models.Organization.objects.filter(project__pk=project.pk))
         
         if formset.is_valid():
-            organizations = formset.save()
+            organizations = formset.save() #TODO: Need to set the project into each organization
+            # or the save will fail (same for other formsets).
+            # maybe custom instantiation method or something?
 
             #for form in formset.deleted_forms:
                 #TODO: if an org was removed, then remove it from db
@@ -233,19 +235,35 @@ def project_add_orgs(request, step):
         })
     
 def project_add_humres(request, step):
-    #human resource contacts
-    ProjectHumResFormSet = formset_factory(bwapp.forms.ProjectHumanResForm,
-                                           max_num=5, can_delete=False)
+    HumanResFormSet = modelformset_factory(
+        bwapp.models.HumanResContact,
+        form=bwapp.forms.HumanResourceContactForm, 
+        max_num=5,
+        can_delete=False)
+    
+    project = request.session['project'] #TODO: redirect to beginning of add process, display error message
     
     if request.method == "POST":
-        #Process, save in session, and redirect to next
-        formset = ProjectHumResFormSet(request.POST)
+        formset = HumanResFormSet(request.POST, 
+            queryset=bwapp.models.HumanResContact.objects.filter(project__pk=project.pk))
+        
         if formset.is_valid():
-            humres_form_list = [form for form in formset]
-            request.session['humres_form_list'] = humres_form_list
-            return redirect(project_add_contacts)
+            human_res_contacts = formset.save()
+
+            #for form in formset.deleted_forms:
+                #TODO: if an org was removed, then remove it from db
+            #    pass
+            
+            next_step = int(step)+1
+            if "save_and_cont" in request.POST:
+                return redirect("add_project_%s" % (next_step), step=next_step)
+            else:
+                messages.info(request, 'Human resource details saved.')
+            #TODO: Reset button
     else:
-        formset = ProjectHumResFormSet()
+        formset = HumanResFormSet(
+            queryset=bwapp.models.HumanResContact.objects.filter(project__pk=project.pk))
+
 
     return render(request, 'forms/project_add_formset.html', {
         'step_title':'Human Resources',
@@ -256,19 +274,36 @@ def project_add_humres(request, step):
         })
     
 def project_add_contacts(request, step):
-    #contacts
-    ProjectContactFormSet = formset_factory(bwapp.forms.ProjectContactsForm,
-                                            max_num=5, can_delete=False)
+    ProjectContactFormSet = modelformset_factory(
+        bwapp.models.ProjectContact,
+        form=bwapp.forms.ProjectContactForm,
+        max_num=5, 
+        can_delete=False)
+    
+    project = request.session['project'] #TODO: redirect to beginning of add process, display error message
     
     if request.method == "POST":
-        #Process, save in session, and redirect to next
-        formset = ProjectContactFormSet(request.POST)
+        formset = ProjectContactFormSet(request.POST, 
+            queryset=bwapp.models.ProjectContact.objects.filter(
+                project__pk=project.pk))
+        
         if formset.is_valid():
-            contact_form_list=[form for form in formset]
-            request.session['contact_form_list'] = contact_form_list
-            return redirect(project_add_process_all)
+            contacts = formset.save()
+
+            #for form in formset.deleted_forms:
+                #TODO: if an org was removed, then remove it from db
+            #    pass
+             
+            next_step = int(step)+1
+            if "save_and_cont" in request.POST:
+                return redirect("add_project_%s" % (next_step), step=next_step)
+            else:
+                messages.info(request, 'Contact details saved.')
+            #TODO: Reset button
     else:
-        formset = ProjectContactFormSet()
+        formset = ProjectContactFormSet(
+            queryset=bwapp.models.ProjectContact.objects.filter(
+                project__pk=project.pk))
 
     return render(request, 'forms/project_add_formset.html', {
         'step_title':'Project Contacts',

@@ -64,7 +64,7 @@
     climate_zone: 2
     precipitation: 5
     has_rainy_season: True
-    rainy_months: 5,6,7,8,9,10
+    rainy_months: [5,6,7,8,9,10]
     project: 1
 
 - model: bwapp.Climate
@@ -73,7 +73,7 @@
     climate_zone: 2
     precipitation: 4
     has_rainy_season: True
-    rainy_months: 10,11,12,1,2,3,4
+    rainy_months: [10,11,12,1,2,3,4]
     project: 2
 
 #----------------------------------------
@@ -538,6 +538,55 @@
     value: Bedrock
     
 #------------------------------------------
+# CodeMonth
+- model: bwapp.CodeMonth
+  pk: 1
+  fields:
+    value: January
+- model: bwapp.CodeMonth
+  pk: 2
+  fields:
+    value: February
+- model: bwapp.CodeMonth
+  pk: 3
+  fields:
+    value: March
+- model: bwapp.CodeMonth
+  pk: 4
+  fields:
+    value: April
+- model: bwapp.CodeMonth
+  pk: 5
+  fields:
+    value: May
+- model: bwapp.CodeMonth
+  pk: 6
+  fields:
+    value: June
+- model: bwapp.CodeMonth
+  pk: 7
+  fields:
+    value: July
+- model: bwapp.CodeMonth
+  pk: 8
+  fields:
+    value: August
+- model: bwapp.CodeMonth
+  pk: 9
+  fields:
+    value: September
+- model: bwapp.CodeMonth
+  pk: 10
+  fields:
+    value: October
+- model: bwapp.CodeMonth
+  pk: 11
+  fields:
+    value: November
+- model: bwapp.CodeMonth
+  pk: 12
+  fields:
+    value: December
 
 
 #------------------------------------------

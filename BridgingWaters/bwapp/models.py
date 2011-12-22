@@ -30,6 +30,13 @@ class Resource(models.Model):
 
 #--------------------------------------
 
+class CodeMonth(models.Model):
+    code = models.IntegerField(primary_key=True)
+    value = models.CharField(max_length=16)
+    
+    def __unicode__(self):
+        return self.value
+
 class CodeRegion(models.Model):
     code = models.IntegerField(primary_key=True)
     value = models.CharField(max_length=20)
@@ -226,8 +233,7 @@ class Climate(models.Model):
     climate_zone = models.ForeignKey(CodeClimateZone)
     precipitation = models.ForeignKey(CodePrecipLevel)
     has_rainy_season = models.BooleanField()
-    rainy_months = models.CommaSeparatedIntegerField(max_length=12,
-                                                     null=True, blank=True)
+    rainy_months = models.ManyToManyField(CodeMonth, null=True, blank=True)
     project = models.ForeignKey(Project, unique=True)
     
     def __unicode__(self):

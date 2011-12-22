@@ -29,7 +29,6 @@ MONTHS = ((1,'January'),(2,'February'),(3,'March'),(4,'April'),(5,'May'),
     (11,'November'),(12,'December'),)
     
 class ProjectForm(forms.ModelForm):
-
     start_date = forms.DateField(widget=SelectDateWidget(years=YEARS),
         label="Start Date")
     end_date = forms.DateField(widget=SelectDateWidget(years=YEARS),
@@ -62,7 +61,8 @@ class ProjectForm(forms.ModelForm):
     
 class LocationForm(forms.ModelForm):
     
-    name = forms.CharField(max_length=60, label='Location Name', 
+    name = forms.CharField(max_length=60, label='Location Name',
+        help_text="Name of community/village/area/etc.",
         widget=forms.TextInput(attrs={'class':'title'}))
     country = forms.ChoiceField(widget=forms.Select,
         choices=countries.COUNTRIES) #TODO: Maybe restrict to countries in the selected region
@@ -84,23 +84,23 @@ class LocationForm(forms.ModelForm):
 
 class ClimateForm(forms.ModelForm):
     climate_zone = forms.ModelChoiceField(queryset=models.CodeClimateZone.objects.all(), 
-        empty_label=EMPTY_LABEL)
+        empty_label=EMPTY_LABEL,
+        label="Climate Zone")
     precipitation = forms.ModelChoiceField(queryset=models.CodePrecipLevel.objects.all(), 
         empty_label=EMPTY_LABEL)
-    has_rainy_season = forms.ChoiceField(widget=forms.Select, choices=YES_NO)
-    rainy_months = forms.MultipleChoiceField(
-        widget=forms.CheckboxSelectMultiple, choices=MONTHS, required=False)
+    has_rainy_season = forms.ChoiceField(widget=forms.Select, choices=YES_NO,
+        label="Has Rainy Season?",
+        help_text="Is there a wet season in your project location?")
+    rainy_months = forms.ModelMultipleChoiceField(
+        queryset=models.CodeMonth.objects.all().order_by('code'),
+        widget=forms.CheckboxSelectMultiple,
+        required=False,
+        label="Rainy Months",
+        help_text="Select the months during which the wet season occurs.")
         
-    def clean_rainy_months(self):
-        if not self.cleaned_data['has_rainy_months']:
-            return [] #return empty list if No was selected 
-        
-        rm = set(self.cleaned_data['rainy_months']) #convert to set to remove duplicates
-        rm = list(rm) #back to list
-        for val in rm:
-            if val<1 or val>12:
-                raise forms.ValidationError(u"Invalid month input.")
-        return rm
+    #def clean_rainy_months(self):
+    #    if not self.cleaned_data['has_rainy_season']:
+    #        return None #return empty list if No was selected 
         
     class Meta:
         model = models.Climate
@@ -124,7 +124,7 @@ class CommunityInfoForm(forms.ModelForm):
         label="Water Management Level",
         help_text="Level of government at which water is managed.")
     description = forms.CharField(widget=forms.Textarea,
-        help_text="TODO: Describe the community.")
+        help_text="Describe the community.") #TODO: Add more direction for what is wanted here
     
     class Meta:
         fields = ('num_ppl_served','community_size','urban_rural','water_mgmt_level','description')
@@ -156,9 +156,6 @@ class GeoConditionsForm(forms.ModelForm):
 class OrganizationForm(forms.ModelForm):
     name = forms.CharField(max_length=40, label='Organization Name', 
         widget=forms.TextInput(attrs={'class':'title'}))
-    phone = forms.CharField(max_length=20, required=False)
-    email = forms.EmailField(required=False)
-    website = forms.URLField(required=False)
     add_street1 = forms.CharField(max_length=80, label="Street Address")
     add_street2 = forms.CharField(max_length=80, label="Street Address 2",
                                   required=False)
@@ -179,13 +176,10 @@ class OrganizationForm(forms.ModelForm):
                     'add_country', 'notes')
         exclude = ('project',)
 
-class ProjectContactsForm(forms.Form):
+class ProjectContactForm(forms.ModelForm):
     given_name = forms.CharField(max_length=30, label="Given Name")
     middle_name = forms.CharField(max_length=30, required=False, 
         label="Middle Name/Initial")
-    surname = forms.CharField(max_length=30)
-    phone = forms.CharField(max_length=20)
-    email = forms.EmailField()
     add_street1 = forms.CharField(max_length=80, label="Street Address")
     add_street2 = forms.CharField(max_length=80, label="Street Address 2",
                                   required=False)
@@ -194,24 +188,29 @@ class ProjectContactsForm(forms.Form):
     add_code = forms.CharField(max_length=20, label="Postal Code")
     add_country = forms.ChoiceField(widget=forms.Select, label="Country",
                                     choices=countries.COUNTRIES)
+    
+    class Meta:
+        model = models.ProjectContact
+        fields = ('given_name', 'middle_name', 'surname', 'phone', 'email', 
+                    'add_street1', 'add_street2', 'add_city', 'add_state_prov', 
+                    'add_code','add_country')
+        exclude = ('project', 'website')
 
-class ProjectHumanResForm(forms.Form):
+class HumanResourceContactForm(forms.ModelForm):
     given_name = forms.CharField(max_length=30, label="Given Name")
     middle_name = forms.CharField(max_length=30, required=False, 
         label="Middle Name/Initial")
-    surname = forms.CharField(max_length=30)
-    profession = forms.ModelChoiceField(
+    
+    type = forms.ModelChoiceField(
         queryset=models.CodeProfession.objects.all(), 
         empty_label=EMPTY_LABEL)
     
     #TODO: Hide the label and help_text also
-    profession_other = forms.CharField(max_length=30, required=False, 
+    other_type = forms.CharField(max_length=30, required=False, 
         label="Profession (other)",
         help_text="Please input a profession if you selected 'Other'",
         widget=forms.TextInput(attrs={'class':''})) #TODO: class jsHide
     
-    phone = forms.CharField(max_length=20, required=False)
-    email = forms.EmailField(required=False)
     add_street1 = forms.CharField(max_length=80, label="Street Address",
                                    required=False)
     add_street2 = forms.CharField(max_length=80, label="Street Address 2",
@@ -225,3 +224,16 @@ class ProjectHumanResForm(forms.Form):
                                     required=False)
     notes = forms.CharField(widget=forms.Textarea, required=False)
     
+    def clean_other_type(self):
+        if self.cleaned_data['type'] == 10: #Code for other
+            if self.cleaned_data['other_type'].length == 0:
+                raise forms.ValidationError(u"If 'other' is selected, a profession must be entered.")
+        return self.cleaned_data['other_type']
+    
+    class Meta:
+        model = models.ProjectContact
+        fields = ('given_name', 'middle_name', 'surname', 'phone', 'email',
+                    'type', 'other_type', 'add_street1', 'add_street2', 
+                    'add_city', 'add_state_prov', 'add_code','add_country',
+                    'notes')
+        exclude = ('project', 'website',)

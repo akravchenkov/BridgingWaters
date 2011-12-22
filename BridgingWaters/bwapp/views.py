@@ -208,10 +208,12 @@ def project_add_orgs(request, step):
             queryset=bwapp.models.Organization.objects.filter(project__pk=project.pk))
         
         if formset.is_valid():
-            organizations = formset.save() #TODO: Need to set the project into each organization
+            organizations = formset.save(commit=False) #TODO: Need to set the project into each organization
             # or the save will fail (same for other formsets).
             # maybe custom instantiation method or something?
-
+            for org in organizations:
+                org.project = project
+                org.save()
             #for form in formset.deleted_forms:
                 #TODO: if an org was removed, then remove it from db
             #    pass

@@ -15,13 +15,13 @@ class NewsUpdate(models.Model):
 
 class CodeResource(models.Model):
     code = models.IntegerField(primary_key=True)
-    value = models.CharField(max_length=20)
+    value = models.CharField(max_length=40)
     
     def __unicode__(self):
         return self.value
     
 class Resource(models.Model):
-    name = models.CharField(max_length=30)
+    name = models.CharField(max_length=40)
     website = models.URLField()
     type = models.ForeignKey(CodeResource)
     
@@ -39,21 +39,21 @@ class CodeMonth(models.Model):
 
 class CodeRegion(models.Model):
     code = models.IntegerField(primary_key=True)
-    value = models.CharField(max_length=20)
+    value = models.CharField(max_length=40)
     
     def __unicode__(self):
         return self.value
 
 class CodeElevation(models.Model):
     code = models.IntegerField(primary_key=True)
-    value = models.CharField(max_length=20)
+    value = models.CharField(max_length=30)
     
     def __unicode__(self):
         return self.value
 
 class CodeTopography(models.Model):
     code = models.IntegerField(primary_key=True)
-    value = models.CharField(max_length=20)
+    value = models.CharField(max_length=30)
     
     def __unicode__(self):
         return self.value

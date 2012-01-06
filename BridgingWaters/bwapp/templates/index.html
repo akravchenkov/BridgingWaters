@@ -17,7 +17,7 @@
         </div>
         <div class="quicklook">
             <h3>Featured Project - <a href="/bw/projects/{{feat_proj.project.id}}">{{feat_proj.project.title}}</a></h3>
-            <strong>Location:</strong> {{loc.name}}, {{loc.country}}<br/>
+            <strong>Location:</strong> {{loc.name}}, {{loc.country.name}}<br/>
             <strong>Goal:</strong> {{feat_proj.project.goal}}<br/>
             <strong>Type of Project:</strong> {{feat_proj.project.proj_types.all|join:", "}}<br/>
             <strong>Project Duration:</strong> {{feat_proj.project.start_date}} - {{feat_proj.project.end_date}}<br/>

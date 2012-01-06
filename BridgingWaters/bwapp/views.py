@@ -25,7 +25,7 @@ def index(request):
     featured_proj_list = bwapp.models.FeaturedProject.objects.all()
     feat_proj = choice(featured_proj_list)
     loc = feat_proj.project.location_set.all()[0]
-    return render(request, 'bwapp/index.html', {
+    return render(request, 'index.html', {
         'latest_news_list':latest_news_list,
         'feat_proj':feat_proj,
         'loc':loc
@@ -35,7 +35,7 @@ def project_detail(request, project_id):
     p = get_object_or_404(bwapp.models.Project, pk=project_id)
     comm_info = p.communityinfo_set.all()[0]
     loc = p.location_set.all()[0]
-    return render(request, 'bwapp/project_detail.html',{
+    return render(request, 'project_detail.html',{
         'p': p,
         'comm_info': comm_info,
         'loc': loc
@@ -317,5 +317,5 @@ def project_add_contacts(request, step):
 
 def project_add_end(request):
     #TODO: Redirect to some project preview page and flash a message
-    #return render(request, 'bwapp/project_submitted.html')
+    #return render(request, 'project_submitted.html')
     return redirect(index) 

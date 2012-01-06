@@ -1,6 +1,6 @@
 # Django settings for BridgingWaters project.
 
-import local_config
+import local_config #TODO: need to wrap in some kind of if so this is not used on EP.IO
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -12,9 +12,9 @@ ADMINS = (
 MANAGERS = ADMINS
 
 DATABASES = {
-    'default': {
+    'default': { #TODO: need to wrap in some kind of if so this is not used on EP.IO
         'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': local_config.db_path,                      # Or path to database file if using sqlite3.
+        'NAME': local_config.db_path,    # Or path to database file if using sqlite3.
         'USER': '',                      # Not used with sqlite3.
         'PASSWORD': '',                  # Not used with sqlite3.
         'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
@@ -85,7 +85,7 @@ STATICFILES_FINDERS = (
 )
 
 # Make this unique, and don't share it with anybody.
-SECRET_KEY = 'fwqc3k6cs0y@j17pny0k6p#dd(*m3pbc(7@9rgg@3yr#cx!sj9'
+SECRET_KEY = 'JAS3k60y@j1sojsd*dfn(%PQOSsk*m3pbc(7@9rgg@3yr#cx!sj9'
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (

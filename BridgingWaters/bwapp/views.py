@@ -18,6 +18,7 @@ STEP_COUNT = 8
 #TODO: Make an audit table to track stuff
 #TODO: Project_add_files and pictures
 #TODO: Way to go back to previous form steps and pull correct data from db
+#TODO: How to make refresh on an Add page not re-add item to the database.
 
 def index(request):
     latest_news_list = \

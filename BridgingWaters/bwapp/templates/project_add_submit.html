@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block page_title %}
+Project #{{p.id}} - {{p.title}}
+{% endblock %}
+
+{% block content %}
+<div class="column span-9">
+    <h2 class="alt">Project #{{p.id}} - {{p.title}}</h2>
+    <p>
+        Thanks for submitting.
+    </p>
+</div>
+{% endblock %}

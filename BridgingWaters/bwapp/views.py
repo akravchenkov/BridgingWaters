@@ -24,7 +24,7 @@ def index(request):
         bwapp.models.NewsUpdate.objects.all().order_by('-created')[:5]
     featured_proj_list = bwapp.models.FeaturedProject.objects.all()
     feat_proj = choice(featured_proj_list)
-    loc = feat_proj.project.location_set.all()[0]
+    loc = feat_proj.project.location_set.all()[0] #TODO: Better way to get loc? like p.loc? or do all related objects have to be obtained like this?
     return render(request, 'index.html', {
         'latest_news_list':latest_news_list,
         'feat_proj':feat_proj,
@@ -229,7 +229,7 @@ def project_add_orgs(request, step):
             queryset=bwapp.models.Organization.objects.filter(project__pk=project.pk))
 
     return render(request, 'forms/project_add_formset.html', {
-        'step_title':'Involved Organizations',
+        'step_title':"Involved Organizations",
         'step':step,
         'step_count':STEP_COUNT,
         'formset':formset,
@@ -250,10 +250,14 @@ def project_add_humres(request, step):
             queryset=bwapp.models.HumanResContact.objects.filter(project__pk=project.pk))
         
         if formset.is_valid():
-            human_res_contacts = formset.save()
-
+            human_res_contacts = formset.save(commit=False) #TODO: Need to set the project into each organization
+            # or the save will fail (same for other formsets).
+            # maybe custom instantiation method or something?
+            for contact in human_res_contacts:
+                contact.project = project
+                contact.save()
             #for form in formset.deleted_forms:
-                #TODO: if an org was removed, then remove it from db
+                #TODO: if a contact was removed, then remove it from db
             #    pass
             
             next_step = int(step)+1
@@ -290,12 +294,16 @@ def project_add_contacts(request, step):
                 project__pk=project.pk))
         
         if formset.is_valid():
-            contacts = formset.save()
-
+            contacts = formset.save(commit=False) #TODO: Need to set the project into each organization
+            # or the save will fail (same for other formsets).
+            # maybe custom instantiation method or something?
+            for contact in contacts:
+                contact.project = project
+                contact.save()
             #for form in formset.deleted_forms:
-                #TODO: if an org was removed, then remove it from db
+                #TODO: if a contact was removed, then remove it from db
             #    pass
-             
+
             next_step = int(step)+1
             if "save_and_cont" in request.POST:
                 return redirect("add_project_%s" % (next_step), step=next_step)
@@ -315,7 +323,10 @@ def project_add_contacts(request, step):
         'legend':"Contact Information"
         })
 
-def project_add_end(request):
+def project_add_end(request, step):
     #TODO: Redirect to some project preview page and flash a message
-    #return render(request, 'project_submitted.html')
-    return redirect(index) 
+    project = request.session['project']
+    p = get_object_or_404(bwapp.models.Project, pk=project.id)
+    return render(request, 'project_add_submit.html', {
+        'p':p
+        }) 

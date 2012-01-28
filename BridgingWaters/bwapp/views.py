@@ -42,6 +42,10 @@ def project_detail(request, project_id):
         'loc': loc
         })
 
+def browse_projects(request):
+    
+    return render(request, 'browse_projects.html')
+
 def project_add_begin(request):
     #TODO: check session, logged in, etc.
     return redirect(project_add_general, step=1)

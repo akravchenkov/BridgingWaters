@@ -4,6 +4,8 @@ import bwapp.forms as f
 
 urlpatterns = patterns('bwapp.views',
     url(r'^$', 'index', name='bw_index'),
+    
+    url(r'^projects/$', 'browse_projects', name="browse_projects"),
     url(r'^projects/(?P<project_id>\d+)/$', 'project_detail', name="project_detail"),
     
     url(r'^projects/add/$', 'project_add_begin', name="project_add_begin"),

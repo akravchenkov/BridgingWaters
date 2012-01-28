@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+
+{% block page_title %}
+Browse and Search Projects
+{% endblock %}
+	
+{% block content %}
+<div class="column span-19">
+	<h2>Browse and Search Projects</h2>
+
+
+	<form id="searchForm" method="post" action="">
+		<div id="generalSearchDiv" class="column span-18">
+			<div class="span-8">
+				<input type="text" value="SEARCH PROJECTS" id="mainSearchText" name="mainSearchText" class="title">
+				<p><a href="#" id="showHideAdvanced" class="small">Show Advanced Options</a></p>
+			</div>
+			<div class="span-3 last">
+				<div id="search1" class="btn_submitSearch btn"><a href="#">Search</a><span></span></div>
+			</div>
+		</div>
+		<div id="advancedSearchDiv" class="column span-18 hide">
+			<h3>Advanced Search Options</h3>
+			<div class="column span-4">
+				<p>
+					<label>Community Size</label><br>
+					<input type="radio" name="example"> <50<br>
+					<input type="radio" name="example"> 50-200<br>
+					<input type="radio" name="example"> 200+<br>
+				</p>
+			</div>
+			<div class="span-4">
+				<label for="dummy4">Location</label>
+				<select name="dummy4" id="dummy4">
+					<optgroup label="Central America">
+						<option>Panama</option>
+						<option>Costa Rica</option>
+						<option>Honduras</option>
+						<option>Nicaragua</option>
+					</optgroup>
+						<optgroup label="South America">
+						<option>Argentina</option>
+						<option>Brazil</option>
+						<option>Chila</option>
+						<option>Ecuador</option>
+					</optgroup>
+				</select>
+				<label for="dummy3">Organization</label>
+				<select name="dummy3" id="dummy3">
+					<option value="2">Peace Corps</option>
+					<option value="1">EWB</option>
+					<option value="3">Other</option>
+				</select>
+			</div>
+			<div class="span-4">
+				<p>
+					<label>Project Type</label><br>
+					<input type="checkbox"> Spring box<br>
+					<input type="checkbox"> Tank<br>
+					<input type="checkbox"> Sanitation<br>
+					<input type="checkbox"> Aqueduct<br>
+					<input type="checkbox"> Education<br>
+				</p>
+			</div>
+			<div class="span-4 last">
+				<label for="dummy5">Climate</label>
+				<select name="dummy5" id="dummy5">
+					<option>Temperate</option>
+					<option>Rainforest</option>
+					<option>Tundra</option>
+					<option>Desert</option>
+				</select>
+				
+				<br/>
+				<br/>
+				<br/>
+				<div id="search2" class="btn_submitSearch btn"><a href="#">Search</a><span></span></div>
+			</div>
+			
+		</div>
+	</form>
+</div>
+
+<p><a href="#" id="showHideMap" class="small">Hide Map</a></p>
+<div id="mapDiv" class="column span-18">
+	<iframe width="710" height="350" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="http://maps.google.com/maps/ms?ie=UTF8&amp;hl=en&amp;msa=0&amp;msid=106017831671706514457.000497635fe7764e7207c&amp;ll=38.272689,-20.390625&amp;spn=146.435395,139.21875&amp;z=1&amp;output=embed"></iframe>
+</div>
+
+
+
+<div id="categoriesDiv" class="column span-18">
+	<h3>Categories</h3>
+	<div class="span-4">
+		abc
+	</div>
+	<div class="span-4">
+		def
+	</div>
+	<div class="span-4">
+		hij
+	</div>
+	<div class="span-4 last">
+		klm
+	</div>
+</div>
+	
+{% endblock %}

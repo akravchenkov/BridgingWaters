@@ -35,11 +35,8 @@ def index(request):
 def project_detail(request, project_id):
     p = get_object_or_404(bwapp.models.Project, pk=project_id)
     comm_info = p.communityinfo_set.all()[0]
-    loc = p.location_set.all()[0]
     return render(request, 'project_detail.html',{
-        'p': p,
-        'comm_info': comm_info,
-        'loc': loc
+        'p': p
         })
 
 def browse_projects(request):

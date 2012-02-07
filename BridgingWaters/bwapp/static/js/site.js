@@ -1,11 +1,11 @@
 ;$(document).ready(function(){
 
-	$('#showHideAdvanced').toggle(function () {
+	$('#showHideAdvanced').toggle(function() {
 		$('#advancedSearchDiv').slideDown(400);
 		$('#showHideAdvanced span').html('Hide Advanced Options');
 		$('#search1').hide();
 		$('#search2').show();
-	}, function(){
+	}, function() {
 		$('#advancedSearchDiv').slideUp(200);
 		$('#showHideAdvanced span').html('Show Advanced Options');
 		$('#search1').show();
@@ -13,13 +13,25 @@
 	});
 	
 	
-	$('#showHideMap').toggle(function () {
+	$('#showHideMap').toggle(function() {
 		$('#mapDiv').slideUp(200);
 		$('#showHideMap').html('Show Map');
 		
-	}, function(){
+	}, function() {
 		$('#mapDiv').slideDown(400);
 		$('#showHideMap').html('Hide Map');
+	});
+	
+	$('a.trunc_show').toggle(function() {
+	    $(this).siblings('span.trunc').hide();
+	    $(this).siblings('span.untrunc').show();
+	    $(this).html('Less');
+	    $(this).attr('title','View Less');
+	}, function() {
+	    $(this).siblings('span.untrunc').hide();
+	    $(this).siblings('span.trunc').show();
+	    $(this).html('More');
+	    $(this).attr('title','View More');
 	});
 	
 	// Menu

@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
+{% with loc=feat_proj.location_set.all|first %}
 <div class="notice">
     The Bridging Waters website and project database are currently under construction.  If you're interested in helping get us off the ground, please contact <a href="mailto:info@bridgingwaters.org">info@bridgingwaters.org</a>.
 </div>
@@ -16,21 +17,21 @@
             <img src="{{STATIC_URL}}images/Samoa-tb.jpg" alt="" title="Project #123" class="float-left" />
         </div>
         <div class="quicklook">
-            <h3>Featured Project - <a href="/bw/projects/{{feat_proj.project.id}}">{{feat_proj.project.title}}</a></h3>
+            <h3>Featured Project - <a href="/bw/projects/{{feat_proj.id}}">{{feat_proj.title}}</a></h3>
             <strong>Location:</strong> {{loc.name}}, {{loc.country.name}}<br/>
-            <strong>Goal:</strong> {{feat_proj.project.goal}}<br/>
-            <strong>Type of Project:</strong> {{feat_proj.project.proj_types.all|join:", "}}<br/>
-            <strong>Project Duration:</strong> {{feat_proj.project.start_date}} - {{feat_proj.project.end_date}}<br/>
-            <strong>Organizations:</strong> {{feat_proj.project.organizations.all|join:", "}}<br/>
-            <strong>Summary:</strong> {{feat_proj.project.description}}<br/>
+            <strong>Goal:</strong> {{feat_proj.goal}}<br/>
+            <strong>Type of Project:</strong> {{feat_proj.proj_types.all|join:", "}}<br/>
+            <strong>Project Duration:</strong> {{feat_proj.start_date}} - {{feat_proj.end_date}}<br/>
+            <strong>Organizations:</strong> {{feat_proj.organizations.all|join:", "}}<br/>
+            <strong>Summary:</strong> {{feat_proj.description}}<br/>
             <strong>Keywords:</strong>
-                {% if feat_proj.project.keywords.all %}
-                    {{feat_proj.project.keywords.all|join:", "}}
+                {% if feat_proj.keywords.all %}
+                    {{feat_proj.keywords.all|join:", "}}
                 {% else %}
                     (none listed)
                 {% endif %}
             <br/>
-            <a href="/bw/projects/{{feat_proj.project.id}}/">Read more...</a><br/>
+            <a href="/bw/projects/{{feat_proj.id}}/">Read more...</a><br/>
         </div>
     </div>
 </div>
@@ -51,4 +52,5 @@
         
         <a href="more_news.html">See previous updates</a>
 </div>
+{% endwith %}
 {% endblock %}

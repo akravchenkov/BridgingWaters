@@ -25,11 +25,10 @@ def index(request):
         bwapp.models.NewsUpdate.objects.all().order_by('-created')[:5]
     featured_proj_list = bwapp.models.FeaturedProject.objects.all()
     feat_proj = choice(featured_proj_list)
-    loc = feat_proj.project.location_set.all()[0] #TODO: Better way to get loc? like p.loc? or do all related objects have to be obtained like this?
+    
     return render(request, 'index.html', {
         'latest_news_list':latest_news_list,
-        'feat_proj':feat_proj,
-        'loc':loc
+        'feat_proj':feat_proj.project,
         })
     
 def project_detail(request, project_id):

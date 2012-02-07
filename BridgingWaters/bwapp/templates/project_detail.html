@@ -5,7 +5,7 @@ Project #{{p.id}} - {{p.title}}
 {% endblock %}
 
 {% block content %}
-{% with loc=p.location_set.all|first comm_info=p.communityinfo_set.all|first %}
+{% with loc=p.location_set.all|first comm_info=p.communityinfo_set.all|first geo_conds=p.geoconditions_set.all|first%}
 <div class="column span-9">
     <h2 class="alt">Project #{{p.id}} - {{p.title}}</h2>
     <p>
@@ -33,28 +33,20 @@ Project #{{p.id}} - {{p.title}}
     <h3>Project Description</h3>
     <p>{{p.description}}</p>
     <h3>Community Description</h3>
-    <p>{{comm_info.description}} {{p.CommunityInfo.description}}</p>
+    <p>{{comm_info.description}}</p>
     <h3>Location Description</h3>
     <p>{{loc.description}}</p>
 </div>
 
 <div class="column span-9">
-    <h3>Local Conditions</h3>
-    <h3 class="alt">Environment and Resources</h3>
-    <strong>Type:</strong> TODO<br/>
-    <strong>Annual Precipitation:</strong> TODO<br/>
-    <strong>Seasonal Rainfall Distribution:</strong> TODO<br/>
-    <strong>Average Temperature:</strong> TODO<br/>
-    <strong>Elevation:</strong> {{loc.elevation.value}}<br/>
-    <strong>Topography:</strong> {{loc.topography.value}}<br/>
-    <strong>Geology:</strong> TODO<br/>
-    <strong>Soil Type:</strong> TODO<br/>
-    <strong>Depth of Topsoil:</strong> TODO<br/>
-    <strong>Natural Resources:</strong> TODO<br/>
-    <strong>Water Supply:</strong> TODO<br/>
-    <strong>Water Treatment:</strong> TODO<br/>
-    <strong>Resource Management/Protection:</strong> TODO<br/>
-    <strong>Community Structure:</strong> TODO<br/>
+    <h3>Environmental Conditions</h3>
+    <h3 class="alt">Geological Conditions</h3>
+    <strong>Description:</strong> {{geo_conds.description}}<br/>
+    <strong>Soil Type:</strong> {{geo_conds.soil_type}}<br/>
+    <strong>Hit Bedrock:</strong> {{geo_conds.hit_bedrock}}<br/>
+    <strong>Hit Water Table:</strong> {{geo_conds.hit_water_table}}<br/>
+    <strong>Impact of Geological Conditions:</strong> {{geo_conds.geo_impact}}<br/>
+    <strong>Topography:</strong> {{loc.topography}}<br/>
 </div>
 
 <div class="span-9 last">
@@ -62,7 +54,6 @@ Project #{{p.id}} - {{p.title}}
     <h3 class="alt">Materials and Labor</h3>
 
     <strong>Project Funder:</strong> TODO<br/>
-    <strong>Pre-Construction Requirements:</strong> TODO<br/>
     <strong>Labor Force:</strong> TODO<br/>
     <strong>Project Management:</strong> TODO<br/>
     <strong>Construction Resources:</strong> TODO<br/>
@@ -78,7 +69,6 @@ Project #{{p.id}} - {{p.title}}
     <p>TODO</p>
     <strong>Responsibilities:</strong> TODO<br/>
     <strong>Funding:</strong> TODO<br/>
-    <strong>When did the community take ownership:</strong> TODO<br/>
 </div>        
 <hr/>
 <div class="column span-18 last">
@@ -87,7 +77,6 @@ Project #{{p.id}} - {{p.title}}
     <strong>Successes:</strong> TODO<br/>
     <strong>Obstacles:</strong> TODO<br/>
     <strong>Community Impact:</strong> TODO<br/>
-    <strong>Pre-Construction Actions Required by the Community:</strong> TODO<br/>
 </div>
 <hr/>
 <div class="column span-18 last">

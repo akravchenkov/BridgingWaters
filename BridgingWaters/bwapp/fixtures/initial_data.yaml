@@ -34,6 +34,7 @@
   fields:
     country: PA
     name: Sieykin
+    state_prov: Bocas del Toro
     latitude: 9.361
     longitude: -82.603
     region: 3
@@ -47,6 +48,7 @@
   fields:
     country: PE
     name: Comunidad Campesina de Huasta
+    state_prov: Ancash
     latitude: -10.069
     longitude: -77.125
     region: 2

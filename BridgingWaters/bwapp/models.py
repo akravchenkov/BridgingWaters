@@ -198,8 +198,9 @@ class GeoConditions(models.Model):
 
 class Location(models.Model):
     name = models.CharField(max_length=60)
-    region = models.ForeignKey(CodeRegion)
+    state_prov = models.CharField(max_length=24, verbose_name="Province/State")
     country = CountryField()
+    region = models.ForeignKey(CodeRegion)
     latitude = models.FloatField()
     longitude = models.FloatField()
     elevation = models.ForeignKey(CodeElevation)

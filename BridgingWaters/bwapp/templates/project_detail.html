@@ -6,8 +6,8 @@ Project #{{p.id}} - {{p.title}}
 
 {% block content %}
 {% with loc=p.location_set.all|first comm_info=p.communityinfo_set.all|first geo_conds=p.geoconditions_set.all|first%}
+<h2 class="alt">{{p.title}} - {{loc.name}}, {{loc.country.name}}</h2>
 <div class="column span-9">
-    <h2 class="alt">Project #{{p.id}} - {{p.title}}</h2>
     <p>
         <strong>Location:</strong> {{loc.name}}, {{loc.country.name}}<br/>
         <strong>Region:</strong> {{loc.region.value}}<br/>

@@ -161,7 +161,7 @@ class Project(models.Model):
                             verbose_name="Project Type", null=True, blank=True)
     
     reviewed = models.BooleanField()
-    #TODO: material_res
+    #TODO: material_res with near/close/far/vary far checkboxes
     #TODO: infra_res
     #TODO: natural_res
     #TODO: retail_res

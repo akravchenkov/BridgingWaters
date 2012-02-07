@@ -6,41 +6,49 @@ Project #{{p.id}} - {{p.title}}
 
 {% block content %}
 {% with loc=p.location_set.all|first comm_info=p.communityinfo_set.all|first geo_conds=p.geoconditions_set.all|first%}
-<h2 class="alt">{{p.title}} - {{loc.name}}, {{loc.country.name}}</h2>
-<div class="column span-9">
+<h2>
+    {{p.title}}<br/>
+    <span class="alt">{{loc.name}}, {{loc.state_prov}}, {{loc.country.name}}</span>
+</h2>
+
+<div class="span-9">
     <p>
-        <strong>Location:</strong> {{loc.name}}, {{loc.country.name}}<br/>
-        <strong>Region:</strong> {{loc.region.value}}<br/>
-        <strong>People Served by Project:</strong> {{comm_info.num_ppl_served.value}}<br/>
-        <strong>Community Size:</strong> {{comm_info.community_size}}<br/>
+        <strong>Goal:</strong> {{p.goal}}<br/>    
         <strong>Type of Project:</strong> {{p.proj_types.all|join:", "}}<br/>
+        <strong>People Served by Project:</strong> {{comm_info.num_ppl_served.value}}<br/>
         <strong>Project Duration:</strong> {{p.start_date}} - {{p.end_date}}<br/>
-        <strong>Organizations:</strong> {{p.organizations.all|join:", "}}<br/>
         <strong>Summary:</strong> {{p.description}}<br/>
+        <strong>Involved Organizations:</strong>
+        {% if p.organizations.all %}
+	    {{p.keywords.all|join:", "}}
+        {% else %}
+            (none listed)
+        {% endif %}<br/>
         <strong>Keywords:</strong>
-	    {% if p.keywords.all %}
-		{{p.keywords.all|join:", "}}
-	    {% else %}
-	        (none listed)
-	    {% endif %}
-	    <br/>
+        {% if p.keywords.all %}
+	    {{p.keywords.all|join:", "}}
+        {% else %}
+            (none listed)
+        {% endif %}<br/>
     </p>
 </div>
 <div class="span-9 last">
     <img src="{{STATIC_URL}}images/SamoaPic.jpg" alt="TODO" title="TODO" />
 </div>
-<div class="column span-18 last">
-    <h3>Project Description</h3>
-    <p>{{p.description}}</p>
-    <h3>Community Description</h3>
-    <p>{{comm_info.description}}</p>
-    <h3>Location Description</h3>
-    <p>{{loc.description}}</p>
+
+<div class="span-9">
+    <h3>Location and Community Information</h3>
+    <strong>Region:</strong> {{loc.region.value}}<br/>
+    <strong>Description:</strong> {{loc.description}}</br>
+</div>
+<div class="span-9 last">
+    <h3>Something</h3>    
 </div>
 
-<div class="column span-9">
-    <h3>Environmental Conditions</h3>
-    <h3 class="alt">Geological Conditions</h3>
+<hr/>
+
+<div class="span-9">
+    <h3>Geological Conditions</h3>
     <strong>Description:</strong> {{geo_conds.description}}<br/>
     <strong>Soil Type:</strong> {{geo_conds.soil_type}}<br/>
     <strong>Hit Bedrock:</strong> {{geo_conds.hit_bedrock}}<br/>
@@ -48,10 +56,8 @@ Project #{{p.id}} - {{p.title}}
     <strong>Impact of Geological Conditions:</strong> {{geo_conds.geo_impact}}<br/>
     <strong>Topography:</strong> {{loc.topography}}<br/>
 </div>
-
 <div class="span-9 last">
-    <h3>Project Details</h3>
-    <h3 class="alt">Materials and Labor</h3>
+    <h3>Materials and Labor</h3>
 
     <strong>Project Funder:</strong> TODO<br/>
     <strong>Labor Force:</strong> TODO<br/>
@@ -63,7 +69,9 @@ Project #{{p.id}} - {{p.title}}
     <strong>Materials Used:</strong> TODO<br/>
     <strong>Materials Provider:</strong> TODO<br/>
 </div>
+
 <hr/>
+
 <div class="column span-18 last">
     <h3>Post-Project Maintenance</h3>
     <p>TODO</p>

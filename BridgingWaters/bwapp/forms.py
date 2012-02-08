@@ -22,7 +22,7 @@ PROJ_TYPES = [(obj.code, obj.value) for obj in models.CodeProjType.objects.all()
 
 YES_NO = [('False','No'),('True','Yes')]
 
-EXISTING_KEYWORDS = [(obj.id, obj.value) for obj in models.Keywords.objects.all()]
+EXISTING_KEYWORDS = [(obj.id, obj.value) for obj in models.Keyword.objects.all()]
 
 MONTHS = ((1,'January'),(2,'February'),(3,'March'),(4,'April'),(5,'May'),
     (6,'June'),(7,'July'),(8,'August'),(9,'September'),(10,'October'),

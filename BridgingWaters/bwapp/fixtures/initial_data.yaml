@@ -138,6 +138,7 @@
     created: 2011-12-01 11:36:00
     modified: 2011-12-01 11:36:00
     proj_types: [3, 11]
+    keywords: [1,2,3]
     reviewed: True
     
 - model: bwapp.Project
@@ -152,6 +153,7 @@
     created: 2011-12-01 11:49:00
     modified: 2011-12-01 11:49:00
     proj_types: [6, 7, 5, 11]
+    keywords: [3]
     reviewed: True
 
 #----------------------------------------
@@ -593,7 +595,19 @@
 
 
 #------------------------------------------
-
+# Keyword
+- model: bwapp.Keyword
+  pk: 1
+  fields:
+    value: Aqueduct
+- model: bwapp.Keyword
+  pk: 2
+  fields:
+    value: Jungle
+- model: bwapp.Keyword
+  pk: 3
+  fields:
+    value: Keyword 3
 
 #------------------------------------------
 

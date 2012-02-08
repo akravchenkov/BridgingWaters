@@ -115,14 +115,14 @@ class CodeSoilType(models.Model):
     def __unicode__(self):
         return self.value
 
-class Keywords(models.Model):
-    value = models.CharField(max_length=30)
+class Keyword(models.Model):
+    value = models.CharField(max_length=60)
     
     def __unicode__(self):
         return self.value
     
     class Meta:
-        verbose_name="Keywords"
+        verbose_name="Keyword"
         verbose_name_plural="Keywords"
 
 class ContactInfo(models.Model):
@@ -155,7 +155,7 @@ class Project(models.Model):
     proj_mgmt = models.TextField(verbose_name="Project Management")
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
-    keywords = models.ManyToManyField(Keywords, null=True, blank=True)
+    keywords = models.ManyToManyField(Keyword, null=True, blank=True)
     #TODO: owner = User
     proj_types = models.ManyToManyField(CodeProjType,
                             verbose_name="Project Type", null=True, blank=True)

@@ -23,7 +23,7 @@
             <strong>Type of Project:</strong> {{feat_proj.proj_types.all|join:", "}}<br/>
             <strong>Project Duration:</strong> {{feat_proj.start_date}} - {{feat_proj.end_date}}<br/>
             <strong>Organizations:</strong> {{feat_proj.organizations.all|join:", "}}<br/>
-            <strong>Summary:</strong> {{feat_proj.description}}<br/>
+            <strong>Summary:</strong> Featured project summary goes here.<br/> {# TODO: Add featured project summary to database model #}
             <strong>Keywords:</strong>
                 {% if feat_proj.keywords.all %}
                     {{feat_proj.keywords.all|join:", "}}

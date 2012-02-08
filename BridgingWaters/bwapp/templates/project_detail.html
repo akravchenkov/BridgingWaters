@@ -28,7 +28,7 @@ Project #{{p.id}} - {{p.title}}
     <strong>Project Duration:</strong> {{p.start_date}} - {{p.end_date}}<br/>
     <strong>People Served by Project:</strong> {{comm_info.num_ppl_served}}<br/>
     
-    <strong>Summary:</strong> 
+    <strong>Description:</strong> 
     {% if p.description|wordcount > 60 %} {# TODO: write javascript to toggle the more/less #}
         <span class="trunc">{{p.description|truncatewords:50}} </span>
         <span class="untrunc hide">{{p.description}} </span>
@@ -74,8 +74,7 @@ Project #{{p.id}} - {{p.title}}
     <strong>Topography:</strong> {{loc.topography}}<br/>
     <strong>Elevation:</strong> {{loc.elevation}}<br/>
     <strong>Geographic Location:</strong> {{loc.latitude}}, {{loc.longitude}}<br/>
-    
-    TODO: Map showing location of project
+
     <div id="map" style="width: 340px; height: 200px"></div> 
 
     <script type="text/javascript"> 

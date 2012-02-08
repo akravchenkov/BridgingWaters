@@ -175,7 +175,7 @@
         "model": "contenttypes.contenttype", 
         "fields": {
             "model": "featuredproject", 
-            "name": "featured project", 
+            "name": "featured project",
             "app_label": "bwapp"
         }
     }, 
@@ -1494,7 +1494,8 @@
         "model": "bwapp.featuredproject", 
         "fields": {
             "project": 1, 
-            "created": "2011-12-01 11:37:00"
+            "created": "2011-12-01 11:37:00",
+            "summary": "This project is a great example of a featured project."
         }
     }, 
     {
@@ -1502,7 +1503,8 @@
         "model": "bwapp.featuredproject", 
         "fields": {
             "project": 4, 
-            "created": "2012-01-07 17:10:46"
+            "created": "2012-01-07 17:10:46",
+            "summary": "This project is ANOTHER example of a featured project."
         }
     }
 ]

@@ -272,6 +272,7 @@ class ProjectContact(ContactInfo):
 class FeaturedProject(models.Model):
     project = models.ForeignKey(Project)
     created = models.DateTimeField(auto_now_add=True)
+    summary = models.CharField(max_length=280)
     
     def __unicode__(self):
         return self.project.title

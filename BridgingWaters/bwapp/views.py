@@ -29,6 +29,7 @@ def index(request):
     return render(request, 'index.html', {
         'latest_news_list':latest_news_list,
         'feat_proj':feat_proj.project,
+        'summary':feat_proj.summary
         })
     
 def project_detail(request, project_id):

@@ -129,8 +129,8 @@
 - model: bwapp.Project
   pk: 1
   fields:
-    title: 1 TEST PROJECT 1
-    description: This is a test project for the bw app
+    title: Clean Water Aqueduct
+    description: This is a test project for the bw app. This is a test project for the bw app. This is a test project for the bw app. This is a test project for the bw app. This is a test project for the bw app. This is a test project for the bw app. This is a test project for the bw app. This is a test project for the bw app. This is a test project for the bw app. This is a test project for the bw app. This is a test project for the bw app. This is a test project for the bw app. This is a test project for the bw app. This is a test project for the bw app. This is a test project for the bw app. This is a test project for the bw app. This is a test project for the bw app. 
     start_date: 2009-01-01
     end_date: 2009-06-01
     goal: To allow James to test the bw app
@@ -144,7 +144,7 @@
   pk: 2
   fields:
     title: 2 TEST PROJECT 2
-    description: This is the second test project for the bw app
+    description: This is the second test project for the bw app.
     start_date: 2010-02-14
     end_date: 2010-06-20
     goal: To allow James to test the bw app with 2 projects
@@ -194,6 +194,7 @@
   fields:
     project: 1
     created: 2011-12-01 11:37:00
+    summary: This project is a great example of a featured project.
 #----------------------------------------
 # CodeRegion
 - model: bwapp.CodeRegion

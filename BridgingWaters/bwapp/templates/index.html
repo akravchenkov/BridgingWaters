@@ -22,8 +22,8 @@
             <strong>Goal:</strong> {{feat_proj.goal}}<br/>
             <strong>Type of Project:</strong> {{feat_proj.proj_types.all|join:", "}}<br/>
             <strong>Project Duration:</strong> {{feat_proj.start_date}} - {{feat_proj.end_date}}<br/>
-            <strong>Organizations:</strong> {{feat_proj.organizations.all|join:", "}}<br/>
-            <strong>Summary:</strong> Featured project summary goes here.<br/> {# TODO: Add featured project summary to database model #}
+            <strong>Organizations:</strong> {{feat_proj.organization_set.all|join:", "}}<br/>
+            <strong>Summary:</strong> {{summary}}<br/>
             <strong>Keywords:</strong>
                 {% if feat_proj.keywords.all %}
                     {{feat_proj.keywords.all|join:", "}}

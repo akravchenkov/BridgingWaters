@@ -42,7 +42,7 @@ Project #{{p.id}} - {{p.title}}
 
     <strong>Involved Organizations:</strong>
     <ul> 
-        {% for org in p.organizations.all %}
+        {% for org in p.organization_set.all %}
             <li><a href="#" title="See other projects by {{org}}">{{org}}</a></li>
         {% empty %}
             (none listed)

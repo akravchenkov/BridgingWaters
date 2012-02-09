@@ -160,7 +160,23 @@ Project #{{p.id}} - {{p.title}}
     <h3>Involved Organizations</h3>
     
     {% for org in p.organization_set.all %}
-        <a href="#" title="See other projects by {{org.name}}">{{org.name}}</a>
+        <a href="#" class="title" title="See other projects by {{org.name}}">{{org.name}}</a><br/>
+        <strong>Phone:</strong> {{org.phone|default:"none listed"}}<br/>
+        <strong>E-Mail: </strong> {{org.email|default:"none listed"}}<br/>
+        
+        <strong>Address: </strong><br/>
+        {% if org.add_street1 and org.add_city and org.add_code and org.add_state_prov and org.add_country %} 
+            {{org.add_street1|default:""}}<br/>
+            {% if org.add_street2 %}{{org.add_street2|default:""}}<br/>{% endif %}
+            {{org.add_city|default:""}}, {{org.add_state_prov|default:""}}<br/>
+            {{org.add_code|default:""}}<br/>
+            {{org.add_country.name|default:""}}<br/>
+        {% else %}
+            none listed<br/>
+        {% endif %}
+        
+        <strong>Website: </strong> {{org.website|default:"none listed"}}<br/>
+        <strong>Notes:</strong> {{org.notes|default:"none listed"}}<br/>
         <br/><br/>
     {% empty %}
         (none listed)

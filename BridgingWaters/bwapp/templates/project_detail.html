@@ -9,7 +9,7 @@ Project #{{p.id}} - {{p.title}}
 {% endblock %}
 
 {% block content %}
-{% with loc=p.location_set.all|first comm_info=p.communityinfo_set.all|first geo_conds=p.geoconditions_set.all|first%}
+{% with loc=p.location_set.all|first comm_info=p.communityinfo_set.all|first geo_conds=p.geoconditions_set.all|first clim=p.climate_set.all|first %}
 <h2>
     {{p.title}}<br/>
     <span class="alt">{{loc.name}}, {{loc.state_prov}}, {{loc.country.name}}</span>
@@ -43,7 +43,7 @@ Project #{{p.id}} - {{p.title}}
     <strong>Involved Organizations:</strong>
     <ul> 
         {% for org in p.organization_set.all %}
-            <li><a href="#" title="See other projects by {{org}}">{{org}}</a></li>
+            <li><a href="#" title="See other projects by {{org.name}}">{{org.name}}</a></li>
         {% empty %}
             (none listed)
         {% endfor %}
@@ -73,8 +73,10 @@ Project #{{p.id}} - {{p.title}}
     <strong>Description:</strong> {{loc.description}}</br>
     <strong>Topography:</strong> {{loc.topography}}<br/>
     <strong>Elevation:</strong> {{loc.elevation}}<br/>
-    <strong>Geographic Location:</strong> {{loc.latitude}}, {{loc.longitude}}<br/>
+    <strong>Geographic Location:</strong> {{loc.latitude}}, {{loc.longitude}}<br/> 
+</div>
 
+<div class="span-9 last">
     <div id="map" style="width: 340px; height: 200px"></div> 
     
     {# TODO: Also need to fetch and display nearby projects...might need spatial extension to db #}
@@ -92,15 +94,33 @@ Project #{{p.id}} - {{p.title}}
             map: map,
             title: "{{loc.name}}"
         });
-    </script> 
+    </script>
 </div>
-<div class="span-9 last">
+
+<hr/>
+
+<div class="span-9">
     <h3>Community Information</h3> 
     
     <strong>Community Size:</strong> {{comm_info.community_size}}<br/>
     <strong>Urban or Rural:</strong> {{comm_info.urban_rural}}<br/>
     <strong>Level of Water Management:</strong> {{comm_info.water_mgmt_level}}<br/>
     <strong>Description of Community:</strong> {{comm_info.description}}<br/>
+
+</div>
+<div class="span-9 last">
+    <h3>Climate</h3>
+    
+    <strong>Climate Zone:</strong> {{clim.climate_zone}}<br/>
+    <strong>Precipitation:</strong> {{clim.precipitation}}<br/>
+    <strong>Has Rainy Season:</strong> {{clim.has_rainy_season|yesno:"Yes,No"}}<br/>
+    {% if clim.has_rainy_season %}{% for org in p.organization_set.all %}
+            <li><a href="#" title="See other projects by {{org}}">{{org}}</a></li>
+        {% empty %}
+            (none listed)
+        {% endfor %}
+        <strong>Rainy Months:</strong> {{clim.rainy_months.all|join:", "}}<br/>
+    {% endif %}
 </div>
 
 <hr/>
@@ -129,24 +149,38 @@ Project #{{p.id}} - {{p.title}}
 
 <hr/>
 
-<div class="column span-18 last">
-    <h3>Post-Project Maintenance</h3>
-    <p>TODO</p>
-    <strong>Responsibilities:</strong> TODO<br/>
-    <strong>Funding:</strong> TODO<br/>
-</div>        
-<hr/>
-<div class="column span-18 last">
-    <h3>Lessons Learned</h3>
-    <p>TODO</p>
-    <strong>Successes:</strong> TODO<br/>
-    <strong>Obstacles:</strong> TODO<br/>
-    <strong>Community Impact:</strong> TODO<br/>
+<div class="span-18 last">
+    <h3>Human Resources</h3>
+    
+    {% for contact in p.humanrescontact_set.all %}
+    
+    {% endfor %}
+
 </div>
+
 <hr/>
+
 <div class="column span-18 last">
-    <h3>Educational Component</h3>
-    <p>TODO</p>
+    <h3>Involved Organizations</h3>
+    
+    {% for org in p.organization_set.all %}
+        <a href="#" title="See other projects by {{org}}">{{org}}</a>
+        <br/><br/>
+    {% empty %}
+        (none listed)
+    {% endfor %}
+
 </div>
+        
+<hr/>
+
+<div class="column span-18 last">
+    <h3>Project Contacts</h3>
+    
+    {% for contact in p.projectcontant_set.all %}
+
+    {% endfor %}
+</div>
+
 {% endwith %}
 {% endblock %}

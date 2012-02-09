@@ -114,11 +114,7 @@ Project #{{p.id}} - {{p.title}}
     <strong>Climate Zone:</strong> {{clim.climate_zone}}<br/>
     <strong>Precipitation:</strong> {{clim.precipitation}}<br/>
     <strong>Has Rainy Season:</strong> {{clim.has_rainy_season|yesno:"Yes,No"}}<br/>
-    {% if clim.has_rainy_season %}{% for org in p.organization_set.all %}
-            <li><a href="#" title="See other projects by {{org}}">{{org}}</a></li>
-        {% empty %}
-            (none listed)
-        {% endfor %}
+    {% if clim.has_rainy_season %}
         <strong>Rainy Months:</strong> {{clim.rainy_months.all|join:", "}}<br/>
     {% endif %}
 </div>
@@ -164,7 +160,7 @@ Project #{{p.id}} - {{p.title}}
     <h3>Involved Organizations</h3>
     
     {% for org in p.organization_set.all %}
-        <a href="#" title="See other projects by {{org}}">{{org}}</a>
+        <a href="#" title="See other projects by {{org.name}}">{{org.name}}</a>
         <br/><br/>
     {% empty %}
         (none listed)
@@ -177,8 +173,9 @@ Project #{{p.id}} - {{p.title}}
 <div class="column span-18 last">
     <h3>Project Contacts</h3>
     
-    {% for contact in p.projectcontant_set.all %}
-
+    {% for contact in p.projectcontact_set.all %}
+        <a href="#">{{given_name}} {{middle_name}} {{surname}}</a>
+        <br/><br/>
     {% endfor %}
 </div>
 

@@ -6,7 +6,7 @@ class NewsUpdate(models.Model):
     content = models.TextField()
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
-    author = models.CharField(max_length=30) #TODO: Link to admin user
+    author = models.CharField(max_length=30) #TODO: Link to admin/editor users
     
     def __unicode__(self):
         return self.title
@@ -167,6 +167,8 @@ class Project(models.Model):
     #TODO: retail_res
     #TODO: transpo_res
     #TODO: funding_sources
+    #TODO: images/gallery
+    #TODO: documents  class Document: title, blob, summary, type fk, project fk
     
     def __unicode__(self):
         return self.title

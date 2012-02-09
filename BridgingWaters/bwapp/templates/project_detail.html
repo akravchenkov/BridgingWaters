@@ -76,7 +76,8 @@ Project #{{p.id}} - {{p.title}}
     <strong>Geographic Location:</strong> {{loc.latitude}}, {{loc.longitude}}<br/>
 
     <div id="map" style="width: 340px; height: 200px"></div> 
-
+    
+    {# TODO: Also need to fetch and display nearby projects...might need spatial extension to db #}
     <script type="text/javascript"> 
         var myLatLng = new google.maps.LatLng({{loc.latitude}},{{loc.longitude}});
         var myOptions = {
@@ -94,7 +95,12 @@ Project #{{p.id}} - {{p.title}}
     </script> 
 </div>
 <div class="span-9 last">
-    <h3>Community Information</h3>    
+    <h3>Community Information</h3> 
+    
+    <strong>Community Size:</strong> {{comm_info.community_size}}<br/>
+    <strong>Urban or Rural:</strong> {{comm_info.urban_rural}}<br/>
+    <strong>Level of Water Management:</strong> {{comm_info.water_mgmt_level}}<br/>
+    <strong>Description of Community:</strong> {{comm_info.description}}<br/>
 </div>
 
 <hr/>

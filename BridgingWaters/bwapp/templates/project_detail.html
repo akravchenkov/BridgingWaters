@@ -50,9 +50,9 @@ Project #{{p.id}} - {{p.title}}
     </ul>
 
     <strong>Keywords:</strong>
-    <ul> 
         {% for k in p.keywords.all %}
-            <li><a href="#" title="See other projects tagged with &quote;{{k}}&quote;">{{k}}</a></li>
+            <a href="#" title="See other projects tagged with &quote;{{k}}&quote;">{{k}}</a>
+            {% if not forloop.last %}, {% endif %}
         {% empty %}
             (none listed)
         {% endfor %}
@@ -114,7 +114,7 @@ Project #{{p.id}} - {{p.title}}
     <strong>Climate Zone:</strong> {{clim.climate_zone}}<br/>
     <strong>Precipitation:</strong> {{clim.precipitation}}<br/>
     <strong>Has Rainy Season:</strong> {{clim.has_rainy_season|yesno:"Yes,No"}}<br/>
-    {% if clim.has_rainy_season %}
+    {% if clim.has_rainy_season %}k
         <strong>Rainy Months:</strong> {{clim.rainy_months.all|join:", "}}<br/>
     {% endif %}
 </div>

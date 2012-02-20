@@ -2,12 +2,12 @@
 
 	$('#showHideAdvanced').toggle(function() {
 		$('#advancedSearchDiv').slideDown(400);
-		$('#showHideAdvanced span').html('Hide Advanced Options');
+		$('#showHideAdvanced').html('Hide Advanced Options');
 		$('#search1').hide();
 		$('#search2').show();
 	}, function() {
 		$('#advancedSearchDiv').slideUp(200);
-		$('#showHideAdvanced span').html('Show Advanced Options');
+		$('#showHideAdvanced').html('Show Advanced Options');
 		$('#search1').show();
 		$('#search2').hide();
 	});

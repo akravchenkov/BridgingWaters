@@ -1,5 +1,6 @@
 from django.db import models
 from django_countries import CountryField
+from django.contrib.auth.models import User
 
 class NewsUpdate(models.Model):
     title = models.CharField(max_length=200)
@@ -156,7 +157,7 @@ class Project(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
     keywords = models.ManyToManyField(Keyword, null=True, blank=True)
-    #TODO: owner = User
+    #owner = models.ForeignKey(User)
     proj_types = models.ManyToManyField(CodeProjType,
                             verbose_name="Project Type", null=True, blank=True)
     

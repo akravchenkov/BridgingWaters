@@ -200,7 +200,79 @@
     project: 1
     created: 2011-12-01 11:37:00
     summary: This project is a great example of a featured project.
+    
 #----------------------------------------
+
+# CodeFundingSourceType
+
+- model: bwapp.CodeFundingSourceType
+  pk: 1
+  fields:
+    value: General Fundraising
+    is_grant: False
+
+- model: bwapp.CodeFundingSourceType
+  pk: 2
+  fields:
+    value: Personal Contributions
+    is_grant: False
+    
+- model: bwapp.CodeFundingSourceType
+  pk: 3
+  fields:
+    value: Corporate Sponsorship
+    is_grant: True
+    
+- model: bwapp.CodeFundingSourceType
+  pk: 4
+  fields:
+    value: Governmental Grant
+    is_grant: True
+
+- model: bwapp.CodeFundingSourceType
+  pk: 5
+  fields:
+    value: Private Grant
+    is_grant: True
+    
+- model: bwapp.CodeFundingSourceType
+  pk: 6
+  fields:
+    value: Other
+    is_grant: False
+
+#----------------------------------------
+
+# CodeProximity
+#TODO: Find out what these codes were supposed to be
+
+- model: bwapp.CodeProximity
+  pk: 1
+  fields:
+    value: In-Community
+    
+- model: bwapp.CodeProximity
+  pk: 2
+  fields:
+    value: Near
+    
+- model: bwapp.CodeProximity
+  pk: 3
+  fields:
+    value: Far
+    
+- model: bwapp.CodeProximity
+  pk: 4
+  fields:
+    value: Not Available
+    
+- model: bwapp.CodeProximity
+  pk: 5
+  fields:
+    value: Unknown
+
+#----------------------------------------
+
 # CodeRegion
 - model: bwapp.CodeRegion
   pk: 1

@@ -21,7 +21,7 @@ class CodeResource(models.Model):
     def __unicode__(self):
         return self.value
     
-class Resource(models.Model):
+class InfoResource(models.Model):
     name = models.CharField(max_length=40)
     website = models.URLField()
     type = models.ForeignKey(CodeResource)
@@ -31,9 +31,24 @@ class Resource(models.Model):
 
 #--------------------------------------
 
+class CodeFundingSourceType(models.Model):
+    code = models.IntegerField(primary_key=True)
+    value = models.CharField(max_length=40)
+    is_grant = models.BooleanField()
+    
+    def __unicode__(self):
+        return self.value
+
 class CodeMonth(models.Model):
     code = models.IntegerField(primary_key=True)
     value = models.CharField(max_length=16)
+    
+    def __unicode__(self):
+        return self.value
+
+class CodeProximity(models.Model):
+    code = models.IntegerField(primary_key=True)
+    value = models.CharField(max_length=20)
     
     def __unicode__(self):
         return self.value
@@ -126,6 +141,12 @@ class Keyword(models.Model):
         verbose_name="Keyword"
         verbose_name_plural="Keywords"
 
+class Resource(models.Model):
+    proximity = models.ForeignKey(CodeProximity)   
+
+    class Meta:
+        abstract = True
+
 class ContactInfo(models.Model):
     phone = models.CharField(max_length=20, null=True, blank=True)
     email = models.EmailField(null=True, blank=True)
@@ -157,16 +178,17 @@ class Project(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
     keywords = models.ManyToManyField(Keyword, null=True, blank=True)
-    #owner = models.ForeignKey(User)
+    owner = models.ForeignKey(User, null=True) #TODO: How to do initial data?
     proj_types = models.ManyToManyField(CodeProjType,
                             verbose_name="Project Type", null=True, blank=True)
     
     reviewed = models.BooleanField()
-    #TODO: material_res with near/close/far/vary far checkboxes
+    #TODO: material_res with near/close/far/very far checkboxes
     #TODO: infra_res
     #TODO: natural_res
     #TODO: retail_res
     #TODO: transpo_res
+    
     #TODO: funding_sources
     #TODO: images/gallery
     #TODO: documents  class Document: title, blob, summary, type fk, project fk
@@ -181,6 +203,18 @@ class Organization(ContactInfo):
     
     def __unicode__(self):
         return self.name        
+        
+class FundingSource(models.Model):
+    #TODO: Initial data
+    
+    type = models.ForeignKey(CodeFundingSourceType)
+    name = models.CharField(max_length=40, null=True, blank=True) #Only necessary if CodeFundingSource.is_grant=True
+    percent = models.IntegerField() #Between 0-100  
+    amount = models.IntegerField(null=True, blank=True)
+    project = models.ForeignKey(Project)
+    
+    def __unicode__(self):
+        return "%s - %s\%" % (self.source_type, self.percent)      
         
 class GeoConditions(models.Model):
     soil_type = models.ForeignKey(CodeSoilType)

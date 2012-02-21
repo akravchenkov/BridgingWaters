@@ -14,7 +14,7 @@ class NewsUpdate(models.Model):
     
 #--------------------------------------
 
-class CodeResource(models.Model):
+class CodeInfoResource(models.Model):
     code = models.IntegerField(primary_key=True)
     value = models.CharField(max_length=40)
     
@@ -24,7 +24,7 @@ class CodeResource(models.Model):
 class InfoResource(models.Model):
     name = models.CharField(max_length=40)
     website = models.URLField()
-    type = models.ForeignKey(CodeResource)
+    type = models.ForeignKey(CodeInfoResource)
     
     def __unicode__(self):
         return self.name
